@@ -1,0 +1,27 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E07A256A-8E6A-423C-8948-27D3508446F7}"
+EndProject
+Project("{33AD0EE8-D99B-4E14-8CD9-3F56ABEF97A2}") = "DocFunctions", "src\DocFunctions\DocFunctions.funproj", "{78B1067E-A2A0-4BC0-BD6C-C06C85F07B78}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{78B1067E-A2A0-4BC0-BD6C-C06C85F07B78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78B1067E-A2A0-4BC0-BD6C-C06C85F07B78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78B1067E-A2A0-4BC0-BD6C-C06C85F07B78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78B1067E-A2A0-4BC0-BD6C-C06C85F07B78}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{78B1067E-A2A0-4BC0-BD6C-C06C85F07B78} = {E07A256A-8E6A-423C-8948-27D3508446F7}
+	EndGlobalSection
+EndGlobal
