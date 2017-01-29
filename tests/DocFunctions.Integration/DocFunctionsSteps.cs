@@ -1,17 +1,22 @@
-﻿using System;
+﻿using DocFunctions.Integration.Helpers;
+using System;
 using TechTalk.SpecFlow;
+using Tests.Common.Helpers;
 
 namespace DocFunctions.Integration
 {
     [Binding]
     public class DocFunctionsSteps
     {
-        private string _newBlogName;
-
         [Given(@"I don't already have a blog with name of the current date and time")]
         public void GivenIDonTAlreadyHaveABlogWithNameOfTheCurrentDateAndTime()
         {
             // Generate a new blog name based on the Current Date And Time
+            var username = AppSettings.AppSetting("github-username");
+            var key = AppSettings.AppSetting("github-key");
+            var repo = AppSettings.AppSetting("github-repo");
+            var github = new GitHub(username, key, repo);
+            github.CreateTestBog();
 
             // Validate that the blog does not exist direct url - should be 404
 
