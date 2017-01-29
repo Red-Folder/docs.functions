@@ -78,6 +78,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="appsettings.json" />
     <None Include="Assets\blog.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

@@ -1,10 +1,15 @@
 ﻿using System.Configuration;
 using System.Linq;
+using System.IO;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Tests.Common.Helpers
 {
     public class AppSettings
     {
+        private const string APPSETTINGSPATH = @"..\..\appsettings.json";
+
         public static bool AppSetting(string key, bool defaultValue)
         {
             var value = AppSetting(key);
@@ -23,10 +28,7 @@ namespace Tests.Common.Helpers
 
             if (value == null)
             {
-                if (ConfigurationManager.AppSettings.AllKeys.Any(x => x == key))
-                {
-                    value = ConfigurationManager.AppSettings[key];
-                }
+                return FromAppsettingsFile(key);
             }
 
             return value;
@@ -35,6 +37,20 @@ namespace Tests.Common.Helpers
         private static string FromEnvironment(string key)
         {
             return System.Environment.GetEnvironmentVariable(key);
+        }
+
+        private static string FromAppsettingsFile(string key)
+        {
+            if (File.Exists(APPSETTINGSPATH))
+            {
+                var appsettings = File.ReadAllText(APPSETTINGSPATH);
+                var settings = JObject.Parse(appsettings);
+                return (string)settings[key];
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }
