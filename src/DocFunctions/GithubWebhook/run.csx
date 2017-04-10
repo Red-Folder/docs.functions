@@ -21,13 +21,13 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
         // Get request body
         dynamic data = await req.Content.ReadAsAsync<object>();
 
-        telemetry.Trace($"Payload: {JsonConvert.SerializeObject(data)}", SeverityLevel.Information);
+        telemetry.TrackTrace($"Payload: {JsonConvert.SerializeObject(data)}", SeverityLevel.Information);
         //log.Info($"Payload: {JsonConvert.SerializeObject(data)}");
 
         // Extract github comment from request body
         foreach (var commit in data.commits)
         {
-            telemetry.Trace($"Have commit: {commit.sha}", SeverityLevel.Information);
+            telemetry.TrackTrace($"Have commit: {commit.sha}", SeverityLevel.Information);
             //log.Info($"Have commit: {commit.sha}");
         }
 
