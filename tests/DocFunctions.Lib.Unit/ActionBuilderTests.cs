@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DocFunctions.Lib.Actions;
+using DocFunctions.Lib.Builders;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,19 +11,19 @@ namespace DocFunctions.Lib.Unit
 {
     public class ActionBuilderTests
     {
-        [Fact(Skip = "Draft test")]
+        [Fact]
         public void CreateSingleNewBlogAction()
         {
             // Arrange
-            // Create the intial builder
+            var sut = new ActionBuilder();
 
             // Act
-            // Generate single list of NewBlogActions for adds for 1 blog
+            sut.NewBlog("NewBlogPath");
+            var actionList = sut.Build();
 
             // Assert
-            // Assert only 1 new action
-
-            throw new NotImplementedException();
+            Assert.Equal(1, actionList.Length);
+            Assert.IsType(typeof(NewBlogAction), actionList[0]);
         }
     }
 }

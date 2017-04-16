@@ -26,22 +26,6 @@ namespace DocFunctions.Lib.Unit
             // Assert
             actionBuilder.Verify(m => m.NewBlog(It.IsAny<string>()));
             actionBuilder.Verify(m => m.Build());
-            // Assert that the method on ActionBuilder was called
-        }
-
-        [Fact(Skip = "Draft test")]
-        public void BuildGeneratedActionList()
-        {
-            // Arrange
-            // Moq ActionBuidler
-            // Add a Build to Moq which returns list of ActionList
-            // Create WebhookActionBuilder - passing in the ActionBuilder
-
-            // Act
-            // Call build
-
-            // Assert
-            // Assert actions have been created
         }
     }
 }

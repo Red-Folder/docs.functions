@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DocFunctions.Lib.Actions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,6 @@ namespace DocFunctions.Lib.Builders
     {
         IActionBuilder NewBlog(string blogPath);
         
-        void Build();
+        IAction[] Build();
     }
 }
