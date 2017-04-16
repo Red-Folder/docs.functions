@@ -1,5 +1,6 @@
 ﻿using DocFunctions.Lib.Actions;
 using DocFunctions.Lib.Wappers;
+using docsFunctions.Shared.Models;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -59,17 +60,85 @@ namespace DocFunctions.Lib.Unit.Actions
             markdownProcessor.Setup(m => m.Process(It.Is<string>(x => x == "## Hello World")))
                 .Returns("<h2>Hello World</h2>");
             var ftpsClient = new Mock<IFtpsClient>();
+            var blogMetaReader = new Mock<IBlogMetaReader>();
+            blogMetaReader.Setup(m => m.Transform(It.IsAny<string>()))
+                .Returns(new Blog { Url = "testblog" });
 
             var sut = new NewBlogAction("/test folder", 
                                         githubReader.Object, 
                                         markdownProcessor.Object,
-                                        ftpsClient.Object);
+                                        ftpsClient.Object,
+                                        blogMetaReader.Object);
 
             // Act
             sut.Execute();
 
             // Assert
             ftpsClient.Verify(m => m.Upload(It.Is<string>(x => x == "/blogLocation/testblog.html"), It.Is<string>(x => x == "<h2>Hello World</h2>")));
+        }
+
+        [Fact]
+        public void ExecutesGithubGetForRawBlogMeta()
+        {
+            // Arrange
+            var githubReader = new Mock<IGithubReader>();
+
+            var sut = new NewBlogAction("/test folder",
+                                        githubReader.Object);
+
+            // Act
+            sut.Execute();
+
+            // Assert
+            githubReader.Verify(m => m.GetRawFile(It.Is<string>(x => x == "/test folder/*.json")));
+        }
+
+        [Fact]
+        public void ExecutesBlogMetaReaderOnRawBlogMeta()
+        {
+            // Arrange
+            var githubReader = new Mock<IGithubReader>();
+            githubReader.Setup(m => m.GetRawFile(It.Is<string>(x => x == "/test folder/*.json")))
+                .Returns("{}");
+            var blogMetaReader = new Mock<IBlogMetaReader>();
+
+            var sut = new NewBlogAction("/test folder",
+                                        githubReader.Object,
+                                        null,
+                                        null,
+                                        blogMetaReader.Object);
+
+            // Act
+            sut.Execute();
+
+            // Assert
+            blogMetaReader.Verify(m => m.Transform(It.Is<string>(x => x == "{}")));
+        }
+
+        [Fact]
+        public void ExecutesSaveBlogMeta()
+        {
+            // Arrange
+            var githubReader = new Mock<IGithubReader>();
+            githubReader.Setup(m => m.GetRawFile(It.Is<string>(x => x == "/test folder/*.json")))
+                .Returns("{}");
+            var blogMetaReader = new Mock<IBlogMetaReader>();
+            blogMetaReader.Setup(m => m.Transform(It.IsAny<string>()))
+                .Returns(new Blog { Url = "testblog" });
+            var blogMetaRepository = new Mock<IBlogMetaRepository>();
+
+            var sut = new NewBlogAction("/test folder",
+                                        githubReader.Object,
+                                        null,
+                                        null,
+                                        blogMetaReader.Object,
+                                        blogMetaRepository.Object);
+
+            // Act
+            sut.Execute();
+
+            // Assert
+            blogMetaRepository.Verify(m => m.Save(It.IsAny<Blog>()));
         }
 
     }

@@ -1,4 +1,5 @@
 ﻿using DocFunctions.Lib.Wappers;
+using docsFunctions.Shared.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,23 +14,55 @@ namespace DocFunctions.Lib.Actions
         private IGithubReader _githubReader;
         private IMarkdownProcessor _markdownProcessor;
         private IFtpsClient _ftpsClient;
+        private IBlogMetaReader _blogMetaReader;
+        private IBlogMetaRepository _blogMetaRepository;
 
         public NewBlogAction(string blogPath,
                                 IGithubReader githubReader = null,
                                 IMarkdownProcessor markdownProcessor = null,
-                                IFtpsClient ftpsClient = null)
+                                IFtpsClient ftpsClient = null,
+                                IBlogMetaReader blogMetaReader = null,
+                                IBlogMetaRepository blogMetaRepository = null)
         {
             _blogPath = blogPath;
             _githubReader = githubReader;
             _markdownProcessor = markdownProcessor;
             _ftpsClient = ftpsClient;
+            _blogMetaReader = blogMetaReader;
+            _blogMetaRepository = blogMetaRepository;
         }
 
         public void Execute()
         {
+            var blogMetaJson = GetMetaJsonFromGithub();
+            var blogMeta = GetMetaFromMetaJson(blogMetaJson);
+
             var blogMarkdown = GetMarkdownFromGithub();
             var blogMarkup = ConvertRawBlogToMarkup(blogMarkdown);
-            UploadBlogMarkup(blogMarkup);
+            UploadBlogMarkup(blogMeta, blogMarkup);
+
+            SaveBlogMeta(blogMeta);
+        }
+
+        private string GetMetaJsonFromGithub()
+        {
+            if (_githubReader == null) return "";
+
+            return _githubReader.GetRawFile(_blogPath + "/*.json");
+        }
+
+        private Blog GetMetaFromMetaJson(string blogMetaJson)
+        {
+            if (_blogMetaReader == null) return null;
+
+            return _blogMetaReader.Transform(blogMetaJson);
+        }
+
+        private void SaveBlogMeta(Blog blogMeta)
+        {
+            if (_blogMetaRepository == null) return;
+
+            _blogMetaRepository.Save(blogMeta);
         }
 
         private string GetMarkdownFromGithub()
@@ -46,11 +79,11 @@ namespace DocFunctions.Lib.Actions
             return _markdownProcessor.Process(blogMarkdown);
         }
 
-        private void UploadBlogMarkup(string markup)
+        private void UploadBlogMarkup(Blog blogMeta, string markup)
         {
             if (_ftpsClient == null) return;
 
-            _ftpsClient.Upload("/blogLocation/testblog.html", markup);
+            _ftpsClient.Upload("/blogLocation/" + blogMeta.Url + ".html", markup);
         }
     }
 }

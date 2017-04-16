@@ -1,16 +1,15 @@
-﻿using System;
+﻿using DocFunctions.Lib.Wappers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Xunit;
 
-namespace DocFunctions.Lib.Unit
+namespace DocFunctions.Lib.Clients
 {
-    public class NewBlogActionTests
+    public class GithubClient : IGithubReader
     {
-        [Fact(Skip = "Draft test")]
-        public void ValidateExecute()
+        public string GetRawFile(string path)
         {
             throw new NotImplementedException();
         }

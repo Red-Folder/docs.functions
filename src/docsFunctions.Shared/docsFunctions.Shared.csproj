@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{0A44E216-84EE-4E1B-8D7D-7A9118832B9C}</ProjectGuid>
+    <ProjectGuid>{EF200F01-2A4F-45F0-8AE2-4C3C9835BBF4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DocFunctions.Lib</RootNamespace>
-    <AssemblyName>DocFunctions.Lib</AssemblyName>
+    <RootNamespace>docsFunctions.Shared</RootNamespace>
+    <AssemblyName>docsFunctions.Shared</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -32,7 +32,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -41,26 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Actions\IAction.cs" />
-    <Compile Include="Actions\NewBlogAction.cs" />
-    <Compile Include="Builders\ActionBuilder.cs" />
-    <Compile Include="Builders\IActionBuilder.cs" />
-    <Compile Include="Clients\GithubClient.cs" />
-    <Compile Include="Models\Github\Commit.cs" />
-    <Compile Include="Models\Github\WebhookData.cs" />
+    <Compile Include="Models\Blog.cs" />
+    <Compile Include="Models\Redirect.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Wappers\IBlogMetaReader.cs" />
-    <Compile Include="Wappers\IBlogMetaRepository.cs" />
-    <Compile Include="Wappers\IFtpsClient.cs" />
-    <Compile Include="Wappers\IGithubReader.cs" />
-    <Compile Include="Wappers\IMarkdownProcessor.cs" />
-    <Compile Include="WebhookActionBuilder.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\docsFunctions.Shared\docsFunctions.Shared.csproj">
-      <Project>{ef200f01-2a4f-45f0-8ae2-4c3c9835bbf4}</Project>
-      <Name>docsFunctions.Shared</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
