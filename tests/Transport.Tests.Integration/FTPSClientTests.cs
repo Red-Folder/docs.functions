@@ -5,7 +5,7 @@ namespace RedFolder.Transport.Tests.Integration
 {
     public class FTPSClientTests
     {
-        [Fact]
+        [Fact(Skip ="Not yet implemented")]
         [Trait("Category", "Integration")]
         public void UploadFile()
         {

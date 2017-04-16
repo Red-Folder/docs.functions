@@ -9,7 +9,7 @@ namespace RedFolder.Transport.Tests.Integration
 {
     public class CoordinatorTests
     {
-        [Fact]
+        [Fact(Skip ="Not yet implemented")]
         [Trait("Category", "Integration")]
         public void TransfersFromHttpToFtp()
         {
