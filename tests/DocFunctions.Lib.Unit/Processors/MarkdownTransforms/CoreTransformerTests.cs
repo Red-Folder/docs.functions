@@ -6,13 +6,13 @@ namespace DocFunctions.Lib.Unit.Processors.MarkdownTransforms
     public class CoreTransformerTests
     {
         [Fact]
-        public void Correctly_Convert_Markdown()
+        public void CorrectlyConvertMarkdown()
         {
             var markdown = "Hello World\n-----------\nText\n";
 
-            var uat = new CoreTransformer();
+            var sut = new CoreTransformer();
 
-            var result = uat.TransformMarkdown(markdown);
+            var result = sut.TransformMarkdown(markdown);
 
             Assert.Contains("<h2>Hello World</h2>", result);
             Assert.Contains("<p>Text</p>", result);

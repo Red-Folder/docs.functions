@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DocFunctions.Lib.Wappers
 {
-    public interface IBlogMetaReader
+    public interface IBlogMetaProcessor
     {
         Blog Transform(string metaJson);
     }

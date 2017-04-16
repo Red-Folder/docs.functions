@@ -6,37 +6,37 @@ namespace DocFunctions.Lib.Unit.Processors.MarkdownTransforms
     public class ImageTransformerTests
     {
         [Fact]
-        public void Correctly_Add_Tag_To_Image_With_No_Class()
+        public void CorrectlyAddTagToImageWithNoClass()
         {
             var markdown = "<img \\>";
 
-            var uat = new ImageTransformer();
+            var sut = new ImageTransformer();
 
-            var result = uat.TransformMarkdown(markdown);
+            var result = sut.TransformMarkdown(markdown);
 
             Assert.Contains("class=\"img-responsive", result);
         }
 
         [Fact]
-        public void Correctly_Add_Tag_To_Image_With_Class_But_No_Responsive()
+        public void CorrectlyAddTagToImageWithClassButNoResponsive()
         {
             var markdown = "<img \\>";
 
-            var uat = new ImageTransformer();
+            var sut = new ImageTransformer();
 
-            var result = uat.TransformMarkdown(markdown);
+            var result = sut.TransformMarkdown(markdown);
 
             Assert.Contains("class=\"img-responsive", result);
         }
 
         [Fact]
-        public void Correctly_Ignore_Image_With_Class_With_Responsive()
+        public void CorrectlyIgnoreImageWithClassWithResponsive()
         {
             var markdown = "<img class=\"img-responsive\"\\>";
 
-            var uat = new ImageTransformer();
+            var sut = new ImageTransformer();
 
-            var result = uat.TransformMarkdown(markdown);
+            var result = sut.TransformMarkdown(markdown);
 
             Assert.Contains(markdown, result);
         }

@@ -74,6 +74,7 @@
     <Compile Include="ActionBuilderTests.cs" />
     <Compile Include="Actions\NewBlogActionTests.cs" />
     <Compile Include="Builders\WebhookDataBuilder.cs" />
+    <Compile Include="Processors\BlogMetaProcessorTests.cs" />
     <Compile Include="Processors\MarkdownProcessorTests.cs" />
     <Compile Include="Processors\MarkdownTransforms\AcclaimTransformerTests.cs" />
     <Compile Include="Processors\MarkdownTransforms\BaseTransformerTests.cs" />

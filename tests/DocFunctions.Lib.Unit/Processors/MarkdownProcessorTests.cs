@@ -8,14 +8,14 @@ namespace DocFunctions.Lib.Unit.Processors
     public class MarkdownProcessorTests
     {
         [Fact]
-        public void Blog_From_Valid_Meta_And_Markdown_With_Empty_Inner()
+        public void BlogFromValidMetaAndMarkdownWithEmptyInner()
         {
             var markdown = "Hello World\n-----------\nText\n";
 
             // Using default contructor will create inner - passing null in will ensure no inner
-            var uat = new MarkdownProcessor(null);
+            var sut = new MarkdownProcessor(null);
 
-            var result = uat.Process(markdown);
+            var result = sut.Process(markdown);
 
             Assert.NotNull(result);
 
@@ -23,16 +23,16 @@ namespace DocFunctions.Lib.Unit.Processors
         }
 
         [Fact]
-        public void Blog_From_Valid_Meta_And_Markdown_With_Inner()
+        public void BlogFromValidMetaAndMarkdownWithInner()
         {
             var markdown = "Hello World\n-----------\nText\n";
 
             Mock<ITransformer> mock = new Mock<ITransformer>();
             mock.Setup(m => m.TransformMarkdown(It.IsAny<string>())).Returns("ABCDEF");
 
-            var uat = new MarkdownProcessor(mock.Object);
+            var sut = new MarkdownProcessor(mock.Object);
 
-            var result = uat.Process(markdown);
+            var result = sut.Process(markdown);
 
             Assert.NotNull(result);
             Assert.Contains("ABCDEF", result);

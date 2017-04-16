@@ -60,7 +60,7 @@ namespace DocFunctions.Lib.Unit.Actions
             markdownProcessor.Setup(m => m.Process(It.Is<string>(x => x == "## Hello World")))
                 .Returns("<h2>Hello World</h2>");
             var ftpsClient = new Mock<IFtpsClient>();
-            var blogMetaReader = new Mock<IBlogMetaReader>();
+            var blogMetaReader = new Mock<IBlogMetaProcessor>();
             blogMetaReader.Setup(m => m.Transform(It.IsAny<string>()))
                 .Returns(new Blog { Url = "testblog" });
 
@@ -100,7 +100,7 @@ namespace DocFunctions.Lib.Unit.Actions
             var githubReader = new Mock<IGithubReader>();
             githubReader.Setup(m => m.GetRawFile(It.Is<string>(x => x == "/test folder/*.json")))
                 .Returns("{}");
-            var blogMetaReader = new Mock<IBlogMetaReader>();
+            var blogMetaReader = new Mock<IBlogMetaProcessor>();
 
             var sut = new NewBlogAction("/test folder",
                                         githubReader.Object,
@@ -122,7 +122,7 @@ namespace DocFunctions.Lib.Unit.Actions
             var githubReader = new Mock<IGithubReader>();
             githubReader.Setup(m => m.GetRawFile(It.Is<string>(x => x == "/test folder/*.json")))
                 .Returns("{}");
-            var blogMetaReader = new Mock<IBlogMetaReader>();
+            var blogMetaReader = new Mock<IBlogMetaProcessor>();
             blogMetaReader.Setup(m => m.Transform(It.IsAny<string>()))
                 .Returns(new Blog { Url = "testblog" });
             var blogMetaRepository = new Mock<IBlogMetaRepository>();

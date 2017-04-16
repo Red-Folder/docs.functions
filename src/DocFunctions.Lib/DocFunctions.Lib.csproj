@@ -60,6 +60,7 @@
     <Compile Include="Clients\GithubClient.cs" />
     <Compile Include="Models\Github\Commit.cs" />
     <Compile Include="Models\Github\WebhookData.cs" />
+    <Compile Include="Processors\BlogMetaProcessor.cs" />
     <Compile Include="Processors\MarkdownProcessor.cs" />
     <Compile Include="Processors\MarkdownTransforms\AcclaimTransformer.cs" />
     <Compile Include="Processors\MarkdownTransforms\BaseTransformer.cs" />
@@ -69,7 +70,7 @@
     <Compile Include="Processors\MarkdownTransforms\ImageTransformer.cs" />
     <Compile Include="Processors\MarkdownTransforms\ITransformer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Wappers\IBlogMetaReader.cs" />
+    <Compile Include="Wappers\IBlogMetaProcessor.cs" />
     <Compile Include="Wappers\IBlogMetaRepository.cs" />
     <Compile Include="Wappers\IFtpsClient.cs" />
     <Compile Include="Wappers\IGithubReader.cs" />

@@ -14,14 +14,14 @@ namespace DocFunctions.Lib.Actions
         private IGithubReader _githubReader;
         private IMarkdownProcessor _markdownProcessor;
         private IFtpsClient _ftpsClient;
-        private IBlogMetaReader _blogMetaReader;
+        private IBlogMetaProcessor _blogMetaReader;
         private IBlogMetaRepository _blogMetaRepository;
 
         public NewBlogAction(string blogPath,
                                 IGithubReader githubReader = null,
                                 IMarkdownProcessor markdownProcessor = null,
                                 IFtpsClient ftpsClient = null,
-                                IBlogMetaReader blogMetaReader = null,
+                                IBlogMetaProcessor blogMetaReader = null,
                                 IBlogMetaRepository blogMetaRepository = null)
         {
             _blogPath = blogPath;
