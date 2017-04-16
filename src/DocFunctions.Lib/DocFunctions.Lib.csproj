@@ -57,6 +57,7 @@
     <Compile Include="Actions\NewBlogAction.cs" />
     <Compile Include="Builders\ActionBuilder.cs" />
     <Compile Include="Builders\IActionBuilder.cs" />
+    <Compile Include="Clients\FtpsClient.cs" />
     <Compile Include="Clients\GithubClient.cs" />
     <Compile Include="Models\Github\Commit.cs" />
     <Compile Include="Models\Github\WebhookData.cs" />
