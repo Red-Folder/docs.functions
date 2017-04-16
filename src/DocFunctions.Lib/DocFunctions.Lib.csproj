@@ -48,6 +48,7 @@
     <Compile Include="Models\Github\Commit.cs" />
     <Compile Include="Models\Github\WebhookData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Wappers\IFtpsClient.cs" />
     <Compile Include="Wappers\IGithubReader.cs" />
     <Compile Include="Wappers\IMarkdownProcessor.cs" />
     <Compile Include="WebhookActionBuilder.cs" />

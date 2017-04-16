@@ -12,20 +12,24 @@ namespace DocFunctions.Lib.Actions
         private string _blogPath;
         private IGithubReader _githubReader;
         private IMarkdownProcessor _markdownProcessor;
+        private IFtpsClient _ftpsClient;
 
         public NewBlogAction(string blogPath,
                                 IGithubReader githubReader = null,
-                                IMarkdownProcessor markdownProcessor = null)
+                                IMarkdownProcessor markdownProcessor = null,
+                                IFtpsClient ftpsClient = null)
         {
             _blogPath = blogPath;
             _githubReader = githubReader;
             _markdownProcessor = markdownProcessor;
+            _ftpsClient = ftpsClient;
         }
 
         public void Execute()
         {
             var blogMarkdown = GetMarkdownFromGithub();
             var blogMarkup = ConvertRawBlogToMarkup(blogMarkdown);
+            UploadBlogMarkup(blogMarkup);
         }
 
         private string GetMarkdownFromGithub()
@@ -40,6 +44,13 @@ namespace DocFunctions.Lib.Actions
             if (_markdownProcessor == null) return "";
 
             return _markdownProcessor.Process(blogMarkdown);
+        }
+
+        private void UploadBlogMarkup(string markup)
+        {
+            if (_ftpsClient == null) return;
+
+            _ftpsClient.Upload("/blogLocation/testblog.html", markup);
         }
     }
 }
