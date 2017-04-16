@@ -1,7 +1,6 @@
 ﻿using Xunit;
 using Moq;
 using DocFunctions.Lib.Processors.MarkdownTransforms;
-using docsFunctions.Shared.Models;
 
 namespace DocFunctions.Lib.Unit.Processors.MarkdownTransforms
 {
@@ -12,7 +11,7 @@ namespace DocFunctions.Lib.Unit.Processors.MarkdownTransforms
         {
             var uat = new BaseTransformer();
 
-            var result = uat.TransformMarkdown(null, "1234567890");
+            var result = uat.TransformMarkdown("1234567890");
 
             Assert.Equal("1234567890", result);
         }
@@ -21,11 +20,11 @@ namespace DocFunctions.Lib.Unit.Processors.MarkdownTransforms
         public void Change_With_Inner_Pre()
         {
             Mock<ITransformer> mock = new Mock<ITransformer>();
-            mock.Setup(m => m.TransformMarkdown(It.IsAny<Blog>(), It.IsAny<string>())).Returns("ABCDEF");
+            mock.Setup(m => m.TransformMarkdown(It.IsAny<string>())).Returns("ABCDEF");
 
             var uat = new BaseTransformer(mock.Object);
 
-            var result = uat.TransformMarkdown(null, "1234567890");
+            var result = uat.TransformMarkdown("1234567890");
 
             Assert.Equal("ABCDEF", result);
         }

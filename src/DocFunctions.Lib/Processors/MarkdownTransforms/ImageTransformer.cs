@@ -1,6 +1,4 @@
-﻿using docsFunctions.Shared.Models;
-using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Text.RegularExpressions;
 
 namespace DocFunctions.Lib.Processors.MarkdownTransforms
@@ -17,7 +15,7 @@ namespace DocFunctions.Lib.Processors.MarkdownTransforms
 
         }
 
-        protected override string PostTransform(Blog meta, string markdown)
+        protected override string PostTransform(string markdown)
         {
             var className = "img-responsive";
 

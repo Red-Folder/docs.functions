@@ -1,7 +1,3 @@
-using docsFunctions.Shared.Models;
-using Newtonsoft.Json.Linq;
-using System.Text.RegularExpressions;
-
 namespace DocFunctions.Lib.Processors.MarkdownTransforms
 {
     public class AcclaimTransformer: BaseTransformer
@@ -43,7 +39,7 @@ namespace DocFunctions.Lib.Processors.MarkdownTransforms
 
         }
 
-        protected override string PostTransform(Blog meta, string markdown)
+        protected override string PostTransform(string markdown)
         {
             return markdown.Replace("{ACCLAIM-APPBUILDER}", APPBUILDER).Replace("{ACCLAIM-WEBAPPLICATIONS}", WEBAPPLICATIONS);
         }

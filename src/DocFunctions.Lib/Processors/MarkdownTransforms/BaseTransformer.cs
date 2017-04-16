@@ -1,12 +1,4 @@
-﻿using docsFunctions.Shared.Models;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DocFunctions.Lib.Processors.MarkdownTransforms
+﻿namespace DocFunctions.Lib.Processors.MarkdownTransforms
 {
     public class BaseTransformer : ITransformer
     {
@@ -20,26 +12,26 @@ namespace DocFunctions.Lib.Processors.MarkdownTransforms
             _innerTransformer = innerTransformer;
         }
 
-        public string TransformMarkdown(Blog meta, string markdown)
+        public string TransformMarkdown(string markdown)
         {
-            var partialTransform = PreTransform(meta, markdown);
+            var partialTransform = PreTransform(markdown);
 
             if (_innerTransformer != null)
             {
-                partialTransform = _innerTransformer.TransformMarkdown(meta, partialTransform);
+                partialTransform = _innerTransformer.TransformMarkdown(partialTransform);
             }
 
-            partialTransform = PostTransform(meta, partialTransform);
+            partialTransform = PostTransform(partialTransform);
 
             return partialTransform;
         }
 
-        protected virtual string PreTransform(Blog meta, string markdown)
+        protected virtual string PreTransform(string markdown)
         {
             return markdown;
         }
 
-        protected virtual string PostTransform(Blog meta, string markdown)
+        protected virtual string PostTransform(string markdown)
         {
             return markdown;
         }

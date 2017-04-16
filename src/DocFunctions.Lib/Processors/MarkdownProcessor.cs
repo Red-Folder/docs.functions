@@ -1,15 +1,9 @@
 ﻿using DocFunctions.Lib.Processors.MarkdownTransforms;
 using DocFunctions.Lib.Wappers;
-using docsFunctions.Shared.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DocFunctions.Lib.Processors
 {
-    public class MarkdownProcessor //: IMarkdownProcessor
+    public class MarkdownProcessor : IMarkdownProcessor
     {
         private ITransformer _innerTransformer;
 
@@ -28,7 +22,7 @@ namespace DocFunctions.Lib.Processors
             _innerTransformer = innerTransformer;
         }
 
-        public string Process(Blog blogMeta, string markdown)
+        public string Process(string markdown)
         {
             if (_innerTransformer == null)
             {
@@ -36,7 +30,7 @@ namespace DocFunctions.Lib.Processors
             }
             else
             {
-                return _innerTransformer.TransformMarkdown(blogMeta, markdown);
+                return _innerTransformer.TransformMarkdown(markdown);
             }
         }
     }
