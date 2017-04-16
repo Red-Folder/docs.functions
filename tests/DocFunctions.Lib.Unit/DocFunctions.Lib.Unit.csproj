@@ -74,6 +74,13 @@
     <Compile Include="ActionBuilderTests.cs" />
     <Compile Include="Actions\NewBlogActionTests.cs" />
     <Compile Include="Builders\WebhookDataBuilder.cs" />
+    <Compile Include="Processors\MarkdownProcessorTests.cs" />
+    <Compile Include="Processors\MarkdownTransforms\AcclaimTransformerTests.cs" />
+    <Compile Include="Processors\MarkdownTransforms\BaseTransformerTests.cs" />
+    <Compile Include="Processors\MarkdownTransforms\CodeTransformerTests.cs" />
+    <Compile Include="Processors\MarkdownTransforms\CoreTransformerTests.cs" />
+    <Compile Include="Processors\MarkdownTransforms\GistTransformerTests.cs" />
+    <Compile Include="Processors\MarkdownTransforms\ImageTransformerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RepoRepositoryTests.cs" />
     <Compile Include="RepoTests.cs" />
@@ -96,6 +103,7 @@
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
