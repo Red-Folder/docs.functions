@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DocFunctions.Lib", "src\Doc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "docsFunctions.Shared", "src\docsFunctions.Shared\docsFunctions.Shared.csproj", "{EF200F01-2A4F-45F0-8AE2-4C3C9835BBF4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DocFunctions.Lib.Integration", "tests\DocFunctions.Lib.Integration\DocFunctions.Lib.Integration.csproj", "{7949F066-116D-4057-AB90-D1A7661704EB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,10 @@ Global
 		{EF200F01-2A4F-45F0-8AE2-4C3C9835BBF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EF200F01-2A4F-45F0-8AE2-4C3C9835BBF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EF200F01-2A4F-45F0-8AE2-4C3C9835BBF4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7949F066-116D-4057-AB90-D1A7661704EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7949F066-116D-4057-AB90-D1A7661704EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7949F066-116D-4057-AB90-D1A7661704EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7949F066-116D-4057-AB90-D1A7661704EB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -74,5 +80,6 @@ Global
 		{880A2336-6DA0-4176-9285-891D8B475822} = {39FC5149-08C9-4D29-A511-3C16BA652ADC}
 		{0A44E216-84EE-4E1B-8D7D-7A9118832B9C} = {E07A256A-8E6A-423C-8948-27D3508446F7}
 		{EF200F01-2A4F-45F0-8AE2-4C3C9835BBF4} = {E07A256A-8E6A-423C-8948-27D3508446F7}
+		{7949F066-116D-4057-AB90-D1A7661704EB} = {39FC5149-08C9-4D29-A511-3C16BA652ADC}
 	EndGlobalSection
 EndGlobal
