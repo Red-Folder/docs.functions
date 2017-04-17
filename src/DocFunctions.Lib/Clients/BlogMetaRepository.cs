@@ -1,0 +1,64 @@
+﻿using DocFunctions.Lib.Wappers;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using docsFunctions.Shared.Models;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Blob;
+using Newtonsoft.Json;
+using Microsoft.Azure;
+
+namespace DocFunctions.Lib.Clients
+{
+    public class BlogMetaRepository : IBlogMetaRepository
+    {
+        private const string BLOGMETAFILENAME = "BlogMeta.json";
+
+        private List<Blog> _blogs;
+
+        private CloudBlobContainer _container = null;
+
+        public BlogMetaRepository(string containerName)
+        {
+            InitialiseContainer(CloudConfigurationManager.GetSetting("BlogMetaStorageConnectionString"), containerName);
+        }
+
+        public BlogMetaRepository(string connectionString, string containerName)
+        {
+            InitialiseContainer(connectionString, containerName);
+        }
+
+        private void InitialiseContainer(string connectionString, string containerName)
+        {
+            var storageAccount = CloudStorageAccount.Parse(connectionString);
+            var blobClient = storageAccount.CreateCloudBlobClient();
+            _container = blobClient.GetContainerReference(containerName);
+            _container.CreateIfNotExists();
+            var blockBlob = _container.GetBlockBlobReference(BLOGMETAFILENAME);
+
+            if (blockBlob.Exists())
+            {
+                var json = blockBlob.DownloadText();
+                _blogs = JsonConvert.DeserializeObject<List<Blog>>(json);
+            }
+            else
+            {
+                _blogs = new List<Blog>();
+            }
+        }
+
+        public void Save(Blog blogMeta)
+        {
+            _blogs.Add(blogMeta);
+            SaveAll();
+        }
+
+        private void SaveAll()
+        {
+            var blockBlob = _container.GetBlockBlobReference(BLOGMETAFILENAME);
+            blockBlob.UploadText(JsonConvert.SerializeObject(_blogs));
+        }
+    }
+}
