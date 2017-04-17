@@ -17,6 +17,7 @@ namespace DocFunctions.Lib.Actions
         private IBlogMetaProcessor _blogMetaReader;
         private IBlogMetaRepository _blogMetaRepository;
 
+
         public NewBlogAction(string blogPath,
                                 IGithubReader githubReader = null,
                                 IMarkdownProcessor markdownProcessor = null,
@@ -48,7 +49,7 @@ namespace DocFunctions.Lib.Actions
         {
             if (_githubReader == null) return "";
 
-            return _githubReader.GetRawFile(_blogPath + "/*.json");
+            return _githubReader.GetRawFile(_blogPath + "/blog.json");
         }
 
         private Blog GetMetaFromMetaJson(string blogMetaJson)
@@ -69,7 +70,7 @@ namespace DocFunctions.Lib.Actions
         {
             if (_githubReader == null) return "";
 
-            return _githubReader.GetRawFile(_blogPath + "/*.md");
+            return _githubReader.GetRawFile(_blogPath + "/blog.md");
         }
 
         private string ConvertRawBlogToMarkup(string blogMarkdown)
@@ -83,7 +84,7 @@ namespace DocFunctions.Lib.Actions
         {
             if (_ftpsClient == null) return;
 
-            _ftpsClient.Upload("/blogLocation/" + blogMeta.Url + ".html", markup);
+            _ftpsClient.Upload("/site/contentroot/" + blogMeta.Url + ".html", markup);
         }
     }
 }

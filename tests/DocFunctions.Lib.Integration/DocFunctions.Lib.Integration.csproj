@@ -63,6 +63,7 @@
     <Compile Include="Clients\FtpsClientTests.cs" />
     <Compile Include="Clients\GithubClientTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WebhookActionBuilderTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

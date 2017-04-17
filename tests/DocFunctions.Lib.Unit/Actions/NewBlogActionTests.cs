@@ -26,7 +26,7 @@ namespace DocFunctions.Lib.Unit.Actions
             sut.Execute();
 
             // Assert
-            githubReader.Verify(m => m.GetRawFile(It.Is<string>(x => x == "/test folder/*.md")));
+            githubReader.Verify(m => m.GetRawFile(It.Is<string>(x => x == "/test folder/blog.md")));
         }
 
         [Fact]
@@ -34,7 +34,7 @@ namespace DocFunctions.Lib.Unit.Actions
         {
             // Arrange
             var githubReader = new Mock<IGithubReader>();
-            githubReader.Setup(m => m.GetRawFile(It.Is<string>(x => x == "/test folder/*.md")))
+            githubReader.Setup(m => m.GetRawFile(It.Is<string>(x => x == "/test folder/blog.md")))
                 .Returns("## Hello World");
             var markdownProcessor = new Mock<IMarkdownProcessor>();
 
@@ -54,7 +54,7 @@ namespace DocFunctions.Lib.Unit.Actions
         {
             // Arrange
             var githubReader = new Mock<IGithubReader>();
-            githubReader.Setup(m => m.GetRawFile(It.Is<string>(x => x == "/test folder/*.md")))
+            githubReader.Setup(m => m.GetRawFile(It.Is<string>(x => x == "/test folder/blog.md")))
                 .Returns("## Hello World");
             var markdownProcessor = new Mock<IMarkdownProcessor>();
             markdownProcessor.Setup(m => m.Process(It.Is<string>(x => x == "## Hello World")))
@@ -74,7 +74,7 @@ namespace DocFunctions.Lib.Unit.Actions
             sut.Execute();
 
             // Assert
-            ftpsClient.Verify(m => m.Upload(It.Is<string>(x => x == "/blogLocation/testblog.html"), It.Is<string>(x => x == "<h2>Hello World</h2>")));
+            ftpsClient.Verify(m => m.Upload(It.Is<string>(x => x == "/site/contentroot/testblog.html"), It.Is<string>(x => x == "<h2>Hello World</h2>")));
         }
 
         [Fact]
@@ -90,7 +90,7 @@ namespace DocFunctions.Lib.Unit.Actions
             sut.Execute();
 
             // Assert
-            githubReader.Verify(m => m.GetRawFile(It.Is<string>(x => x == "/test folder/*.json")));
+            githubReader.Verify(m => m.GetRawFile(It.Is<string>(x => x == "/test folder/blog.json")));
         }
 
         [Fact]
@@ -98,7 +98,7 @@ namespace DocFunctions.Lib.Unit.Actions
         {
             // Arrange
             var githubReader = new Mock<IGithubReader>();
-            githubReader.Setup(m => m.GetRawFile(It.Is<string>(x => x == "/test folder/*.json")))
+            githubReader.Setup(m => m.GetRawFile(It.Is<string>(x => x == "/test folder/blog.json")))
                 .Returns("{}");
             var blogMetaReader = new Mock<IBlogMetaProcessor>();
 
@@ -120,7 +120,7 @@ namespace DocFunctions.Lib.Unit.Actions
         {
             // Arrange
             var githubReader = new Mock<IGithubReader>();
-            githubReader.Setup(m => m.GetRawFile(It.Is<string>(x => x == "/test folder/*.json")))
+            githubReader.Setup(m => m.GetRawFile(It.Is<string>(x => x == "/test folder/blog.json")))
                 .Returns("{}");
             var blogMetaReader = new Mock<IBlogMetaProcessor>();
             blogMetaReader.Setup(m => m.Transform(It.IsAny<string>()))

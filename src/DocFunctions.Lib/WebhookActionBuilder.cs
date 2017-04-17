@@ -6,6 +6,7 @@ using System.Dynamic;
 using System.Text;
 using System.Threading.Tasks;
 using DocFunctions.Lib.Models.Github;
+using DocFunctions.Lib.Actions;
 
 namespace DocFunctions.Lib
 {
@@ -34,7 +35,14 @@ namespace DocFunctions.Lib
 
                 newBlogs.ToList().ForEach(x => _actionBuilder.NewBlog(x));
 
-                _actionBuilder.Build();
+                var actions = _actionBuilder.Build();
+                if (actions != null)
+                {
+                    foreach (var action in actions)
+                    {
+                        action.Execute();
+                    }
+                }
             }
         }
     }
