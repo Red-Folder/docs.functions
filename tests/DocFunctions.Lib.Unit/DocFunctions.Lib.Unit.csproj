@@ -84,7 +84,6 @@
     <Compile Include="Processors\MarkdownTransforms\ImageTransformerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RepoRepositoryTests.cs" />
-    <Compile Include="RepoTests.cs" />
     <Compile Include="WebhookActionBuilderTests.cs" />
     <Compile Include="WebhookDataTests.cs" />
   </ItemGroup>
