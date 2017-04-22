@@ -34,6 +34,10 @@
       <HintPath>..\..\packages\Markdown.2.2.1\lib\net451\Markdown.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.ApplicationInsights, Version=2.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.ApplicationInsights.2.3.0\lib\net45\Microsoft.ApplicationInsights.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Azure.KeyVault.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Azure.KeyVault.Core.1.0.0\lib\net40\Microsoft.Azure.KeyVault.Core.dll</HintPath>
       <Private>True</Private>
@@ -100,6 +104,9 @@
     <Compile Include="Processors\MarkdownTransforms\ImageTransformer.cs" />
     <Compile Include="Processors\MarkdownTransforms\ITransformer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\ApplicationInsightsLogger.cs" />
+    <Compile Include="Utils\ILogger.cs" />
+    <Compile Include="Utils\NullLogger.cs" />
     <Compile Include="Wappers\IBlogMetaProcessor.cs" />
     <Compile Include="Wappers\IBlogMetaRepository.cs" />
     <Compile Include="Wappers\IFtpsClient.cs" />
@@ -119,6 +126,12 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy /Y "$(TargetDir)*.dll" "$(SolutionDir)src\DocFunctions\GithubWebhook\bin"</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>del /Q "$(SolutionDir)src\DocFunctions\GithubWebhook\bin\*.*"</PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
