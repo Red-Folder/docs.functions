@@ -1,11 +1,6 @@
 ﻿using DocFunctions.Lib.Clients;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Tests.Common.Helpers;
 using Xunit;
+using System.Configuration;
 
 namespace DocFunctions.Lib.Integration.Clients
 {
@@ -15,9 +10,9 @@ namespace DocFunctions.Lib.Integration.Clients
         [Trait("Category", "Integration")]
         public void GetsRawData()
         {
-            var username = AppSettings.AppSetting("github-username");
-            var key = AppSettings.AppSetting("github-key");
-            var repo = AppSettings.AppSetting("github-repo");
+            var username = ConfigurationManager.AppSettings["github-username"];
+            var key = ConfigurationManager.AppSettings["github-key"];
+            var repo = ConfigurationManager.AppSettings["github-repo"];
 
             var sut = new GithubClient(username, key, repo);
 

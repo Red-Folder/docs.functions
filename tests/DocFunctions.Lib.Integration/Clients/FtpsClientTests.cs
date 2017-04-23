@@ -1,10 +1,6 @@
 ﻿using DocFunctions.Lib.Clients;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Tests.Common.Helpers;
+using System.Configuration;
 using Xunit;
 
 namespace DocFunctions.Lib.Integration.Clients
@@ -15,9 +11,9 @@ namespace DocFunctions.Lib.Integration.Clients
         [Trait("Category", "Integration")]
         public void UploadFile()
         {
-            var host = AppSettings.AppSetting("ftps-host");
-            var username = AppSettings.AppSetting("ftps-username");
-            var password = AppSettings.AppSetting("ftps-password");
+            var host = ConfigurationManager.AppSettings["ftps-host"];
+            var username = ConfigurationManager.AppSettings["ftps-username"];
+            var password = ConfigurationManager.AppSettings["ftps-password"];
 
             var filename = $"/site/contentroot/test-{DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss")}.html";
             var contents = "<html><body>Hello World</body></html>";

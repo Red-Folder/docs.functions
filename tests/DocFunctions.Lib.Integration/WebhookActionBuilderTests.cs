@@ -2,12 +2,8 @@
 using DocFunctions.Lib.Clients;
 using DocFunctions.Lib.Models.Github;
 using DocFunctions.Lib.Processors;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Tests.Common.Helpers;
+using System.Configuration;
+
 using Xunit;
 
 namespace DocFunctions.Lib.Integration
@@ -19,22 +15,22 @@ namespace DocFunctions.Lib.Integration
         public void EndToEndNewBlogActionRuns()
         {
             // Arrange
-            var gitUsername = AppSettings.AppSetting("github-username");
-            var gitKey = AppSettings.AppSetting("github-key");
-            var gitRepo = AppSettings.AppSetting("github-repo");
+            var gitUsername = ConfigurationManager.AppSettings["github-username"];
+            var gitKey = ConfigurationManager.AppSettings["github-key"];
+            var gitRepo = ConfigurationManager.AppSettings["github-repo"];
             var githubReader = new GithubClient(gitUsername, gitKey, gitRepo);
 
             var markdownProcessor = new MarkdownProcessor();
 
-            var ftpsHost = AppSettings.AppSetting("ftps-host");
-            var ftpsUsername = AppSettings.AppSetting("ftps-username");
-            var ftpsPassword = AppSettings.AppSetting("ftps-password");
+            var ftpsHost = ConfigurationManager.AppSettings["ftps-host"];
+            var ftpsUsername = ConfigurationManager.AppSettings["ftps-username"];
+            var ftpsPassword = ConfigurationManager.AppSettings["ftps-password"];
             var ftpsClient = new FtpsClient(ftpsHost, ftpsUsername, ftpsPassword);
 
             var blogMetaProcessor = new BlogMetaProcessor();
 
-            var blogMetaConnectionString = AppSettings.AppSetting("BlogMetaStorageConnectionString");
-            var blogMetaContainerName = AppSettings.AppSetting("BlogMetaStorageContainerName");
+            var blogMetaConnectionString = ConfigurationManager.ConnectionStrings["BlogMetaStorage"].ConnectionString;
+            var blogMetaContainerName = ConfigurationManager.AppSettings["BlogMetaStorageContainerName"];
             var blogMetaRepository = new BlogMetaRepository(blogMetaConnectionString, blogMetaContainerName);
 
             var actionBuilder = new ActionBuilder(githubReader, markdownProcessor, ftpsClient, blogMetaProcessor, blogMetaRepository);

@@ -1,5 +1,6 @@
 ﻿using DocFunctions.Integration.Helpers;
 using System;
+using System.Configuration;
 using TechTalk.SpecFlow;
 using Tests.Common.Helpers;
 
@@ -12,9 +13,9 @@ namespace DocFunctions.Integration
         public void GivenIDonTAlreadyHaveABlogWithNameOfTheCurrentDateAndTime()
         {
             // Generate a new blog name based on the Current Date And Time
-            var username = AppSettings.AppSetting("github-username");
-            var key = AppSettings.AppSetting("github-key");
-            var repo = AppSettings.AppSetting("github-repo");
+            var username = ConfigurationManager.AppSettings["github-username"];
+            var key = ConfigurationManager.AppSettings["github-key"];
+            var repo = ConfigurationManager.AppSettings["github-repo"];
             var github = new GitHub(username, key, repo);
             github.CreateTestBog();
 

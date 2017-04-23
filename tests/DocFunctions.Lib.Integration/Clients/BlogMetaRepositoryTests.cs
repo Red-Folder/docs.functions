@@ -1,11 +1,7 @@
 ﻿using DocFunctions.Lib.Clients;
 using docsFunctions.Shared.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Tests.Common.Helpers;
+using System.Configuration;
 using Xunit;
 
 namespace DocFunctions.Lib.Integration.Clients
@@ -17,8 +13,8 @@ namespace DocFunctions.Lib.Integration.Clients
         public void SavesBlogs()
         {
             // Arrange
-            var connectionString = AppSettings.AppSetting("BlogMetaStorageConnectionString");
-            var containerName = AppSettings.AppSetting("BlogMetaStorageContainerName");
+            var connectionString = ConfigurationManager.ConnectionStrings["BlogMetaStorage"].ConnectionString;
+            var containerName = ConfigurationManager.AppSettings["BlogMetaStorageContainerName"];
             var sut = new BlogMetaRepository(connectionString, containerName);
             var newBlog = new Blog
             {
