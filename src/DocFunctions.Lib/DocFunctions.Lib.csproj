@@ -129,7 +129,12 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy /Y "$(TargetDir)*.dll" "$(SolutionDir)src\DocFunctions\GithubWebhook\bin"</PostBuildEvent>
+    <PostBuildEvent>if exist "$(SolutionDir)src\DocFunctions\GithubWebhook\bin" (
+   echo "Folder already exists"
+) else (
+   mkdir "$(SolutionDir)src\DocFunctions\GithubWebhook\bin"
+)
+copy /Y "$(TargetDir)*.dll" "$(SolutionDir)src\DocFunctions\GithubWebhook\bin"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>if exist "$(SolutionDir)src\DocFunctions\GithubWebhook\bin\*.*" (
