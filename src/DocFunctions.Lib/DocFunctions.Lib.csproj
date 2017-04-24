@@ -130,7 +130,9 @@
     <PostBuildEvent>copy /Y "$(TargetDir)*.dll" "$(SolutionDir)src\DocFunctions\GithubWebhook\bin"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PreBuildEvent>del /Q "$(SolutionDir)src\DocFunctions\GithubWebhook\bin\*.*"</PreBuildEvent>
+    <PreBuildEvent>if exist "$(SolutionDir)src\DocFunctions\GithubWebhook\bin\*.*" (
+   del /Q "$(SolutionDir)src\DocFunctions\GithubWebhook\bin\*.*"
+)</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
