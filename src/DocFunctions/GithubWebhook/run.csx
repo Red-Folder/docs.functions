@@ -14,17 +14,15 @@ using DocFunctions.Lib.Processors;
 public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceWriter log)
 {
     // Get all settings
-    var appSettings = ConfigurationManager.AppSettings;
-
-    var appInsightsKey = System.Environment.GetEnvironmentVariable("APPINSIGHTS_INSTRUMENTATIONKEY", EnvironmentVariableTarget.Process);
-    var gitUsername = System.Environment.GetEnvironmentVariable("github-username", EnvironmentVariableTarget.Process);
-    var gitKey = System.Environment.GetEnvironmentVariable("github-key", EnvironmentVariableTarget.Process);
-    var gitRepo = System.Environment.GetEnvironmentVariable("github-repo", EnvironmentVariableTarget.Process);
-    var ftpsHost = System.Environment.GetEnvironmentVariable("ftps-host", EnvironmentVariableTarget.Process);
-    var ftpsUsername = System.Environment.GetEnvironmentVariable("ftps-username", EnvironmentVariableTarget.Process);
-    var ftpsPassword = System.Environment.GetEnvironmentVariable("ftps-password", EnvironmentVariableTarget.Process);
-    var blogMetaConnectionString = System.Environment.GetEnvironmentVariable("BlogMetaStorageConnectionString", EnvironmentVariableTarget.Process);
-    var blogMetaContainerName = System.Environment.GetEnvironmentVariable("BlogMetaStorageContainerName", EnvironmentVariableTarget.Process);
+    var appInsightsKey = ConfigurationManager.AppSettings["APPINSIGHTS_INSTRUMENTATIONKEY"];
+    var gitUsername = ConfigurationManager.AppSettings["github-username"];
+    var gitKey = ConfigurationManager.AppSettings["github-key"];
+    var gitRepo = ConfigurationManager.AppSettings["github-repo"];
+    var ftpsHost = ConfigurationManager.AppSettings["ftps-host"];
+    var ftpsUsername = ConfigurationManager.AppSettings["ftps-username"];
+    var ftpsPassword = ConfigurationManager.AppSettings["ftps-password"];
+    var blogMetaContainerName = ConfigurationManager.AppSettings["BlogMetaStorageContainerName"];
+    var blogMetaConnectionString = ConfigurationManager.ConnectionStrings["BlogMetaStorage"].ConnectionString;
 
     // Setup objects
     ILogger logger = new NullLogger();
