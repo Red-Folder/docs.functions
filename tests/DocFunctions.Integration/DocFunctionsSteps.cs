@@ -14,8 +14,12 @@ namespace DocFunctions.Integration
         {
             // Generate a new blog name based on the Current Date And Time
             var username = ConfigurationManager.AppSettings["github-username"];
+            if (username == null) username = System.Environment.GetEnvironmentVariable("github-username");
             var key = ConfigurationManager.AppSettings["github-key"];
+            if (key == null) key = System.Environment.GetEnvironmentVariable("github-key");
             var repo = ConfigurationManager.AppSettings["github-repo"];
+            if (repo == null) repo = System.Environment.GetEnvironmentVariable("github-repo");
+
             var github = new GitHub(username, key, repo);
             github.CreateTestBog();
 
