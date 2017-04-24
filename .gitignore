@@ -254,7 +254,6 @@ paket-files/
 
 # Solution Specific
 appsettings.json
-tests/DocFunctions.Integration/App.config
-tests/DocFunctions.Lib.Integration/app.config
-/tests/DocFunctions.Lib.Unit/app.config
-/src/DocFunctions.Lib/app.config
+/tests/DocFunctions.Lib.Integration/app.Debug.config
+
+/tests/DocFunctions.Integration/App.Debug.config
