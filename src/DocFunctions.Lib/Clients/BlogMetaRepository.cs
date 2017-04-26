@@ -60,5 +60,22 @@ namespace DocFunctions.Lib.Clients
             var blockBlob = _container.GetBlockBlobReference(BLOGMETAFILENAME);
             blockBlob.UploadText(JsonConvert.SerializeObject(_blogs));
         }
+
+        public IList<Blog> Get()
+        {
+            return _blogs;
+        }
+
+        public Blog Get(string blogUrl)
+        {
+            if (_blogs.Where(x => x.Url == blogUrl).Count() == 0)
+            {
+                return null;
+            }
+            else
+            {
+                return _blogs.Where(x => x.Url == blogUrl).First();
+            }
+        }
     }
 }

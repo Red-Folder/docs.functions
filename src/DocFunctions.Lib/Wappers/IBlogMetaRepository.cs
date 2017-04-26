@@ -10,5 +10,7 @@ namespace DocFunctions.Lib.Wappers
     public interface IBlogMetaRepository
     {
         void Save(Blog blogMeta);
+        IList<Blog> Get();
+        Blog Get(string blogUrl);
     }
 }

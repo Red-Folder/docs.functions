@@ -27,5 +27,55 @@ namespace DocFunctions.Lib.Integration.Clients
             // Act
             sut.Save(newBlog);
         }
+
+        [Fact]
+        [Trait("Category", "Integration")]
+        public void GetAllBlogs()
+        {
+            // Arrange
+            var connectionString = ConfigurationManager.ConnectionStrings["BlogMetaStorage"].ConnectionString;
+            var containerName = ConfigurationManager.AppSettings["BlogMetaStorageContainerName"];
+            var sut = new BlogMetaRepository(connectionString, containerName);
+
+            // Act
+            var result = sut.Get();
+
+            // Assert
+            Assert.NotEmpty(result);
+        }
+
+        [Fact]
+        [Trait("Category", "Integration")]
+        public void GetExisting()
+        {
+            // Arrange
+            var connectionString = ConfigurationManager.ConnectionStrings["BlogMetaStorage"].ConnectionString;
+            var containerName = ConfigurationManager.AppSettings["BlogMetaStorageContainerName"];
+            var sut = new BlogMetaRepository(connectionString, containerName);
+            var url = "2017-04-24-21-43-59";
+
+            // Act
+            var result = sut.Get(url);
+
+            // Assert
+            Assert.Equal(url, result.Url);
+        }
+
+        [Fact]
+        [Trait("Category", "Integration")]
+        public void GetNotExistingReturnsNull()
+        {
+            // Arrange
+            var connectionString = ConfigurationManager.ConnectionStrings["BlogMetaStorage"].ConnectionString;
+            var containerName = ConfigurationManager.AppSettings["BlogMetaStorageContainerName"];
+            var sut = new BlogMetaRepository(connectionString, containerName);
+            var url = "I-DONT-EXIST";
+
+            // Act
+            var result = sut.Get(url);
+
+            // Assert
+            Assert.Null(result);
+        }
     }
 }
