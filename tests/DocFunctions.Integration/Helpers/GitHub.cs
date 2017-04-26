@@ -10,12 +10,14 @@ namespace DocFunctions.Integration.Helpers
         private string _username;
         private string _key;
         private string _repo;
+        private string _blogname;
 
-        public GitHub(string username, string key, string repo)
+        public GitHub(string username, string key, string repo, string blogname)
         {
             _username = username;
             _key = key;
             _repo = repo;
+            _blogname = blogname;
         }
 
         public void CreateTestBog()
@@ -25,8 +27,6 @@ namespace DocFunctions.Integration.Helpers
 
         public async Task CreateTestBogAsync()
         {
-            var blogname = DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss");
-
             var credentials = new Octokit.Credentials(_username, _key);
             var connection = new Octokit.Connection(new Octokit.ProductHeaderValue("Red-Folder.DocFunctions.IntegrationTests"))
             {
@@ -57,7 +57,7 @@ namespace DocFunctions.Integration.Helpers
             // Create a meta file
             //-------------------------------------------------------------------------------------------
             // Create text blob
-            var metaContents = File.ReadAllText(@"Assets\blog.json").Replace("[BLOGNAME]", blogname);
+            var metaContents = File.ReadAllText(@"Assets\blog.json").Replace("[BLOGNAME]", _blogname);
             var metaBlob = new NewBlob { Encoding = EncodingType.Utf8, Content = metaContents };
             var metaBlobRef = await github.Git.Blob.Create(_username, _repo, metaBlob);
 
@@ -65,7 +65,7 @@ namespace DocFunctions.Integration.Helpers
             // Create a markdown file
             //-------------------------------------------------------------------------------------------
             // Create text blob
-            var mdContents = File.ReadAllText(@"Assets\blog.md").Replace("[BLOGNAME]", blogname);
+            var mdContents = File.ReadAllText(@"Assets\blog.md").Replace("[BLOGNAME]", _blogname);
             var mdBlob = new NewBlob { Encoding = EncodingType.Utf8, Content = mdContents };
             var mdBlobRef = await github.Git.Blob.Create(_username, _repo, mdBlob);
 
@@ -75,9 +75,9 @@ namespace DocFunctions.Integration.Helpers
             // Create new Tree
             var nt = new NewTree { BaseTree = latestCommit.Tree.Sha };
             // Add items based on blobs
-            nt.Tree.Add(new NewTreeItem { Path = $"{blogname}/Image.jpg", Mode = "100644", Type = TreeType.Blob, Sha = imgBlobRef.Sha });
-            nt.Tree.Add(new NewTreeItem { Path = $"{blogname}/blog.json", Mode = "100644", Type = TreeType.Blob, Sha = metaBlobRef.Sha });
-            nt.Tree.Add(new NewTreeItem { Path = $"{blogname}/blog.md", Mode = "100644", Type = TreeType.Blob, Sha = mdBlobRef.Sha });
+            nt.Tree.Add(new NewTreeItem { Path = $"{_blogname}/Image.jpg", Mode = "100644", Type = TreeType.Blob, Sha = imgBlobRef.Sha });
+            nt.Tree.Add(new NewTreeItem { Path = $"{_blogname}/blog.json", Mode = "100644", Type = TreeType.Blob, Sha = metaBlobRef.Sha });
+            nt.Tree.Add(new NewTreeItem { Path = $"{_blogname}/blog.md", Mode = "100644", Type = TreeType.Blob, Sha = mdBlobRef.Sha });
 
             var newTree = await github.Git.Tree.Create(_username, _repo, nt);
 
@@ -85,7 +85,7 @@ namespace DocFunctions.Integration.Helpers
             // Create commit
             //-------------------------------------------------------------------------------------------
             // Create Commit
-            var newCommit = new NewCommit($"Created test blog {blogname}", newTree.Sha, masterReference.Object.Sha);
+            var newCommit = new NewCommit($"Created test blog {_blogname}", newTree.Sha, masterReference.Object.Sha);
             var commit = await github.Git.Commit.Create(_username, _repo, newCommit);
 
             //-------------------------------------------------------------------------------------------

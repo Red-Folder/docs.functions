@@ -6,5 +6,7 @@
 @ApplicationTest
 Scenario: On new blog
 	Given I don't already have a blog with name of the current date and time
+	Then I would expect the blog to not be available via the Blog API
 	When I publish a new blog to my Github repo
-	Then I would expect the blog to be available on my website
+	Then I allow 60 seconds
+	Then I would expect the blog to be available via the Blog API

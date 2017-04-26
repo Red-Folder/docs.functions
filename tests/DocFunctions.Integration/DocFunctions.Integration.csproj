@@ -75,6 +75,7 @@
     </Compile>
     <Compile Include="DocFunctionsSteps.cs" />
     <Compile Include="Helpers\GitHub.cs" />
+    <Compile Include="Helpers\HttpHelpers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
