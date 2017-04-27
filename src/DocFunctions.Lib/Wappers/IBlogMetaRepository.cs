@@ -1,4 +1,5 @@
 ﻿using docsFunctions.Shared.Models;
+using Functional.Maybe;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace DocFunctions.Lib.Wappers
     public interface IBlogMetaRepository
     {
         void Save(Blog blogMeta);
-        IList<Blog> Get();
-        Blog Get(string blogUrl);
+        Maybe<IList<Blog>> Get();
+        Maybe<Blog> Get(string blogUrl);
     }
 }

@@ -41,7 +41,7 @@ namespace DocFunctions.Lib.Integration.Clients
             var result = sut.Get();
 
             // Assert
-            Assert.NotEmpty(result);
+            Assert.True(result.HasValue);
         }
 
         [Fact]
@@ -58,7 +58,7 @@ namespace DocFunctions.Lib.Integration.Clients
             var result = sut.Get(url);
 
             // Assert
-            Assert.Equal(url, result.Url);
+            Assert.Equal(url, result.Value.Url);
         }
 
         [Fact]
@@ -75,7 +75,7 @@ namespace DocFunctions.Lib.Integration.Clients
             var result = sut.Get(url);
 
             // Assert
-            Assert.Null(result);
+            Assert.False(result.HasValue);
         }
     }
 }

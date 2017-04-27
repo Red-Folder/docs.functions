@@ -1,5 +1,6 @@
 ﻿#r "DocFunctions.Lib.dll"
 #r "docsFunctions.Shared.dll"
+#r "Functional.Maybe.dll"
 
 using System.Net;
 using System.Configuration;
@@ -7,6 +8,7 @@ using DocFunctions.Lib.Clients;
 using DocFunctions.Lib.Utils;
 using DocFunctions.Lib.Models.Github;
 using docsFunctions.Shared.Models;
+using Functional.Maybe;
 
 public static HttpResponseMessage Run(HttpRequestMessage req, string blogUrl, TraceWriter log)
 {
@@ -29,22 +31,17 @@ public static HttpResponseMessage Run(HttpRequestMessage req, string blogUrl, Tr
 
         var blogMetaRepository = new BlogMetaRepository(blogMetaConnectionString, blogMetaContainerName);
 
+        HttpResponseMessage response = null;
         if (blogUrl == "*")
         {
-            return req.CreateResponse(HttpStatusCode.OK, blogMetaRepository.Get().ToList());
+            return blogMetaRepository.Get().HasValue ? req.CreateResponse(HttpStatusCode.OK, blogMetaRepository.Get().Value) : req.CreateResponse(HttpStatusCode.OK);
         }
         else
         {
-            var blog = blogMetaRepository.Get(blogUrl);
-            if (blog == null)
-            {
-                return req.CreateResponse(HttpStatusCode.NotFound);
-            }
-            else
-            {
-                return req.CreateResponse(HttpStatusCode.OK, blog);
-            }
+            return blogMetaRepository.Get(blogUrl).HasValue ? req.CreateResponse(HttpStatusCode.OK, blogMetaRepository.Get(blogUrl).Value) : req.CreateResponse(HttpStatusCode.NotFound);
         }
+
+        return response;
     }
     catch (Exception ex)
     {
