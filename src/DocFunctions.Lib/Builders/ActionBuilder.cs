@@ -53,5 +53,12 @@ namespace DocFunctions.Lib.Builders
 
             return this;
         }
+
+        public IActionBuilder Clear()
+        {
+            _actions.Clear();
+
+            return this;
+        }
     }
 }

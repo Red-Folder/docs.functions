@@ -24,9 +24,7 @@ namespace DocFunctions.Lib.Clients
         {
             var client = GetClient();
 
-            var contents = client.Repository.Content.GetAllContents("red-folder", "red-folder.docs.staging", path).Result;
-
-            return contents.First().Content;
+            return GetContents(client, path);
         }
 
         private Octokit.GitHubClient GetClient()
@@ -37,6 +35,13 @@ namespace DocFunctions.Lib.Clients
                 Credentials = credentials
             };
             return new Octokit.GitHubClient(connection);
+        }
+
+        private string GetContents(Octokit.GitHubClient client, string path)
+        {
+            var contents = client.Repository.Content.GetAllContents("red-folder", "red-folder.docs.staging", path).Result;
+
+            return contents.First().Content;
         }
     }
 }

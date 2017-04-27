@@ -12,5 +12,7 @@ namespace DocFunctions.Lib.Builders
         IActionBuilder NewBlog(string blogPath);
         
         IAction[] Build();
+
+        IActionBuilder Clear();
     }
 }

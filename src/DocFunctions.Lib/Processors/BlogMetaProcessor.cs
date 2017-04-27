@@ -15,6 +15,29 @@ namespace DocFunctions.Lib.Processors
         {
             var meta = JObject.Parse(metaJson);
 
+            return new Blog
+            {
+                Id = (string)meta["id"],
+                Url = (string)meta["url"],
+                Author = "Mark Taylor",
+                Published = meta["published"].Value<DateTime>(),
+                Modified = meta["modified"].Value<DateTime>(),
+                Title = (string)meta["title"],
+                Enabled = Boolean.Parse((string)meta["enabled"]),
+
+                Description = (string)meta["description"],
+                Image = (string)meta["image"],
+
+                Redirects = GetRedirects(meta),
+                KeyWords = GetKeyWorks(meta),
+
+                Series = (string)meta["series"]
+            };
+
+        }
+
+        private List<Redirect> GetRedirects(JObject meta)
+        {
             var redirects = new List<Redirect>();
             if (meta["redirects"] != null)
             {
@@ -29,7 +52,11 @@ namespace DocFunctions.Lib.Processors
                     });
                 }
             }
+            return redirects;
+        }
 
+        private List<string> GetKeyWorks(JObject meta)
+        {
             var keyWords = new List<string>();
             if (meta["keyWords"] != null)
             {
@@ -38,26 +65,7 @@ namespace DocFunctions.Lib.Processors
                     keyWords.Add((string)keyWord);
                 }
             }
-
-            return new Blog
-            {
-                Id = (string)meta["id"],
-                Url = (string)meta["url"],
-                Author = "Mark Taylor",
-                Published = meta["published"].Value<DateTime>(),
-                Modified = meta["modified"].Value<DateTime>(),
-                Title = (string)meta["title"],
-                Enabled = Boolean.Parse((string)meta["enabled"]),
-
-                Description = (string)meta["description"],
-                Image = (string)meta["image"],
-
-                Redirects = redirects,
-                KeyWords = keyWords,
-
-                Series = (string)meta["series"]
-            };
-
+            return keyWords;
         }
     }
 }

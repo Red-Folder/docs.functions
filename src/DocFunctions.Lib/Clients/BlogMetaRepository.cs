@@ -21,11 +21,6 @@ namespace DocFunctions.Lib.Clients
 
         private CloudBlobContainer _container = null;
 
-        public BlogMetaRepository(string containerName)
-        {
-            InitialiseContainer(CloudConfigurationManager.GetSetting("BlogMetaStorageConnectionString"), containerName);
-        }
-
         public BlogMetaRepository(string connectionString, string containerName)
         {
             InitialiseContainer(connectionString, containerName);

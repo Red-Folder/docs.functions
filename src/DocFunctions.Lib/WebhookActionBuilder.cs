@@ -23,25 +23,35 @@ namespace DocFunctions.Lib
         {
             foreach (var commit in data.Commits)
             {
-                var filesList = new List<Tuple<string, string>>();
-                foreach (var added in commit.Added)
-                {
-                    filesList.Add(new Tuple<string, string>(added.Split('/')[0], added.Split('/')[1]));
-                }
-                var newBlogs = filesList
-                                    .Where(x => x.Item2.ToLower().EndsWith(".md") || x.Item2.ToLower().EndsWith(".json"))
-                                    .Select(x => x.Item1)
-                                    .Distinct();
-
-                newBlogs.ToList().ForEach(x => _actionBuilder.NewBlog(x));
-
+                _actionBuilder.Clear();
+                GetNewBlogs(commit).ForEach(x => _actionBuilder.NewBlog(x));
                 var actions = _actionBuilder.Build();
-                if (actions != null)
+                Execute(actions);   
+            }
+        }
+
+        private List<string> GetNewBlogs(Commit commit)
+        {
+            var filesList = new List<Tuple<string, string>>();
+            foreach (var added in commit.Added)
+            {
+                filesList.Add(new Tuple<string, string>(added.Split('/')[0], added.Split('/')[1]));
+            }
+            var newBlogs = filesList
+                                .Where(x => x.Item2.ToLower().EndsWith(".md") || x.Item2.ToLower().EndsWith(".json"))
+                                .Select(x => x.Item1)
+                                .Distinct();
+
+            return newBlogs.ToList();
+        }
+
+        private void Execute(IAction[] actions)
+        {
+            if (actions != null)
+            {
+                foreach (var action in actions)
                 {
-                    foreach (var action in actions)
-                    {
-                        action.Execute();
-                    }
+                    action.Execute();
                 }
             }
         }
