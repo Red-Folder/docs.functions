@@ -18,12 +18,18 @@ namespace DocFunctions.Lib.Builders
 
         private List<IAction> _actions = new List<IAction>();
 
-        public ActionBuilder(IGithubReader githubReader = null,
-                             IMarkdownProcessor markdownProcessor = null,
-                             IFtpsClient ftpsClient = null,
-                             IBlogMetaProcessor blogMetaReader = null,
-                             IBlogMetaRepository blogMetaRepository = null)
+        public ActionBuilder(IGithubReader githubReader,
+                             IMarkdownProcessor markdownProcessor,
+                             IFtpsClient ftpsClient,
+                             IBlogMetaProcessor blogMetaReader,
+                             IBlogMetaRepository blogMetaRepository)
         {
+            if (githubReader == null) throw new ArgumentNullException("githubReader");
+            if (markdownProcessor == null) throw new ArgumentNullException("markdownProcessor");
+            if (ftpsClient == null) throw new ArgumentNullException("ftpsClient");
+            if (blogMetaReader == null) throw new ArgumentNullException("blogMetaReader");
+            if (blogMetaRepository == null) throw new ArgumentNullException("blogMetaRepository");
+
             _githubReader = githubReader;
             _markdownProcessor = markdownProcessor;
             _ftpsClient = ftpsClient;
