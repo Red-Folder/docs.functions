@@ -257,3 +257,7 @@ appsettings.json
 /tests/DocFunctions.Lib.Integration/app.Debug.config
 
 /tests/DocFunctions.Integration/App.Debug.config
+/coverage
+/coverage.xml
+/results.xml
+/GenerateUnitTestMetrics.bat
