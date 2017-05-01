@@ -14,6 +14,60 @@ namespace DocFunctions.Lib.Unit.Actions
 {
     public class NewBlogActionTests
     {
+
+        [Fact]
+        public void ConstructorThrowsErrorOnNullPath()
+        {
+            // Arrange
+            var builder = new NewBlogActionBuilder(null);
+            Assert.Throws<ArgumentNullException>(() => builder.Build());
+        }
+
+        [Fact]
+        public void ConstructorThrowsErrorOnNullGithubReader()
+        {
+            // Arrange
+            var builder = new NewBlogActionBuilder("/test folder");
+            builder.SetGithubReader(null);
+            Assert.Throws<ArgumentNullException>(() => builder.Build());
+        }
+
+        [Fact]
+        public void ConstructorThrowsErrorOnNullMarkdownProcessor()
+        {
+            // Arrange
+            var builder = new NewBlogActionBuilder("/test folder");
+            builder.SetMarkdownProcessor(null);
+            Assert.Throws<ArgumentNullException>(() => builder.Build());
+        }
+
+        [Fact]
+        public void ConstructorThrowsErrorOnNullFtpsClient()
+        {
+            // Arrange
+            var builder = new NewBlogActionBuilder("/test folder");
+            builder.SetFtpsClient(null);
+            Assert.Throws<ArgumentNullException>(() => builder.Build());
+        }
+
+        [Fact]
+        public void ConstructorThrowsErrorOnNullBlogMetaReader()
+        {
+            // Arrange
+            var builder = new NewBlogActionBuilder("/test folder");
+            builder.SetBlogMetaProcessor(null);
+            Assert.Throws<ArgumentNullException>(() => builder.Build());
+        }
+
+        [Fact]
+        public void ConstructorThrowsErrorOnNullBlogMetaRepository()
+        {
+            // Arrange
+            var builder = new NewBlogActionBuilder("/test folder");
+            builder.SetBlogMetaRepository(null);
+            Assert.Throws<ArgumentNullException>(() => builder.Build());
+        }
+
         [Fact]
         public void ExecutesGithubGetForRawBlogText()
         {

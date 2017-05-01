@@ -14,6 +14,57 @@ namespace DocFunctions.Lib.Unit
     public class ActionBuilderTests
     {
         [Fact]
+        public void ConstructorThrowsErrorOnNullGithubReader()
+        {
+            Assert.Throws<ArgumentNullException>(() => new ActionBuilder(null,
+                                                                            new Mock<IMarkdownProcessor>().Object,
+                                                                            new Mock<IFtpsClient>().Object,
+                                                                            new Mock<IBlogMetaProcessor>().Object,
+                                                                            new Mock<IBlogMetaRepository>().Object));
+        }
+
+        [Fact]
+        public void ConstructorThrowsErrorOnNullMarkdownProcessor()
+        {
+            Assert.Throws<ArgumentNullException>(() => new ActionBuilder(new Mock<IGithubReader>().Object,
+                                                                            null,
+                                                                            new Mock<IFtpsClient>().Object,
+                                                                            new Mock<IBlogMetaProcessor>().Object,
+                                                                            new Mock<IBlogMetaRepository>().Object));
+        }
+
+        [Fact]
+        public void ConstructorThrowsErrorOnNullFtpsClient()
+        {
+            Assert.Throws<ArgumentNullException>(() => new ActionBuilder(new Mock<IGithubReader>().Object,
+                                                                            new Mock<IMarkdownProcessor>().Object,
+                                                                            null,
+                                                                            new Mock<IBlogMetaProcessor>().Object,
+                                                                            new Mock<IBlogMetaRepository>().Object));
+        }
+
+        [Fact]
+        public void ConstructorThrowsErrorOnNullBlogMetaReader()
+        {
+            Assert.Throws<ArgumentNullException>(() => new ActionBuilder(new Mock<IGithubReader>().Object,
+                                                                            new Mock<IMarkdownProcessor>().Object,
+                                                                            new Mock<IFtpsClient>().Object,
+                                                                            null,
+                                                                            new Mock<IBlogMetaRepository>().Object));
+        }
+
+        [Fact]
+        public void ConstructorThrowsErrorOnNullBlogMetaRepository()
+        {
+            Assert.Throws<ArgumentNullException>(() => new ActionBuilder(new Mock<IGithubReader>().Object,
+                                                                            new Mock<IMarkdownProcessor>().Object,
+                                                                            new Mock<IFtpsClient>().Object,
+                                                                            new Mock<IBlogMetaProcessor>().Object,
+                                                                            null));
+        }
+
+
+        [Fact]
         public void CreateSingleNewBlogAction()
         {
             // Arrange

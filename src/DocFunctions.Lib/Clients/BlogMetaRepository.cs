@@ -10,9 +10,11 @@ using Microsoft.WindowsAzure.Storage.Blob;
 using Newtonsoft.Json;
 using Microsoft.Azure;
 using Functional.Maybe;
+using System.Diagnostics.CodeAnalysis;
 
 namespace DocFunctions.Lib.Clients
 {
+    [ExcludeFromCodeCoverage]
     public class BlogMetaRepository : IBlogMetaRepository
     {
         private const string BLOGMETAFILENAME = "BlogMeta.json";

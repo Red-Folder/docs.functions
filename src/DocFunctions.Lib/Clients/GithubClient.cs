@@ -1,12 +1,14 @@
 ﻿using DocFunctions.Lib.Wappers;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace DocFunctions.Lib.Clients
 {
+    [ExcludeFromCodeCoverage]
     public class GithubClient : IGithubReader
     {
         private string _username;

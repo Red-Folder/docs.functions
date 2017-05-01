@@ -20,10 +20,15 @@ namespace DocFunctions.Lib.Unit.Builders
         private Mock<IBlogMetaProcessor> _mockBlogMetaReader;
         private Mock<IBlogMetaRepository> _mockBlogMetaRepository;
 
+        private bool _githubReaderSet = false;
         private IGithubReader _githubReader;
+        private bool _markdownProcessorSet = false;
         private IMarkdownProcessor _markdownProcessor;
+        private bool _ftpsClientSet = false;
         private IFtpsClient _ftpsClient;
+        private bool _blogMetaReaderSet = false;
         private IBlogMetaProcessor _blogMetaReader;
+        private bool _blogMetaRepositorySet = false;
         private IBlogMetaRepository _blogMetaRepository;
 
         public NewBlogActionBuilder(string blogPath)
@@ -87,30 +92,35 @@ namespace DocFunctions.Lib.Unit.Builders
 
         public NewBlogActionBuilder SetGithubReader(IGithubReader githubReader)
         {
+            _githubReaderSet = true;
             _githubReader = githubReader;
             return this;
         }
 
         public NewBlogActionBuilder SetMarkdownProcessor(IMarkdownProcessor markdownProcessor)
         {
+            _markdownProcessorSet = true;
             _markdownProcessor = markdownProcessor;
             return this;
         }
 
         public NewBlogActionBuilder SetFtpsClient(IFtpsClient ftpsclient)
         {
+            _ftpsClientSet = true;
             _ftpsClient = ftpsclient;
             return this;
         }
 
         public NewBlogActionBuilder SetBlogMetaProcessor(IBlogMetaProcessor blogMetaProcessor)
         {
+            _blogMetaReaderSet = true;
             _blogMetaReader = blogMetaProcessor;
             return this;
         }
 
         public NewBlogActionBuilder SetBlogMetaRepository(IBlogMetaRepository blogMetaRespository)
         {
+            _blogMetaRepositorySet = true;
             _blogMetaRepository = blogMetaRespository;
             return this;
         }
@@ -118,11 +128,11 @@ namespace DocFunctions.Lib.Unit.Builders
         public NewBlogAction Build()
         {
             return new NewBlogAction(_blogPath,
-                                        _githubReader ?? _mockGithubReader.Object,
-                                        _markdownProcessor ?? _mockMarkdownProcessor.Object,
-                                        _ftpsClient ?? _mockFtpsClient.Object,
-                                        _blogMetaReader ?? _mockBlogMetaReader.Object,
-                                        _blogMetaRepository ?? _mockBlogMetaRepository.Object
+                                        _githubReaderSet ? _githubReader : _mockGithubReader.Object,
+                                        _markdownProcessorSet ? _markdownProcessor : _mockMarkdownProcessor.Object,
+                                        _ftpsClientSet ? _ftpsClient : _mockFtpsClient.Object,
+                                        _blogMetaReaderSet ? _blogMetaReader : _mockBlogMetaReader.Object,
+                                        _blogMetaRepositorySet ? _blogMetaRepository : _mockBlogMetaRepository.Object
                                      );
         }
     }

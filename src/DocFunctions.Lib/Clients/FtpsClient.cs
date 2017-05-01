@@ -1,6 +1,7 @@
 ﻿using DocFunctions.Lib.Wappers;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace DocFunctions.Lib.Clients
 {
+    [ExcludeFromCodeCoverage]
     public class FtpsClient : IFtpsClient
     {
         private string _host;
