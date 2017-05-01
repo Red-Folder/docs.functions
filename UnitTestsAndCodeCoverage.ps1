@@ -12,7 +12,7 @@ if ([string]::IsNullOrEmpty($BuildConfiguration))
 }
 
 # Run Unit Tests and Coverage
-.\packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -output:TestAndCoverage\coverage.xml -target:"packages\xunit.runner.console.2.2.0\tools\xunit.console.x86.exe" -targetargs:"tests\DocFunctions.Lib.Unit\bin\$BuildConfiguration\DocFunctions.Lib.Unit.dll -noshadow -xml TestAndCoverage\UnitTestResults.xml" -filter:"+[DocFunctions.Lib*]* -[DocFunctions.Lib.Unit]*" 
+.\packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -output:TestAndCoverage\coverage.xml -target:"packages\xunit.runner.console.2.2.0\tools\xunit.console.x86.exe" -targetargs:"tests\DocFunctions.Lib.Unit\bin\$BuildConfiguration\DocFunctions.Lib.Unit.dll -noshadow -xml TestAndCoverage\UnitTestResults.xml" -filter:"+[DocFunctions.Lib*]* -[DocFunctions.Lib.Unit]*" -hideskipped:Attribute
 
 # Convert Coverage Report to Cobertura format
 .\packages\OpenCoverToCoberturaConverter.0.2.6.0\tools\OpenCoverToCoberturaConverter.exe -input:TestAndCoverage\coverage.xml -output:TestAndCoverage\cobertura.xml
