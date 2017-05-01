@@ -23,6 +23,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "docsFunctions.Shared", "src
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DocFunctions.Lib.Integration", "tests\DocFunctions.Lib.Integration\DocFunctions.Lib.Integration.csproj", "{7949F066-116D-4057-AB90-D1A7661704EB}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7D8D3426-B311-486C-8D25-45B2D71E0BA6}"
+	ProjectSection(SolutionItems) = preProject
+		UnitTestsAndCodeCoverage.ps1 = UnitTestsAndCodeCoverage.ps1
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
