@@ -16,5 +16,7 @@
       "name": "res"
     }
   ],
-  "disabled": false
+  "disabled": false,
+  "scriptFile": "..\\bin\\DocFunctions.dll",
+  "entryPoint": "DocFunctions.Functions.Blog.Run"
 }

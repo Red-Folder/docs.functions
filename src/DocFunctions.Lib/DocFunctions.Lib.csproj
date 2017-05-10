@@ -133,26 +133,12 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>if exist "$(SolutionDir)src\DocFunctions\GithubWebhook\bin" (
-   echo "Folder already exists"
-) else (
-   mkdir "$(SolutionDir)src\DocFunctions\GithubWebhook\bin"
-)
-if exist "$(SolutionDir)src\DocFunctions\Blog\bin" (
-   echo "Folder already exists"
-) else (
-   mkdir "$(SolutionDir)src\DocFunctions\Blog\bin"
-)
-copy /Y "$(TargetDir)*.dll" "$(SolutionDir)src\DocFunctions\GithubWebhook\bin"
-copy /Y "$(TargetDir)*.dll" "$(SolutionDir)src\DocFunctions\Blog\bin"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PreBuildEvent>if exist "$(SolutionDir)src\DocFunctions\GithubWebhook\bin\*.*" (
-   del /Q "$(SolutionDir)src\DocFunctions\GithubWebhook\bin\*.*"
-)
-if exist "$(SolutionDir)src\DocFunctions\Blog\bin\*.*" (
-   del /Q "$(SolutionDir)src\DocFunctions\Blog\bin\*.*"
-)</PreBuildEvent>
+    <PreBuildEvent>
+    </PreBuildEvent>
   </PropertyGroup>
   <Import Project="..\..\packages\SlowCheetah.2.5.48\build\SlowCheetah.targets" Condition="Exists('..\..\packages\SlowCheetah.2.5.48\build\SlowCheetah.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

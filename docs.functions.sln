@@ -5,12 +5,6 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E07A256A-8E6A-423C-8948-27D3508446F7}"
 EndProject
-Project("{33AD0EE8-D99B-4E14-8CD9-3F56ABEF97A2}") = "DocFunctions", "src\DocFunctions\DocFunctions.funproj", "{78B1067E-A2A0-4BC0-BD6C-C06C85F07B78}"
-	ProjectSection(ProjectDependencies) = postProject
-		{EF200F01-2A4F-45F0-8AE2-4C3C9835BBF4} = {EF200F01-2A4F-45F0-8AE2-4C3C9835BBF4}
-		{0A44E216-84EE-4E1B-8D7D-7A9118832B9C} = {0A44E216-84EE-4E1B-8D7D-7A9118832B9C}
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{39FC5149-08C9-4D29-A511-3C16BA652ADC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DocFunctions.Integration", "tests\DocFunctions.Integration\DocFunctions.Integration.csproj", "{3A1A6D09-9D07-4F7F-97CD-9F6BA658BD02}"
@@ -24,9 +18,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DocFunctions.Lib.Integration", "tests\DocFunctions.Lib.Integration\DocFunctions.Lib.Integration.csproj", "{7949F066-116D-4057-AB90-D1A7661704EB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7D8D3426-B311-486C-8D25-45B2D71E0BA6}"
-	ProjectSection(SolutionItems) = preProject
-		UnitTestsAndCodeCoverage.ps1 = UnitTestsAndCodeCoverage.ps1
-	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DocFunctions", "src\DocFunctions\DocFunctions.csproj", "{DFE7D80E-1A88-48FF-8B9C-6D29DC7C9269}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -34,10 +27,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{78B1067E-A2A0-4BC0-BD6C-C06C85F07B78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{78B1067E-A2A0-4BC0-BD6C-C06C85F07B78}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{78B1067E-A2A0-4BC0-BD6C-C06C85F07B78}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{78B1067E-A2A0-4BC0-BD6C-C06C85F07B78}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3A1A6D09-9D07-4F7F-97CD-9F6BA658BD02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3A1A6D09-9D07-4F7F-97CD-9F6BA658BD02}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A1A6D09-9D07-4F7F-97CD-9F6BA658BD02}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -58,16 +47,20 @@ Global
 		{7949F066-116D-4057-AB90-D1A7661704EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7949F066-116D-4057-AB90-D1A7661704EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7949F066-116D-4057-AB90-D1A7661704EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFE7D80E-1A88-48FF-8B9C-6D29DC7C9269}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFE7D80E-1A88-48FF-8B9C-6D29DC7C9269}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFE7D80E-1A88-48FF-8B9C-6D29DC7C9269}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFE7D80E-1A88-48FF-8B9C-6D29DC7C9269}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{78B1067E-A2A0-4BC0-BD6C-C06C85F07B78} = {E07A256A-8E6A-423C-8948-27D3508446F7}
 		{3A1A6D09-9D07-4F7F-97CD-9F6BA658BD02} = {39FC5149-08C9-4D29-A511-3C16BA652ADC}
 		{880A2336-6DA0-4176-9285-891D8B475822} = {39FC5149-08C9-4D29-A511-3C16BA652ADC}
 		{0A44E216-84EE-4E1B-8D7D-7A9118832B9C} = {E07A256A-8E6A-423C-8948-27D3508446F7}
 		{EF200F01-2A4F-45F0-8AE2-4C3C9835BBF4} = {E07A256A-8E6A-423C-8948-27D3508446F7}
 		{7949F066-116D-4057-AB90-D1A7661704EB} = {39FC5149-08C9-4D29-A511-3C16BA652ADC}
+		{DFE7D80E-1A88-48FF-8B9C-6D29DC7C9269} = {E07A256A-8E6A-423C-8948-27D3508446F7}
 	EndGlobalSection
 EndGlobal
