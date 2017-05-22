@@ -9,5 +9,6 @@ namespace DocFunctions.Lib.Wappers
     public interface IGithubReader
     {
         string GetRawFile(string path);
+        byte[] GetRawImageFile(string path);
     }
 }

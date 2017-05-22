@@ -82,5 +82,24 @@ namespace DocFunctions.Lib.Unit
             Assert.Equal(1, actionList.Length);
             Assert.IsType(typeof(NewBlogAction), actionList[0]);
         }
+
+        [Fact]
+        public void CreateSingleNewImageAction()
+        {
+            // Arrange
+            var sut = new ActionBuilder(new Mock<IGithubReader>().Object,
+                                        new Mock<IMarkdownProcessor>().Object,
+                                        new Mock<IFtpsClient>().Object,
+                                        new Mock<IBlogMetaProcessor>().Object,
+                                        new Mock<IBlogMetaRepository>().Object);
+
+            // Act
+            sut.NewImage("NewImagePath", "NewImage.png");
+            var actionList = sut.Build();
+
+            // Assert
+            Assert.Equal(1, actionList.Length);
+            Assert.IsType(typeof(NewImageAction), actionList[0]);
+        }
     }
 }

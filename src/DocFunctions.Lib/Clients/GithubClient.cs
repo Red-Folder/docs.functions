@@ -29,6 +29,11 @@ namespace DocFunctions.Lib.Clients
             return GetContents(client, path);
         }
 
+        public byte[] GetRawImageFile(string path)
+        {
+            throw new NotImplementedException();
+        }
+
         private Octokit.GitHubClient GetClient()
         {
             var credentials = new Octokit.Credentials(_username, _key);

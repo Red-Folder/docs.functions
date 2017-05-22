@@ -25,6 +25,7 @@ namespace DocFunctions.Lib
             {
                 _actionBuilder.Clear();
                 GetNewBlogs(commit).ForEach(x => _actionBuilder.NewBlog(x));
+                GetNewImages(commit).ForEach(x => _actionBuilder.NewImage(x.Item1, x.Item2));
                 var actions = _actionBuilder.Build();
                 Execute(actions);   
             }
@@ -43,6 +44,20 @@ namespace DocFunctions.Lib
                                 .Distinct();
 
             return newBlogs.ToList();
+        }
+
+        private List<Tuple<string, string>> GetNewImages(Commit commit)
+        {
+            var filesList = new List<Tuple<string, string>>();
+            foreach (var added in commit.Added)
+            {
+                filesList.Add(new Tuple<string, string>(added.Split('/')[0], added.Split('/')[1]));
+            }
+            var newImages = filesList
+                                .Where(x => x.Item2.ToLower().EndsWith(".png") || x.Item2.ToLower().EndsWith(".jpg"))
+                                .Distinct();
+
+            return newImages.ToList();
         }
 
         private void Execute(IAction[] actions)

@@ -9,5 +9,6 @@ namespace DocFunctions.Lib.Wappers
     public interface IFtpsClient
     {
         void Upload(string filename, string contents);
+        void Upload(string filename, byte[] contents);
     }
 }

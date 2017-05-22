@@ -44,5 +44,10 @@ namespace DocFunctions.Lib.Clients
 
             response.Close();
         }
+
+        public void Upload(string filename, byte[] contents)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

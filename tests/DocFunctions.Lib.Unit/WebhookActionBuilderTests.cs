@@ -27,5 +27,21 @@ namespace DocFunctions.Lib.Unit
             actionBuilder.Verify(m => m.NewBlog(It.IsAny<string>()));
             actionBuilder.Verify(m => m.Build());
         }
+
+        [Fact]
+        public void AddedImageCreatesNewImageAction()
+        {
+            // Arrange
+            var actionBuilder = new Mock<IActionBuilder>();
+            var sut = new WebhookActionBuilder(actionBuilder.Object);
+            var webhookData = new WebhookDataBuilder().Build();
+
+            // Act
+            sut.Process(webhookData);
+
+            // Assert
+            actionBuilder.Verify(m => m.NewImage(It.IsAny<string>(), It.IsAny<string>()));
+            actionBuilder.Verify(m => m.Build());
+        }
     }
 }

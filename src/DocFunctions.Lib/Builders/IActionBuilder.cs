@@ -10,7 +10,9 @@ namespace DocFunctions.Lib.Builders
     public interface IActionBuilder
     {
         IActionBuilder NewBlog(string blogPath);
-        
+
+        IActionBuilder NewImage(string blogPath, string image);
+
         IAction[] Build();
 
         IActionBuilder Clear();

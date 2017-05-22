@@ -54,6 +54,16 @@ namespace DocFunctions.Lib.Builders
             return this;
         }
 
+        public IActionBuilder NewImage(string blogPath, string image)
+        {
+            _actions.Add(new NewImageAction(blogPath,
+                                                image,
+                                                _githubReader,
+                                                _ftpsClient,
+                                                _blogMetaReader));
+            return this;
+        }
+
         public IActionBuilder Clear()
         {
             _actions.Clear();
