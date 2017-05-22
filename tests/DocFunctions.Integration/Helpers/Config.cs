@@ -24,6 +24,14 @@ namespace DocFunctions.Integration.Helpers
             }
         }
 
+        public string ImageUrl
+        {
+            get
+            {
+                return $"http://rfc-website-staging.azurewebsites.net/media/blog/{BlogName}/image.png";
+            }
+        }
+
         public string BlogName
         {
             get

@@ -72,7 +72,7 @@ namespace DocFunctions.Integration
             this.ScenarioTearDown();
         }
         
-        [Xunit.FactAttribute(DisplayName="On new blog")]
+        [RedFolder.xUnit.IntegrationFact.IntegrationFactAttribute(DisplayName="On new blog")]
         [Xunit.TraitAttribute("FeatureTitle", "DocFunctions")]
         [Xunit.TraitAttribute("Description", "On new blog")]
         [Xunit.TraitAttribute("Category", "ApplicationTest")]
@@ -92,6 +92,8 @@ this.ScenarioSetup(scenarioInfo);
  testRunner.Then("I allow 60 seconds", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 12
  testRunner.Then("I would expect the blog to be available via the Blog API", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 13
+ testRunner.And("I would expect the image to be available via the website", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }

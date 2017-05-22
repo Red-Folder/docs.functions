@@ -10,3 +10,4 @@ Scenario: On new blog
 	When I publish a new blog to my Github repo
 	Then I allow 60 seconds
 	Then I would expect the blog to be available via the Blog API
+	And I would expect the image to be available via the website

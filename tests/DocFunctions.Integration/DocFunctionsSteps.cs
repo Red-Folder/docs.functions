@@ -42,5 +42,11 @@ namespace DocFunctions.Integration
             Assert.True(HttpHelpers.Exists(_config.RepoUrl));
         }
 
+        [Then(@"I would expect the image to be available via the website")]
+        public void ThenIWouldExpectTheImageToBeAvailableViaTheWebsite()
+        {
+            Assert.True(HttpHelpers.Exists(_config.ImageUrl));
+        }
+
     }
 }
