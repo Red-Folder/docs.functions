@@ -25,24 +25,36 @@ namespace DocFunctions.Functions
 
                 // Get all settings
                 var appInsightsKey = ConfigurationManager.AppSettings["APPINSIGHTS_INSTRUMENTATIONKEY"];
+
                 var gitUsername = ConfigurationManager.AppSettings["github-username"];
                 var gitKey = ConfigurationManager.AppSettings["github-key"];
                 var gitRepo = ConfigurationManager.AppSettings["github-repo"];
-                var ftpsHost = ConfigurationManager.AppSettings["ftps-host"];
-                var ftpsUsername = ConfigurationManager.AppSettings["ftps-username"];
-                var ftpsPassword = ConfigurationManager.AppSettings["ftps-password"];
+
+                var ftpsHostForHtml = ConfigurationManager.AppSettings["ftps-host-for-html"];
+                var ftpsUsernameForHtml = ConfigurationManager.AppSettings["ftps-username-for-html"];
+                var ftpsPasswordForHtml = ConfigurationManager.AppSettings["ftps-password-for-html"];
+
+                var ftpsHostForImage = ConfigurationManager.AppSettings["ftps-host-for-image"];
+                var ftpsUsernameForImage = ConfigurationManager.AppSettings["ftps-username-for-image"];
+                var ftpsPasswordForImage = ConfigurationManager.AppSettings["ftps-password-for-image"];
+
                 var blogMetaContainerName = ConfigurationManager.AppSettings["BlogMetaStorageContainerName"];
                 var blogMetaConnectionString = ConfigurationManager.ConnectionStrings["BlogMetaStorage"].ConnectionString;
 
-                log.Info($"Size of appInsightsKey:{ (appInsightsKey == null ? 0 : appInsightsKey.Length) }");
-                log.Info($"Size of gitUsername:{gitUsername.Length}");
-                log.Info($"Size of gitKey:{gitKey.Length}");
-                log.Info($"Size of gitRepo:{gitRepo.Length}");
-                log.Info($"Size of ftpsHost:{ftpsHost.Length}");
-                log.Info($"Size of ftpsUsername:{ftpsUsername.Length}");
-                log.Info($"Size of ftpsPassword:{ftpsPassword.Length}");
-                log.Info($"Size of blogMetaContainerName:{blogMetaContainerName.Length}");
-                log.Info($"Size of blogMetaConnectionString:{blogMetaConnectionString.Length}");
+                if (gitUsername == null || gitUsername.Length == 0) throw new InvalidOperationException("github-username not set");
+                if (gitKey == null || gitKey.Length == 0) throw new InvalidOperationException("github-key not set");
+                if (gitRepo == null || gitRepo.Length == 0) throw new InvalidOperationException("github-repo not set");
+
+                if (ftpsHostForHtml == null || ftpsHostForHtml.Length == 0) throw new InvalidOperationException("ftps-host-for-html not set");
+                if (ftpsUsernameForHtml == null || ftpsUsernameForHtml.Length == 0) throw new InvalidOperationException("ftps-username-for-html not set");
+                if (ftpsPasswordForHtml == null || ftpsPasswordForHtml.Length == 0) throw new InvalidOperationException("ftps-password-for-html not set");
+
+                if (ftpsHostForImage == null || ftpsHostForImage.Length == 0) throw new InvalidOperationException("ftps-host-for-image not set");
+                if (ftpsUsernameForImage == null || ftpsUsernameForImage.Length == 0) throw new InvalidOperationException("ftps-username-for-image not set");
+                if (ftpsPasswordForImage == null || ftpsPasswordForImage.Length == 0) throw new InvalidOperationException("ftps-password-for-image not set");
+
+                if (blogMetaContainerName == null || blogMetaContainerName.Length == 0) throw new InvalidOperationException("BlogMetaStorageContainerName not set");
+                if (blogMetaConnectionString == null || blogMetaConnectionString.Length == 0) throw new InvalidOperationException("BlogMetaStorage Connection String not set");
 
                 // Setup objects
                 ILogger logger = new NullLogger();
@@ -54,10 +66,11 @@ namespace DocFunctions.Functions
                 var loggerOperation = logger.StartOperation("DocFunctions - GitHub WebHook");
                 var githubReader = new GithubClient(gitUsername, gitKey, gitRepo);
                 var markdownProcessor = new MarkdownProcessor();
-                var ftpsClient = new FtpsClient(ftpsHost, ftpsUsername, ftpsPassword);
+                var ftpsClientForHtml = new FtpsClient(ftpsHostForHtml, ftpsUsernameForHtml, ftpsPasswordForHtml);
+                var ftpsClientForImage = new FtpsClient(ftpsHostForImage, ftpsUsernameForImage, ftpsPasswordForImage);
                 var blogMetaProcessor = new BlogMetaProcessor();
                 var blogMetaRepository = new BlogMetaRepository(blogMetaConnectionString, blogMetaContainerName);
-                var actionBuilder = new ActionBuilder(githubReader, markdownProcessor, ftpsClient, blogMetaProcessor, blogMetaRepository);
+                var actionBuilder = new ActionBuilder(githubReader, markdownProcessor, ftpsClientForHtml, ftpsClientForImage, blogMetaProcessor, blogMetaRepository);
 
                 var webhookAction = new WebhookActionBuilder(actionBuilder);
 
