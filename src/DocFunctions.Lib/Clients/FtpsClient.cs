@@ -26,6 +26,11 @@ namespace DocFunctions.Lib.Clients
 
         public void Upload(string filename, string contents)
         {
+            Upload(filename, Encoding.UTF8.GetBytes(contents));
+        }
+
+        public void Upload(string filename, byte[] contents)
+        {
             string fullname = String.Format("ftp://{0}/{1}", _host, filename);
             FtpWebRequest request = (FtpWebRequest)WebRequest.Create(fullname);
             request.Credentials = new NetworkCredential(_username, _password);
@@ -33,21 +38,15 @@ namespace DocFunctions.Lib.Clients
             request.EnableSsl = true;
             request.UseBinary = true;
 
-            var payload = Encoding.UTF8.GetBytes(contents);
-            request.ContentLength = payload.Length;
+            request.ContentLength = contents.Length;
             using (Stream s = request.GetRequestStream())
             {
-                s.Write(payload, 0, payload.Length);
+                s.Write(contents, 0, contents.Length);
             }
 
             FtpWebResponse response = (FtpWebResponse)request.GetResponse();
 
             response.Close();
-        }
-
-        public void Upload(string filename, byte[] contents)
-        {
-            throw new NotImplementedException();
         }
     }
 }

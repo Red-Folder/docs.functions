@@ -1,10 +1,13 @@
 ﻿using DocFunctions.Lib.Wappers;
+using Octokit;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace DocFunctions.Lib.Clients
 {
@@ -26,12 +29,17 @@ namespace DocFunctions.Lib.Clients
         {
             var client = GetClient();
 
-            return GetContents(client, path);
+            return GetContents(client, path).Content;
         }
 
         public byte[] GetRawImageFile(string path)
         {
-            throw new NotImplementedException();
+            var client = GetClient();
+
+            var encodedContent = GetContents(client, path).EncodedContent;
+
+            // Convert Base64 String to byte[]
+            return Convert.FromBase64String(encodedContent);
         }
 
         private Octokit.GitHubClient GetClient()
@@ -44,11 +52,11 @@ namespace DocFunctions.Lib.Clients
             return new Octokit.GitHubClient(connection);
         }
 
-        private string GetContents(Octokit.GitHubClient client, string path)
+        private RepositoryContent GetContents(Octokit.GitHubClient client, string path)
         {
             var contents = client.Repository.Content.GetAllContents("red-folder", "red-folder.docs.staging", path).Result;
 
-            return contents.First().Content;
+            return contents.First();
         }
     }
 }
