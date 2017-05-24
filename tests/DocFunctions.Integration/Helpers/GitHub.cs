@@ -88,7 +88,7 @@ namespace DocFunctions.Integration.Helpers
             var nt = new NewTree { BaseTree = latestCommit.Tree.Sha };
             
             // Add items based on blobs
-            nt.Tree.Add(new NewTreeItem { Path = $"{_blogname}/Image.jpg", Mode = "100644", Type = TreeType.Blob, Sha = imgBlobRef.Sha });
+            nt.Tree.Add(new NewTreeItem { Path = $"{_blogname}/Image.png", Mode = "100644", Type = TreeType.Blob, Sha = imgBlobRef.Sha });
             nt.Tree.Add(new NewTreeItem { Path = $"{_blogname}/blog.json", Mode = "100644", Type = TreeType.Blob, Sha = metaBlobRef.Sha });
             nt.Tree.Add(new NewTreeItem { Path = $"{_blogname}/blog.md", Mode = "100644", Type = TreeType.Blob, Sha = mdBlobRef.Sha });
 
