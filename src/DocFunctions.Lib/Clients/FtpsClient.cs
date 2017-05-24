@@ -31,8 +31,9 @@ namespace DocFunctions.Lib.Clients
 
         public void Upload(string filename, byte[] contents)
         {
-            string fullname = String.Format("ftp://{0}/{1}", _host, filename);
-            FtpWebRequest request = (FtpWebRequest)WebRequest.Create(fullname);
+            EnsurePathExists(filename);
+
+            FtpWebRequest request = (FtpWebRequest)WebRequest.Create(FormatUrl(filename));
             request.Credentials = new NetworkCredential(_username, _password);
             request.Method = WebRequestMethods.Ftp.UploadFile;
             request.EnableSsl = true;
@@ -47,6 +48,72 @@ namespace DocFunctions.Lib.Clients
             FtpWebResponse response = (FtpWebResponse)request.GetResponse();
 
             response.Close();
+        }
+
+        private string FormatUrl(string suffix)
+        {
+            return String.Format("ftp://{0}/{1}", _host, suffix);
+        }
+
+        private void EnsurePathExists(string filename)
+        {
+            var directories = filename.Split('/');
+
+            // Minus 1 as we don't want to look at the filename
+            var path = "";
+            for (int i = 0; i < (directories.Length -1); i++)
+            {
+                path += directories[i] + "/";
+                CreateDirectoryIfNotExists(path);
+            }
+        }
+
+        private void CreateDirectoryIfNotExists(string path)
+        {
+            if (!DirectoryExists(path))
+            {
+                MakeDirectory(path);
+            }
+        }
+
+        private bool DirectoryExists(string directory)
+        {
+            bool directoryExists;
+
+            var request = (FtpWebRequest)WebRequest.Create(FormatUrl(directory));
+            request.Method = WebRequestMethods.Ftp.ListDirectory;
+            request.Credentials = new NetworkCredential(_username, _password);
+
+            try
+            {
+                using (request.GetResponse())
+                {
+                    directoryExists = true;
+                }
+            }
+            catch (WebException)
+            {
+                directoryExists = false;
+            }
+            return directoryExists;
+        }
+
+        private void MakeDirectory(string directory)
+        {
+            var request = (FtpWebRequest)WebRequest.Create(FormatUrl(directory));
+
+            request.Method = WebRequestMethods.Ftp.MakeDirectory;
+            request.Credentials = new NetworkCredential(_username, _password);
+
+            try
+            {
+                using (var resp = (FtpWebResponse)request.GetResponse()) // Exception occurs here
+                {
+                }
+            }
+            catch (WebException ex)
+            {
+            }
         }
     }
 }

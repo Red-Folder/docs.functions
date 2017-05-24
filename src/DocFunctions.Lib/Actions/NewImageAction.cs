@@ -44,7 +44,7 @@ namespace DocFunctions.Lib.Actions
             var blogMeta = GetMetaFromMetaJson(blogMetaJson);
 
             var blogImage = GetImageFromGithub();
-            UploadImages(blogMeta, blogImage);
+            UploadImage(blogMeta, blogImage);
         }
 
         private string GetMetaJsonFromGithub()
@@ -62,9 +62,9 @@ namespace DocFunctions.Lib.Actions
             return _githubReader.GetRawImageFile($"{_blogPath}/{_imageName}");
         }
 
-        private void UploadImages(Blog blogMeta, byte[] image)
+        private void UploadImage(Blog blogMeta, byte[] image)
         {
-            _ftpsClient.Upload($"/site/contentroot/{blogMeta.Url}/{_imageName}", image);
+            _ftpsClient.Upload($"/site/mediaroot/blog/{blogMeta.Url}/{_imageName}", image);
         }
     }
 }

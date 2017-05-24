@@ -54,7 +54,7 @@ namespace DocFunctions.Lib
                 filesList.Add(new Tuple<string, string>(added.Split('/')[0], added.Split('/')[1]));
             }
             var newImages = filesList
-                                .Where(x => x.Item2.ToLower().EndsWith(".png") || x.Item2.ToLower().EndsWith(".jpg"))
+                                .Where(x => x.Item2.ToLower().EndsWith(".png") || x.Item2.ToLower().EndsWith(".jpg") || x.Item2.ToLower().EndsWith(".gif"))
                                 .Distinct();
 
             return newImages.ToList();

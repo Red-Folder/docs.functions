@@ -42,10 +42,11 @@ namespace DocFunctions.Lib.Integration
                 {
                     new Commit
                     {
-                        Added = new string[2]
+                        Added = new string[3]
                         {
                             "2017-04-10-20-27-54/blog.json",
-                            "2017-04-10-20-27-54/blog.md"
+                            "2017-04-10-20-27-54/blog.md",
+                            "2017-04-10-20-27-54/Image.jpg"
                         }
                     }
                 }
