@@ -22,16 +22,10 @@ namespace DocFunctions.Lib.Integration
 
             var markdownProcessor = new MarkdownProcessor();
 
-            var ftpsHostForHtml = ConfigurationManager.AppSettings["ftps-host-for-html"];
-            var ftpsUsernameForHtml = ConfigurationManager.AppSettings["ftps-username-for-html"];
-            var ftpsPasswordForHtml = ConfigurationManager.AppSettings["ftps-password-for-html"];
-            var ftpsClientForHtml = new FtpsClient(ftpsHostForHtml, ftpsUsernameForHtml, ftpsPasswordForHtml);
-
-            var ftpsHostForImage = ConfigurationManager.AppSettings["ftps-host-for-image"];
-            var ftpsUsernameForImage = ConfigurationManager.AppSettings["ftps-username-for-image"];
-            var ftpsPasswordForImage = ConfigurationManager.AppSettings["ftps-password-for-image"];
-            var ftpsClientForImage = new FtpsClient(ftpsHostForImage, ftpsUsernameForImage, ftpsPasswordForImage);
-
+            var ftpsHost = ConfigurationManager.AppSettings["ftps-host"];
+            var ftpsUsername = ConfigurationManager.AppSettings["ftps-username"];
+            var ftpsPassword = ConfigurationManager.AppSettings["ftps-password"];
+            var ftpsClient = new FtpsClient(ftpsHost, ftpsUsername, ftpsPassword);
 
             var blogMetaProcessor = new BlogMetaProcessor();
 
@@ -39,7 +33,7 @@ namespace DocFunctions.Lib.Integration
             var blogMetaContainerName = ConfigurationManager.AppSettings["BlogMetaStorageContainerName"];
             var blogMetaRepository = new BlogMetaRepository(blogMetaConnectionString, blogMetaContainerName);
 
-            var actionBuilder = new ActionBuilder(githubReader, markdownProcessor, ftpsClientForHtml, ftpsClientForImage, blogMetaProcessor, blogMetaRepository);
+            var actionBuilder = new ActionBuilder(githubReader, markdownProcessor, ftpsClient, blogMetaProcessor, blogMetaRepository);
 
             var sut = new WebhookActionBuilder(actionBuilder);
             var webhookData = new WebhookData

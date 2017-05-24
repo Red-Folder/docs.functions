@@ -11,9 +11,9 @@ namespace DocFunctions.Lib.Integration.Clients
         [Trait("Category", "Integration")]
         public void UploadFile()
         {
-            var host = ConfigurationManager.AppSettings["ftps-host-for-html"];
-            var username = ConfigurationManager.AppSettings["ftps-username-for-html"];
-            var password = ConfigurationManager.AppSettings["ftps-password-for-html"];
+            var host = ConfigurationManager.AppSettings["ftps-host"];
+            var username = ConfigurationManager.AppSettings["ftps-username"];
+            var password = ConfigurationManager.AppSettings["ftps-password"];
 
             var filename = $"/site/contentroot/test-{DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss")}.html";
             var contents = "<html><body>Hello World</body></html>";
@@ -27,9 +27,9 @@ namespace DocFunctions.Lib.Integration.Clients
         [Trait("Category", "Integration")]
         public void UploadImage()
         {
-            var host = ConfigurationManager.AppSettings["ftps-host-for-image"];
-            var username = ConfigurationManager.AppSettings["ftps-username-for-image"];
-            var password = ConfigurationManager.AppSettings["ftps-password-for-image"];
+            var host = ConfigurationManager.AppSettings["ftps-host"];
+            var username = ConfigurationManager.AppSettings["ftps-username"];
+            var password = ConfigurationManager.AppSettings["ftps-password"];
 
             var filename = $"/site/mediaroot/test-{DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss")}.jpg";
 
