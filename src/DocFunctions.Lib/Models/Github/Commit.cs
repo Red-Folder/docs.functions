@@ -11,5 +11,8 @@ namespace DocFunctions.Lib.Models.Github
     {
         [DataMember(Name = "added")]
         public string[] Added;
+
+        [DataMember(Name = "removed")]
+        public string[] Removed;
     }
 }

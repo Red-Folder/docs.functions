@@ -17,7 +17,22 @@ namespace DocFunctions.Lib.Unit
             var model = JsonConvert.DeserializeObject<WebhookData>(_rawJson);
 
             Assert.Equal(1, model.Commits.Length);
+        }
+
+        [Fact]
+        public void CanDeSerialiseToModelAndGetAdds()
+        {
+            var model = JsonConvert.DeserializeObject<WebhookData>(_rawJson);
+
             Assert.Equal(3, model.Commits[0].Added.Length);
+        }
+
+        [Fact]
+        public void CanDeSerialiseToModelAndGetRemoves()
+        {
+            var model = JsonConvert.DeserializeObject<WebhookData>(_rawJson);
+
+            Assert.Equal(2, model.Commits[0].Removed.Length);
         }
 
         private const string _rawJson = @"
@@ -49,7 +64,7 @@ namespace DocFunctions.Lib.Unit
 				            ""username"": ""Red-Folder""
 			            },
 			            ""added"": [""2017-04-10-20-27-54/Image.jpg"", ""2017-04-10-20-27-54/blog.json"", ""2017-04-10-20-27-54/blog.md""],
-			            ""removed"": [],
+			            ""removed"": [""2017-04-10-20-27-54/Image.jpg"", ""2017-04-10-20-27-54/blog.json""],
 			            ""modified"": []
 		            }
 	            ],
