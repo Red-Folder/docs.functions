@@ -43,13 +43,14 @@ namespace DocFunctions.Lib.Integration
                 {
                     new Commit
                     {
-                        //TODO
-                        //Added = new string[3]
-                        //{
-                        //    "2017-04-10-20-27-54/blog.json",
-                        //    "2017-04-10-20-27-54/blog.md",
-                        //    "2017-04-10-20-27-54/Image.jpg"
-                        //}
+                        Added = new List<Added>
+                        {
+                            new Added { FullFilename = "2017-04-10-20-27-54/blog.json", CommitSha = "e74f8255d4c8bc010101ec978efb6ee8d6007b44", CommitShaForRead = "e74f8255d4c8bc010101ec978efb6ee8d6007b44" },
+                            new Added { FullFilename = "2017-04-10-20-27-54/blog.md", CommitSha = "e74f8255d4c8bc010101ec978efb6ee8d6007b44", CommitShaForRead = "e74f8255d4c8bc010101ec978efb6ee8d6007b44" },
+                            new Added { FullFilename = "2017-04-10-20-27-54/Image.jpg", CommitSha = "e74f8255d4c8bc010101ec978efb6ee8d6007b44", CommitShaForRead = "e74f8255d4c8bc010101ec978efb6ee8d6007b44" }
+                        },
+
+                        Removed = new List<Removed>()
                     }
                 }
             };
