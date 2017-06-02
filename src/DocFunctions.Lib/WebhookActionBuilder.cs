@@ -25,11 +25,12 @@ namespace DocFunctions.Lib
             {
                 _actionBuilder.Clear();
 
-                GetNewBlogs(commit).ForEach(x => _actionBuilder.NewBlog(x));
-                GetDeletedBlogs(commit).ForEach(x => _actionBuilder.DeleteBlog(x));
+                //TODO
+                //GetNewBlogs(commit).ForEach(x => _actionBuilder.NewBlog(x));
+                //GetDeletedBlogs(commit).ForEach(x => _actionBuilder.DeleteBlog(x));
 
-                GetNewImages(commit).ForEach(x => _actionBuilder.NewImage(x.Item1, x.Item2));
-                GetDeletedImages(commit).ForEach(x => _actionBuilder.DeleteImage(x.Item1, x.Item2));
+                //GetNewImages(commit).ForEach(x => _actionBuilder.NewImage(x.Item1, x.Item2));
+                //GetDeletedImages(commit).ForEach(x => _actionBuilder.DeleteImage(x.Item1, x.Item2));
 
                 var actions = _actionBuilder.Build();
                 Execute(actions);   
@@ -41,7 +42,8 @@ namespace DocFunctions.Lib
             var filesList = new List<Tuple<string, string>>();
             foreach (var added in commit.Added)
             {
-                filesList.Add(new Tuple<string, string>(added.Split('/')[0], added.Split('/')[1]));
+                // TODO
+                //filesList.Add(new Tuple<string, string>(added.Split('/')[0], added.Split('/')[1]));
             }
             var newBlogs = filesList
                                 .Where(x => x.Item2.ToLower().EndsWith(".md") || x.Item2.ToLower().EndsWith(".json"))
@@ -56,7 +58,8 @@ namespace DocFunctions.Lib
             var filesList = new List<Tuple<string, string>>();
             foreach (var added in commit.Added)
             {
-                filesList.Add(new Tuple<string, string>(added.Split('/')[0], added.Split('/')[1]));
+                //TODO
+                //filesList.Add(new Tuple<string, string>(added.Split('/')[0], added.Split('/')[1]));
             }
             var newImages = filesList
                                 .Where(x => x.Item2.ToLower().EndsWith(".png") || x.Item2.ToLower().EndsWith(".jpg") || x.Item2.ToLower().EndsWith(".gif"))
@@ -70,7 +73,8 @@ namespace DocFunctions.Lib
             var filesList = new List<Tuple<string, string>>();
             foreach (var added in commit.Removed)
             {
-                filesList.Add(new Tuple<string, string>(added.Split('/')[0], added.Split('/')[1]));
+                // TODO
+                //filesList.Add(new Tuple<string, string>(added.Split('/')[0], added.Split('/')[1]));
             }
             var deletedBlogs = filesList
                                 .Where(x => x.Item2.ToLower().EndsWith(".md") || x.Item2.ToLower().EndsWith(".json"))
@@ -85,7 +89,8 @@ namespace DocFunctions.Lib
             var filesList = new List<Tuple<string, string>>();
             foreach (var added in commit.Removed)
             {
-                filesList.Add(new Tuple<string, string>(added.Split('/')[0], added.Split('/')[1]));
+                // TODO
+                //filesList.Add(new Tuple<string, string>(added.Split('/')[0], added.Split('/')[1]));
             }
             var deletedImages = filesList
                                 .Where(x => x.Item2.ToLower().EndsWith(".png") || x.Item2.ToLower().EndsWith(".jpg") || x.Item2.ToLower().EndsWith(".gif"))

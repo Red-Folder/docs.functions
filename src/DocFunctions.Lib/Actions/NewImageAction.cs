@@ -1,4 +1,5 @@
-﻿using DocFunctions.Lib.Wappers;
+﻿using DocFunctions.Lib.Models.Github;
+using DocFunctions.Lib.Wappers;
 using docsFunctions.Shared.Models;
 using System;
 using System.Collections.Generic;
@@ -10,29 +11,25 @@ namespace DocFunctions.Lib.Actions
 {
     public class NewImageAction : IAction
     {
-        private string _blogPath;
-        private string _imageName;
+        private Added _data;
         private IGithubReader _githubReader;
         private IFtpsClient _ftpsClient;
         private IBlogMetaProcessor _blogMetaReader;
 
 
 
-        public NewImageAction(string blogPath,
-                                string imageName,
+        public NewImageAction(Added data,
                                 IGithubReader githubReader,
                                 IFtpsClient ftpsClient,
                                 IBlogMetaProcessor blogMetaReader)
         {
-            if (blogPath == null) throw new ArgumentNullException("blogPath");
-            if (imageName == null) throw new ArgumentNullException("imageName");
+            if (data == null) throw new ArgumentNullException("data");
             if (githubReader == null) throw new ArgumentNullException("githubReader");
             if (ftpsClient == null) throw new ArgumentNullException("ftpsClient");
             if (blogMetaReader == null) throw new ArgumentNullException("blogMetaReader");
 
 
-            _blogPath = blogPath;
-            _imageName = imageName;
+            _data = data;
             _githubReader = githubReader;
             _ftpsClient = ftpsClient;
             _blogMetaReader = blogMetaReader;
@@ -49,7 +46,7 @@ namespace DocFunctions.Lib.Actions
 
         private string GetMetaJsonFromGithub()
         {
-            return _githubReader.GetRawFile(_blogPath + "/blog.json");
+            return _githubReader.GetRawFile(_data.Path + "/blog.json", _data.CommitShaForRead);
         }
 
         private Blog GetMetaFromMetaJson(string blogMetaJson)
@@ -59,12 +56,12 @@ namespace DocFunctions.Lib.Actions
 
         private byte[] GetImageFromGithub()
         {
-            return _githubReader.GetRawImageFile($"{_blogPath}/{_imageName}");
+            return _githubReader.GetRawImageFile($"{_data.FullFilename}", _data.CommitShaForRead);
         }
 
         private void UploadImage(Blog blogMeta, byte[] image)
         {
-            _ftpsClient.Upload($"/site/mediaroot/blog/{blogMeta.Url}/{_imageName}", image);
+            _ftpsClient.Upload($"/site/mediaroot/blog/{blogMeta.Url}/{_data.Filename}", image);
         }
     }
 }

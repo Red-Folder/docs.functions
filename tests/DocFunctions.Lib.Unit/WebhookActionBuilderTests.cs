@@ -1,4 +1,5 @@
 ﻿using DocFunctions.Lib.Builders;
+using DocFunctions.Lib.Models.Github;
 using DocFunctions.Lib.Unit.Builders;
 using Moq;
 using System;
@@ -24,8 +25,8 @@ namespace DocFunctions.Lib.Unit
             sut.Process(webhookData);
 
             // Assert
-            actionBuilder.Verify(m => m.NewBlog(It.IsAny<string>()));
-            actionBuilder.Verify(m => m.Build());
+            actionBuilder.Verify(m => m.NewBlog(It.IsAny<Added>()), Times.Once);
+            actionBuilder.Verify(m => m.Build(), Times.Once);
         }
 
         [Fact]
@@ -40,8 +41,8 @@ namespace DocFunctions.Lib.Unit
             sut.Process(webhookData);
 
             // Assert
-            actionBuilder.Verify(m => m.NewImage(It.IsAny<string>(), It.IsAny<string>()));
-            actionBuilder.Verify(m => m.Build());
+            actionBuilder.Verify(m => m.NewImage(It.IsAny<Added>()), Times.Once);
+            actionBuilder.Verify(m => m.Build(), Times.Once);
         }
 
         [Fact]
@@ -56,7 +57,7 @@ namespace DocFunctions.Lib.Unit
             sut.Process(webhookData);
 
             // Assert
-            actionBuilder.Verify(m => m.DeleteBlog(It.IsAny<string>()));
+            actionBuilder.Verify(m => m.DeleteBlog(It.IsAny<Removed>()), Times.Once);
             actionBuilder.Verify(m => m.Build());
         }
 
@@ -72,7 +73,7 @@ namespace DocFunctions.Lib.Unit
             sut.Process(webhookData);
 
             // Assert
-            actionBuilder.Verify(m => m.DeleteImage(It.IsAny<string>(), It.IsAny<string>()));
+            actionBuilder.Verify(m => m.DeleteImage(It.IsAny<Removed>()), Times.Once);
             actionBuilder.Verify(m => m.Build());
         }
     }

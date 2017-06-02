@@ -25,18 +25,18 @@ namespace DocFunctions.Lib.Clients
             _repo = repo;
         }
 
-        public string GetRawFile(string path)
+        public string GetRawFile(string path, string commitSha)
         {
             var client = GetClient();
 
-            return GetContents(client, path).Content;
+            return GetContents(client, path, commitSha).Content;
         }
 
-        public byte[] GetRawImageFile(string path)
+        public byte[] GetRawImageFile(string path, string commitSha)
         {
             var client = GetClient();
 
-            var encodedContent = GetContents(client, path).EncodedContent;
+            var encodedContent = GetContents(client, path, commitSha).EncodedContent;
 
             // Convert Base64 String to byte[]
             return Convert.FromBase64String(encodedContent);
@@ -52,9 +52,9 @@ namespace DocFunctions.Lib.Clients
             return new Octokit.GitHubClient(connection);
         }
 
-        private RepositoryContent GetContents(Octokit.GitHubClient client, string path)
+        private RepositoryContent GetContents(Octokit.GitHubClient client, string path, string commitSha)
         {
-            var contents = client.Repository.Content.GetAllContents("red-folder", "red-folder.docs.staging", path).Result;
+            var contents = client.Repository.Content.GetAllContentsByRef("red-folder", "red-folder.docs.staging", path, commitSha).Result;
 
             return contents.First();
         }

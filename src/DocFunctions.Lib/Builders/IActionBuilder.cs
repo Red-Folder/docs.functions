@@ -1,4 +1,5 @@
 ﻿using DocFunctions.Lib.Actions;
+using DocFunctions.Lib.Models.Github;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +10,11 @@ namespace DocFunctions.Lib.Builders
 {
     public interface IActionBuilder
     {
-        IActionBuilder NewBlog(string blogPath);
-        IActionBuilder DeleteBlog(string blogPath);
+        IActionBuilder NewBlog(Added added);
+        IActionBuilder DeleteBlog(Removed removed);
 
-        IActionBuilder NewImage(string blogPath, string image);
-        IActionBuilder DeleteImage(string blogPath, string image);
+        IActionBuilder NewImage(Added added);
+        IActionBuilder DeleteImage(Removed removed);
 
         IAction[] Build();
 

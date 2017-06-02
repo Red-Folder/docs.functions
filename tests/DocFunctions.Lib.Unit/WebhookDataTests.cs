@@ -14,15 +14,15 @@ namespace DocFunctions.Lib.Unit
         [Fact]
         public void CanDeSerialiseToModel()
         {
-            var model = JsonConvert.DeserializeObject<WebhookData>(_rawJson);
+            var model = JsonConvert.DeserializeObject<Models.Github.Raw.WebhookData>(_rawJson);
 
-            Assert.Equal(1, model.Commits.Length);
+            Assert.Equal(2, model.Commits.Length);
         }
 
         [Fact]
         public void CanDeSerialiseToModelAndGetAdds()
         {
-            var model = JsonConvert.DeserializeObject<WebhookData>(_rawJson);
+            var model = JsonConvert.DeserializeObject<Models.Github.Raw.WebhookData>(_rawJson);
 
             Assert.Equal(3, model.Commits[0].Added.Length);
         }
@@ -30,9 +30,129 @@ namespace DocFunctions.Lib.Unit
         [Fact]
         public void CanDeSerialiseToModelAndGetRemoves()
         {
-            var model = JsonConvert.DeserializeObject<WebhookData>(_rawJson);
+            var model = JsonConvert.DeserializeObject<Models.Github.Raw.WebhookData>(_rawJson);
 
             Assert.Equal(2, model.Commits[0].Removed.Length);
+        }
+
+        [Fact]
+        public void CanGetPathForFirstCommitFirstAdd()
+        {
+            var model = WebhookData.Deserialize(_rawJson);
+
+            Assert.Equal("2017-04-10-20-27-54/", model.Commits[0].Added[0].Path);
+        }
+
+        [Fact]
+        public void CanGetFullFilenameForFirstCommitFirstAdd()
+        {
+            var model = WebhookData.Deserialize(_rawJson);
+
+            Assert.Equal("2017-04-10-20-27-54/Image.jpg", model.Commits[0].Added[0].FullFilename);
+        }
+
+        [Fact]
+        public void CanGetFilenameForFirstCommitFirstAdd()
+        {
+            var model = WebhookData.Deserialize(_rawJson);
+
+            Assert.Equal("Image.jpg", model.Commits[0].Added[0].Filename);
+        }
+
+        [Fact]
+        public void CanGetShaForReadForFirstCommitFirstAdd()
+        {
+            var model = WebhookData.Deserialize(_rawJson);
+
+            Assert.Equal("e74f8255d4c8bc010101ec978exxxxxxxxx", model.Commits[0].Added[0].CommitShaForRead);
+        }
+
+        [Fact]
+        public void CanGetShaForReadForFirstCommitFirstRemove()
+        {
+            var model = WebhookData.Deserialize(_rawJson);
+
+            Assert.Equal("276d28cc847fcf5b2df23af24b757670284fb38e", model.Commits[0].Removed[0].CommitShaForRead);
+        }
+
+        [Fact]
+        public void CanGetShaForReadForSecondCommitSecondAdd()
+        {
+            var model = WebhookData.Deserialize(_rawJson);
+
+            Assert.Equal("e74f8255d4c8bc010101ec978efb6ee8d6007b44", model.Commits[1].Added[1].CommitShaForRead);
+        }
+
+        [Fact]
+        public void CanGetShaForReadForSecondCommitSecondRemove()
+        {
+            var model = WebhookData.Deserialize(_rawJson);
+
+            Assert.Equal("e74f8255d4c8bc010101ec978exxxxxxxxx", model.Commits[1].Removed[1].CommitShaForRead);
+        }
+
+        [Fact]
+        public void CanGetShaForFirstCommitFirstAdd()
+        {
+            var model = WebhookData.Deserialize(_rawJson);
+
+            Assert.Equal("e74f8255d4c8bc010101ec978exxxxxxxxx", model.Commits[0].Added[0].CommitSha);
+        }
+
+        [Fact]
+        public void CanGetShaForFirstCommitFirstRemove()
+        {
+            var model = WebhookData.Deserialize(_rawJson);
+
+            Assert.Equal("e74f8255d4c8bc010101ec978exxxxxxxxx", model.Commits[0].Removed[0].CommitSha);
+        }
+
+        [Fact]
+        public void CanGetShaForSecondCommitSecondAdd()
+        {
+            var model = WebhookData.Deserialize(_rawJson);
+
+            Assert.Equal("e74f8255d4c8bc010101ec978efb6ee8d6007b44", model.Commits[1].Added[1].CommitSha);
+        }
+
+        [Fact]
+        public void CanGetShaForSecondCommitSecondRemove()
+        {
+            var model = WebhookData.Deserialize(_rawJson);
+
+            Assert.Equal("e74f8255d4c8bc010101ec978efb6ee8d6007b44", model.Commits[1].Removed[1].CommitSha);
+        }
+
+        [Fact]
+        public void FirstCommitFirstAddedIsImage()
+        {
+            var model = WebhookData.Deserialize(_rawJson);
+
+            Assert.True(model.Commits[0].Added[0].IsImageFile);
+        }
+
+        [Fact]
+        public void FirstCommitFirstAddedIsNotBlog()
+        {
+            var model = WebhookData.Deserialize(_rawJson);
+
+            Assert.False(model.Commits[0].Added[0].IsBlogFile);
+        }
+
+        [Fact]
+        public void SecondCommitSecondRemovedIsNotImage()
+        {
+            var model = WebhookData.Deserialize(_rawJson);
+
+            Assert.False(model.Commits[1].Removed[1].IsImageFile);
+        }
+
+        [Fact]
+        public void SecondCommitSecondRemoveIsBlog()
+        {
+            var model = WebhookData.Deserialize(_rawJson);
+
+            Assert.True(model.Commits[1].Removed[1].IsBlogFile);
         }
 
         private const string _rawJson = @"
@@ -46,7 +166,7 @@ namespace DocFunctions.Lib.Unit
 	            ""base_ref"": null,
 	            ""compare"": ""https://github.com/Red-Folder/red-folder.docs.staging/compare/276d28cc847f...e74f8255d4c8"",
 	            ""commits"": [{
-			            ""id"": ""e74f8255d4c8bc010101ec978efb6ee8d6007b44"",
+			            ""id"": ""e74f8255d4c8bc010101ec978exxxxxxxxx"",
 			            ""tree_id"": ""04ed15e90623b327c996117bb05cb06f8223a55e"",
 			            ""distinct"": true,
 			            ""message"": ""Created test blog 2017-04-10-20-27-54"",
@@ -65,6 +185,28 @@ namespace DocFunctions.Lib.Unit
 			            },
 			            ""added"": [""2017-04-10-20-27-54/Image.jpg"", ""2017-04-10-20-27-54/blog.json"", ""2017-04-10-20-27-54/blog.md""],
 			            ""removed"": [""2017-04-10-20-27-54/Image.jpg"", ""2017-04-10-20-27-54/blog.json""],
+			            ""modified"": []
+		            },
+                    {
+			            ""id"": ""e74f8255d4c8bc010101ec978efb6ee8d6007b44"",
+			            ""tree_id"": ""04ed15e90623b327c996117bb05cb06f8223a55e"",
+			            ""distinct"": true,
+			            ""message"": ""Created test blog 2017-04-11-20-27-54"",
+			            ""timestamp"": ""2017-04-11T19:27:58+00:00"",
+			            ""url"": ""https://github.com/Red-Folder/red-folder.docs.staging/commit/e74f8255d4c8bc010101ec978efb6ee8d6007b44"",
+			            ""author"": {
+				            ""name"": ""Mark Taylor"",
+				            ""email"": ""markbryantaylor@gmail.com"",
+				            ""username"": ""Red-Folder""
+
+                        },
+			            ""committer"": {
+				            ""name"": ""Mark Taylor"",
+				            ""email"": ""markbryantaylor@gmail.com"",
+				            ""username"": ""Red-Folder""
+			            },
+			            ""added"": [""2017-04-11-20-27-54/Image.jpg"", ""2017-04-11-20-27-54/blog.json"", ""2017-04-11-20-27-54/blog.md""],
+			            ""removed"": [""2017-04-11-20-27-54/Image.jpg"", ""2017-04-11-20-27-54/blog.json""],
 			            ""modified"": []
 		            }
 	            ],

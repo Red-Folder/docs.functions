@@ -8,7 +8,7 @@ namespace DocFunctions.Lib.Wappers
 {
     public interface IGithubReader
     {
-        string GetRawFile(string path);
-        byte[] GetRawImageFile(string path);
+        string GetRawFile(string path, string commitSha);
+        byte[] GetRawImageFile(string path, string commitSha);
     }
 }

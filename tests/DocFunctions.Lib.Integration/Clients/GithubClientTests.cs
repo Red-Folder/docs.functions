@@ -16,7 +16,7 @@ namespace DocFunctions.Lib.Integration.Clients
 
             var sut = new GithubClient(username, key, repo);
 
-            var result = sut.GetRawFile("README.md");
+            var result = sut.GetRawFile("README.md", "7fda658689b3869d41475ea7f92f877ba98e4282");
 
             Assert.Contains("A test version of my red-folder.docs repo - used for Staging testing", result);
         }
@@ -31,7 +31,7 @@ namespace DocFunctions.Lib.Integration.Clients
 
             var sut = new GithubClient(username, key, repo);
 
-            var result = sut.GetRawImageFile("2017-05-22-20-32-16/Image.jpg");
+            var result = sut.GetRawImageFile("2017-05-22-20-32-16/Image.jpg", "33fdcbc8edea4462fc4e0789890534270ee29049");
 
             Assert.NotNull(result);
         }

@@ -2,6 +2,7 @@
 using DocFunctions.Lib.Clients;
 using DocFunctions.Lib.Models.Github;
 using DocFunctions.Lib.Processors;
+using System.Collections.Generic;
 using System.Configuration;
 
 using Xunit;
@@ -38,16 +39,17 @@ namespace DocFunctions.Lib.Integration
             var sut = new WebhookActionBuilder(actionBuilder);
             var webhookData = new WebhookData
             {
-                Commits = new Commit[1]
+                Commits = new List<Commit>
                 {
                     new Commit
                     {
-                        Added = new string[3]
-                        {
-                            "2017-04-10-20-27-54/blog.json",
-                            "2017-04-10-20-27-54/blog.md",
-                            "2017-04-10-20-27-54/Image.jpg"
-                        }
+                        //TODO
+                        //Added = new string[3]
+                        //{
+                        //    "2017-04-10-20-27-54/blog.json",
+                        //    "2017-04-10-20-27-54/blog.md",
+                        //    "2017-04-10-20-27-54/Image.jpg"
+                        //}
                     }
                 }
             };

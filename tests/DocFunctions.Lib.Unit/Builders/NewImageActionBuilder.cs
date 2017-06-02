@@ -32,7 +32,8 @@ namespace DocFunctions.Lib.Unit.Builders
             _imageName = imageName;
 
             _mockGithubReader = new Mock<IGithubReader>();
-            _mockGithubReader.Setup(m => m.GetRawFile(It.Is<string>(x => x == "/test folder/blog.json"))).Returns("{}");
+            //TODO
+            //_mockGithubReader.Setup(m => m.GetRawFile(It.Is<string>(x => x == "/test folder/blog.json"))).Returns("{}");
 
             _mockFtpsClient = new Mock<IFtpsClient>();
 
@@ -87,12 +88,14 @@ namespace DocFunctions.Lib.Unit.Builders
 
         public NewImageAction Build()
         {
-            return new NewImageAction(_blogPath,
-                                        _imageName,
-                                        _githubReaderSet ? _githubReader : _mockGithubReader.Object,
-                                        _ftpsClientSet ? _ftpsClient : _mockFtpsClient.Object,
-                                        _blogMetaReaderSet ? _blogMetaReader : _mockBlogMetaReader.Object
-                                     );
+            // TODO
+            //return new NewImageAction(_blogPath,
+            //                            _imageName,
+            //                            _githubReaderSet ? _githubReader : _mockGithubReader.Object,
+            //                            _ftpsClientSet ? _ftpsClient : _mockFtpsClient.Object,
+            //                            _blogMetaReaderSet ? _blogMetaReader : _mockBlogMetaReader.Object
+            //                         );
+            throw new NotImplementedException();
         }
     }
 }

@@ -105,7 +105,12 @@
     <Compile Include="Clients\BlogMetaRepository.cs" />
     <Compile Include="Clients\FtpsClient.cs" />
     <Compile Include="Clients\GithubClient.cs" />
+    <Compile Include="Models\Github\AbstractAction.cs" />
+    <Compile Include="Models\Github\Added.cs" />
     <Compile Include="Models\Github\Commit.cs" />
+    <Compile Include="Models\Github\Raw\Commit.cs" />
+    <Compile Include="Models\Github\Raw\WebhookData.cs" />
+    <Compile Include="Models\Github\Removed.cs" />
     <Compile Include="Models\Github\WebhookData.cs" />
     <Compile Include="Processors\BlogMetaProcessor.cs" />
     <Compile Include="Processors\MarkdownProcessor.cs" />

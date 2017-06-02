@@ -1,4 +1,5 @@
-﻿using DocFunctions.Lib.Wappers;
+﻿using DocFunctions.Lib.Models.Github;
+using DocFunctions.Lib.Wappers;
 using docsFunctions.Shared.Models;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace DocFunctions.Lib.Actions
 {
     public class NewBlogAction : IAction
     {
-        private string _blogPath;
+        private Added _data;
         private IGithubReader _githubReader;
         private IMarkdownProcessor _markdownProcessor;
         private IFtpsClient _ftpsClient;
@@ -18,21 +19,21 @@ namespace DocFunctions.Lib.Actions
         private IBlogMetaRepository _blogMetaRepository;
 
 
-        public NewBlogAction(string blogPath,
+        public NewBlogAction(Added data,
                                 IGithubReader githubReader,
                                 IMarkdownProcessor markdownProcessor,
                                 IFtpsClient ftpsClient,
                                 IBlogMetaProcessor blogMetaReader,
                                 IBlogMetaRepository blogMetaRepository)
         {
-            if (blogPath == null) throw new ArgumentNullException("blogPath");
+            if (data == null) throw new ArgumentNullException("data");
             if (githubReader == null) throw new ArgumentNullException("githubReader");
             if (markdownProcessor == null) throw new ArgumentNullException("markdownProcessor");
             if (ftpsClient == null) throw new ArgumentNullException("ftpsClient");
             if (blogMetaReader == null) throw new ArgumentNullException("blogMetaReader");
             if (blogMetaRepository == null) throw new ArgumentNullException("blogMetaRepository");
 
-            _blogPath = blogPath;
+            _data = data;
             _githubReader = githubReader;
             _markdownProcessor = markdownProcessor;
             _ftpsClient = ftpsClient;
@@ -54,7 +55,7 @@ namespace DocFunctions.Lib.Actions
 
         private string GetMetaJsonFromGithub()
         {
-            return _githubReader.GetRawFile(_blogPath + "/blog.json");
+            return _githubReader.GetRawFile(_data.Path + "/blog.json", _data.CommitShaForRead);
         }
 
         private Blog GetMetaFromMetaJson(string blogMetaJson)
@@ -69,7 +70,7 @@ namespace DocFunctions.Lib.Actions
 
         private string GetMarkdownFromGithub()
         {
-            return _githubReader.GetRawFile(_blogPath + "/blog.md");
+            return _githubReader.GetRawFile(_data.Path + "/blog.md", _data.CommitShaForRead);
         }
 
         private string ConvertRawBlogToMarkup(string blogMarkdown)

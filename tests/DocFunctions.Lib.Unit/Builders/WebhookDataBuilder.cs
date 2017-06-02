@@ -14,21 +14,21 @@ namespace DocFunctions.Lib.Unit.Builders
         {
             return new WebhookData
             {
-                Commits = new Commit[]
+                Commits = new List<Commit>
                 {
                     new Commit
                     {
-                        Added = new string[]
+                        Added = new List<Added>
                         {
-                            "2017-04-10-20-27-54/Image.jpg",
-                            "2017-04-10-20-27-54/blog.json",
-                            "2017-04-10-20-27-54/blog.md"
+                            new Added { FullFilename = "2017-04-10-20-27-54/Image.jpg" },
+                            new Added { FullFilename = "2017-04-10-20-27-54/blog.json" },
+                            new Added { FullFilename = "2017-04-10-20-27-54/blog.md" }
                         },
-                        Removed = new string[]
+                        Removed = new List<Removed>
                         {
-                            "2017-04-10-20-27-54/Image.jpg",
-                            "2017-04-10-20-27-54/blog.json",
-                            "2017-04-10-20-27-54/blog.md"
+                            new Removed { FullFilename = "2017-04-10-20-27-54/Image.jpg" },
+                            new Removed { FullFilename = "2017-04-10-20-27-54/blog.json" },
+                            new Removed { FullFilename = "2017-04-10-20-27-54/blog.md" }
                         }
                    }
                 }

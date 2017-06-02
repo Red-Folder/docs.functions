@@ -1,4 +1,5 @@
 ﻿using DocFunctions.Lib.Actions;
+using DocFunctions.Lib.Models.Github;
 using DocFunctions.Lib.Wappers;
 using System;
 using System.Collections.Generic;
@@ -42,9 +43,9 @@ namespace DocFunctions.Lib.Builders
             return _actions.ToArray();
         }
 
-        public IActionBuilder NewBlog(string blogPath)
+        public IActionBuilder NewBlog(Added added)
         {
-            _actions.Add(new NewBlogAction(blogPath,
+            _actions.Add(new NewBlogAction(added,
                                             _githubReader,
                                             _markdownProcessor,
                                             _ftpsClient,
@@ -54,10 +55,9 @@ namespace DocFunctions.Lib.Builders
             return this;
         }
 
-        public IActionBuilder NewImage(string blogPath, string image)
+        public IActionBuilder NewImage(Added added)
         {
-            _actions.Add(new NewImageAction(blogPath,
-                                                image,
+            _actions.Add(new NewImageAction(added,
                                                 _githubReader,
                                                 _ftpsClient,
                                                 _blogMetaReader));
@@ -71,12 +71,12 @@ namespace DocFunctions.Lib.Builders
             return this;
         }
 
-        public IActionBuilder DeleteBlog(string blogPath)
+        public IActionBuilder DeleteBlog(Removed removed)
         {
             throw new NotImplementedException();
         }
 
-        public IActionBuilder DeleteImage(string blogPath, string image)
+        public IActionBuilder DeleteImage(Removed removed)
         {
             throw new NotImplementedException();
         }
