@@ -66,10 +66,17 @@ namespace DocFunctions.Functions
                 var webhookAction = new WebhookActionBuilder(actionBuilder);
 
                 // Get request body
-                WebhookData data = await req.Content.ReadAsAsync<WebhookData>();
+                logger.Info("Getting rawJson from request");
+                var rawJson = await req.Content.ReadAsAsync<string>();
+                logger.Info($"Received: {rawJson}");
+                logger.Info("Converting to WebhookData");
+                WebhookData data = WebhookData.Deserialize(rawJson);
+                logger.Info($"Converted - received {data.Commits.Count} commits");
 
                 // Act
+                logger.Info("Processing the data");
                 webhookAction.Process(data);
+                logger.Info("Processing complete");
 
                 //logger.Info($"Payload: {JsonConvert.SerializeObject(data)}");
 
