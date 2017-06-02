@@ -69,22 +69,14 @@ namespace DocFunctions.Functions
                 logger.Info("Getting rawJson from request");
                 var rawJson = await req.Content.ReadAsAsync<string>();
                 logger.Info($"Received: {rawJson}");
-                logger.Info("Converting to WebhookData");
-                WebhookData data = WebhookData.Deserialize(rawJson);
-                logger.Info($"Converted - received {data.Commits.Count} commits");
+                //logger.Info("Converting to WebhookData");
+                //WebhookData data = WebhookData.Deserialize(rawJson);
+                //logger.Info($"Converted - received {data.Commits.Count} commits");
 
-                // Act
-                logger.Info("Processing the data");
-                webhookAction.Process(data);
-                logger.Info("Processing complete");
-
-                //logger.Info($"Payload: {JsonConvert.SerializeObject(data)}");
-
-                // Extract github comment from request body
-                //foreach (var commit in data.commits)
-                //{
-                //    logger.Info($"Have commit: {commit.sha}");
-                //}
+                //// Act
+                //logger.Info("Processing the data");
+                //webhookAction.Process(data);
+                //logger.Info("Processing complete");
 
                 logger.EndOperation(loggerOperation);
                 return req.CreateResponse(HttpStatusCode.OK);
