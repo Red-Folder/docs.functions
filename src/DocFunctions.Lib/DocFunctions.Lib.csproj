@@ -95,6 +95,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Actions\DeleteBlogAction.cs" />
+    <Compile Include="Actions\DeleteImageAction.cs" />
     <Compile Include="Actions\IAction.cs" />
     <Compile Include="Actions\NewBlogAction.cs" />
     <Compile Include="Actions\NewImageAction.cs" />
