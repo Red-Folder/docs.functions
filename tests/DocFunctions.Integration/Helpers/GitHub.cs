@@ -1,6 +1,8 @@
 ﻿using Octokit;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DocFunctions.Integration.Helpers
@@ -31,10 +33,13 @@ namespace DocFunctions.Integration.Helpers
 
             var parent = await GetParent(github);
             var latestCommit = await GetLatestCommit(github, parent.Object.Sha);
+            var latestTree = await GetFullTree(github, latestCommit.Tree.Sha);
+
             var imgBlogRef = await GetImageBlogReference(github, @"Assets\Image.png");
             var metaBlogRef = await GetMetaBlogReference(github, @"Assets\blog.json");
             var mdBlogRef = await GetMarkdownBlogReference(github, @"Assets\blog.md");
-            var newTree = await CreateCommitTree(github, latestCommit, imgBlogRef, metaBlogRef, mdBlogRef);
+
+            var newTree = await CreateCommitTree(github, latestTree, imgBlogRef, metaBlogRef, mdBlogRef);
             var commit = await CreateCommit(github, newTree.Sha, parent.Object.Sha);
 
             await AttachCommitToParent(github, commit.Sha);
@@ -60,6 +65,11 @@ namespace DocFunctions.Integration.Helpers
             return github.Git.Commit.Get(_username, _repo, parentSha);
         }
 
+        private Task<TreeResponse> GetFullTree(Octokit.GitHubClient github, string treeSha)
+        {
+            return github.Git.Tree.GetRecursive(_username, _repo, treeSha);
+        }
+
         private Task<BlobReference> GetImageBlogReference(Octokit.GitHubClient github, string filename)
         {
             var imgBase64 = Convert.ToBase64String(File.ReadAllBytes(filename));
@@ -83,16 +93,15 @@ namespace DocFunctions.Integration.Helpers
             return github.Git.Blob.Create(_username, _repo, mdBlob);
         }
 
-        private Task<TreeResponse> CreateCommitTree(Octokit.GitHubClient github, Commit latestCommit, BlobReference imgBlobRef, BlobReference metaBlobRef, BlobReference mdBlobRef)
+        private Task<TreeResponse> CreateCommitTree(Octokit.GitHubClient github, TreeResponse currentTree, BlobReference imgBlobRef, BlobReference metaBlobRef, BlobReference mdBlobRef)
         {
-            var nt = new NewTree { BaseTree = latestCommit.Tree.Sha };
-            
-            // Add items based on blobs
-            nt.Tree.Add(new NewTreeItem { Path = $"{_blogname}/Image.png", Mode = "100644", Type = TreeType.Blob, Sha = imgBlobRef.Sha });
-            nt.Tree.Add(new NewTreeItem { Path = $"{_blogname}/blog.json", Mode = "100644", Type = TreeType.Blob, Sha = metaBlobRef.Sha });
-            nt.Tree.Add(new NewTreeItem { Path = $"{_blogname}/blog.md", Mode = "100644", Type = TreeType.Blob, Sha = mdBlobRef.Sha });
 
-            return github.Git.Tree.Create(_username, _repo, nt);
+            var newTree = CloneTree(currentTree);
+            newTree.Tree.Add(new NewTreeItem { Path = $"{_blogname}/Image.png", Mode = "100644", Type = TreeType.Blob, Sha = imgBlobRef.Sha });
+            newTree.Tree.Add(new NewTreeItem { Path = $"{_blogname}/blog.json", Mode = "100644", Type = TreeType.Blob, Sha = metaBlobRef.Sha });
+            newTree.Tree.Add(new NewTreeItem { Path = $"{_blogname}/blog.md", Mode = "100644", Type = TreeType.Blob, Sha = mdBlobRef.Sha });
+
+            return github.Git.Tree.Create(_username, _repo, newTree);
         }
 
         private Task<Commit> CreateCommit(Octokit.GitHubClient github, string newTreeSha, string parentSha)
@@ -104,6 +113,23 @@ namespace DocFunctions.Integration.Helpers
         private Task<Reference> AttachCommitToParent(Octokit.GitHubClient github, string commitSha)
         {
             return github.Git.Reference.Update(_username, _repo, "heads/master", new ReferenceUpdate(commitSha));
+        }
+
+        private NewTree CloneTree(TreeResponse original)
+        {
+            var newTree = new NewTree();
+            original.Tree
+                        .Where(x => x.Type != TreeType.Tree)
+                        .Select(x => new NewTreeItem
+                        {
+                            Path = x.Path,
+                            Mode = x.Mode,
+                            Type = x.Type,
+                            Sha = x.Sha
+                        })
+                        .ToList()
+                        .ForEach(x => newTree.Tree.Add(x));
+            return newTree;
         }
     }
 }
