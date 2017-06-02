@@ -23,6 +23,12 @@ namespace DocFunctions.Lib.Unit.Builders
                             "2017-04-10-20-27-54/Image.jpg",
                             "2017-04-10-20-27-54/blog.json",
                             "2017-04-10-20-27-54/blog.md"
+                        },
+                        Removed = new string[]
+                        {
+                            "2017-04-10-20-27-54/Image.jpg",
+                            "2017-04-10-20-27-54/blog.json",
+                            "2017-04-10-20-27-54/blog.md"
                         }
                    }
                 }

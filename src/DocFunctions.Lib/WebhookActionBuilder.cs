@@ -24,8 +24,13 @@ namespace DocFunctions.Lib
             foreach (var commit in data.Commits)
             {
                 _actionBuilder.Clear();
+
                 GetNewBlogs(commit).ForEach(x => _actionBuilder.NewBlog(x));
+                GetDeletedBlogs(commit).ForEach(x => _actionBuilder.DeleteBlog(x));
+
                 GetNewImages(commit).ForEach(x => _actionBuilder.NewImage(x.Item1, x.Item2));
+                GetDeletedImages(commit).ForEach(x => _actionBuilder.DeleteImage(x.Item1, x.Item2));
+
                 var actions = _actionBuilder.Build();
                 Execute(actions);   
             }
@@ -58,6 +63,35 @@ namespace DocFunctions.Lib
                                 .Distinct();
 
             return newImages.ToList();
+        }
+
+        private List<string> GetDeletedBlogs(Commit commit)
+        {
+            var filesList = new List<Tuple<string, string>>();
+            foreach (var added in commit.Removed)
+            {
+                filesList.Add(new Tuple<string, string>(added.Split('/')[0], added.Split('/')[1]));
+            }
+            var deletedBlogs = filesList
+                                .Where(x => x.Item2.ToLower().EndsWith(".md") || x.Item2.ToLower().EndsWith(".json"))
+                                .Select(x => x.Item1)
+                                .Distinct();
+
+            return deletedBlogs.ToList();
+        }
+
+        private List<Tuple<string, string>> GetDeletedImages(Commit commit)
+        {
+            var filesList = new List<Tuple<string, string>>();
+            foreach (var added in commit.Removed)
+            {
+                filesList.Add(new Tuple<string, string>(added.Split('/')[0], added.Split('/')[1]));
+            }
+            var deletedImages = filesList
+                                .Where(x => x.Item2.ToLower().EndsWith(".png") || x.Item2.ToLower().EndsWith(".jpg") || x.Item2.ToLower().EndsWith(".gif"))
+                                .Distinct();
+
+            return deletedImages.ToList();
         }
 
         private void Execute(IAction[] actions)

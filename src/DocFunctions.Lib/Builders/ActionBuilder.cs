@@ -70,5 +70,15 @@ namespace DocFunctions.Lib.Builders
 
             return this;
         }
+
+        public IActionBuilder DeleteBlog(string blogPath)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IActionBuilder DeleteImage(string blogPath, string image)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

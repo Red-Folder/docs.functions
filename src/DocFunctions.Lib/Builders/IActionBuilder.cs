@@ -10,8 +10,10 @@ namespace DocFunctions.Lib.Builders
     public interface IActionBuilder
     {
         IActionBuilder NewBlog(string blogPath);
+        IActionBuilder DeleteBlog(string blogPath);
 
         IActionBuilder NewImage(string blogPath, string image);
+        IActionBuilder DeleteImage(string blogPath, string image);
 
         IAction[] Build();
 
