@@ -12,18 +12,10 @@ namespace DocFunctions.Lib.Unit.Actions
     public class NewImageActionTests
     {
         [Fact]
-        public void ConstructorThrowsErrorOnNullPath()
+        public void ConstructorThrowsErrorOnNullAdded()
         {
             // Arrange
-            var builder = new NewImageActionBuilder(null, "image.png");
-            Assert.Throws<ArgumentNullException>(() => builder.Build());
-        }
-
-        [Fact]
-        public void ConstructorThrowsErrorOnNullImageName()
-        {
-            // Arrange
-            var builder = new NewImageActionBuilder("/test folder", null);
+            var builder = new NewImageActionBuilder(null);
             Assert.Throws<ArgumentNullException>(() => builder.Build());
         }
 
@@ -31,7 +23,7 @@ namespace DocFunctions.Lib.Unit.Actions
         public void ConstructorThrowsErrorOnNullGithubReader()
         {
             // Arrange
-            var builder = new NewImageActionBuilder("/test folder", "image.png");
+            var builder = new NewImageActionBuilder(new Models.Github.Added());
             builder.SetGithubReader(null);
             Assert.Throws<ArgumentNullException>(() => builder.Build());
         }
@@ -40,7 +32,7 @@ namespace DocFunctions.Lib.Unit.Actions
         public void ConstructorThrowsErrorOnNullFtpsClient()
         {
             // Arrange
-            var builder = new NewImageActionBuilder("/test folder", "image.png");
+            var builder = new NewImageActionBuilder(new Models.Github.Added());
             builder.SetFtpsClient(null);
             Assert.Throws<ArgumentNullException>(() => builder.Build());
         }
@@ -49,7 +41,7 @@ namespace DocFunctions.Lib.Unit.Actions
         public void ConstructorThrowsErrorOnNullBlogMetaReader()
         {
             // Arrange
-            var builder = new NewImageActionBuilder("/test folder", "image.png");
+            var builder = new NewImageActionBuilder(new Models.Github.Added());
             builder.SetBlogMetaProcessor(null);
             Assert.Throws<ArgumentNullException>(() => builder.Build());
         }
@@ -58,37 +50,35 @@ namespace DocFunctions.Lib.Unit.Actions
         public void ExecutesGithubGetForImages()
         {
             // Arrange
-            var builder = new NewImageActionBuilder("/test folder", "image.png");
+            var builder = new NewImageActionBuilder(new Models.Github.Added { FullFilename = @"/test folder/image.png", CommitShaForRead = "commit-sha-xxxx" });
             var sut = builder.Build();
 
             // Act
             sut.Execute();
 
             // Assert
-            // TODO
-            //builder.MockGithubReader.Verify(m => m.GetRawImageFile(It.Is<string>(x => x == "/test folder/image.png")));
+            builder.MockGithubReader.Verify(m => m.GetRawImageFile(It.Is<string>(x => x == "/test folder/image.png"), It.Is<string>(x => x == "commit-sha-xxxx")));
         }
 
         [Fact]
         public void ExecutesGithubGetForRawBlogMeta()
         {
             // Arrange
-            var builder = new NewImageActionBuilder("/test folder", "image.png");
+            var builder = new NewImageActionBuilder(new Models.Github.Added { FullFilename = @"/test folder/image.png", CommitShaForRead = "commit-sha-xxxx" });
             var sut = builder.Build();
 
             // Act
             sut.Execute();
 
             // Assert
-            // TODO
-            //builder.MockGithubReader.Verify(m => m.GetRawFile(It.Is<string>(x => x == "/test folder/blog.json")));
+            builder.MockGithubReader.Verify(m => m.GetRawFile(It.Is<string>(x => x == "/test folder/blog.json"), It.Is<string>(x => x == "commit-sha-xxxx")));
         }
 
         [Fact]
         public void ExecutesBlogMetaReaderOnRawBlogMeta()
         {
             // Arrange
-            var builder = new NewImageActionBuilder("/test folder", "image.png");
+            var builder = new NewImageActionBuilder(new Models.Github.Added { FullFilename = @"/test folder/image.png", CommitShaForRead = "commit-sha-xxxx" });
             var sut = builder.Build();
 
             // Act

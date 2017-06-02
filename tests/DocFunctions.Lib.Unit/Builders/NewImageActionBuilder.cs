@@ -1,4 +1,5 @@
 ﻿using DocFunctions.Lib.Actions;
+using DocFunctions.Lib.Models.Github;
 using DocFunctions.Lib.Wappers;
 using docsFunctions.Shared.Models;
 using Moq;
@@ -12,9 +13,7 @@ namespace DocFunctions.Lib.Unit.Builders
 {
     public class NewImageActionBuilder
     {
-        private string _blogPath;
-        private string _imageName;
-
+        private Added _added;
         private Mock<IGithubReader> _mockGithubReader;
         private Mock<IFtpsClient> _mockFtpsClient;
         private Mock<IBlogMetaProcessor> _mockBlogMetaReader;
@@ -26,14 +25,12 @@ namespace DocFunctions.Lib.Unit.Builders
         private bool _blogMetaReaderSet = false;
         private IBlogMetaProcessor _blogMetaReader;
 
-        public NewImageActionBuilder(string blogPath, string imageName)
+        public NewImageActionBuilder(Added added)
         {
-            _blogPath = blogPath;
-            _imageName = imageName;
+            _added = added;
 
             _mockGithubReader = new Mock<IGithubReader>();
-            //TODO
-            //_mockGithubReader.Setup(m => m.GetRawFile(It.Is<string>(x => x == "/test folder/blog.json"))).Returns("{}");
+            _mockGithubReader.Setup(m => m.GetRawFile(It.Is<string>(x => x == "/test folder/blog.json"), It.Is<string>(x => x == "commit-sha-xxxx"))).Returns("{}");
 
             _mockFtpsClient = new Mock<IFtpsClient>();
 
@@ -88,13 +85,11 @@ namespace DocFunctions.Lib.Unit.Builders
 
         public NewImageAction Build()
         {
-            // TODO
-            //return new NewImageAction(_blogPath,
-            //                            _imageName,
-            //                            _githubReaderSet ? _githubReader : _mockGithubReader.Object,
-            //                            _ftpsClientSet ? _ftpsClient : _mockFtpsClient.Object,
-            //                            _blogMetaReaderSet ? _blogMetaReader : _mockBlogMetaReader.Object
-            //                         );
+            return new NewImageAction(_added,
+                                        _githubReaderSet ? _githubReader : _mockGithubReader.Object,
+                                        _ftpsClientSet ? _ftpsClient : _mockFtpsClient.Object,
+                                        _blogMetaReaderSet ? _blogMetaReader : _mockBlogMetaReader.Object
+                                     );
             throw new NotImplementedException();
         }
     }

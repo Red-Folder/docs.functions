@@ -16,7 +16,14 @@ namespace DocFunctions.Lib.Models.Github
         {
             get
             {
-                return FullFilename.Replace(Filename,"");
+                if (FullFilename.Contains("/"))
+                {
+                    return FullFilename.Replace("/" + Filename, "");
+                }
+                else
+                {
+                    return FullFilename.Replace(Filename, "");
+                }
             }
         }
 

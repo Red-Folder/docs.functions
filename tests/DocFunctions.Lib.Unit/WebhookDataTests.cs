@@ -40,7 +40,7 @@ namespace DocFunctions.Lib.Unit
         {
             var model = WebhookData.Deserialize(_rawJson);
 
-            Assert.Equal("2017-04-10-20-27-54/", model.Commits[0].Added[0].Path);
+            Assert.Equal("2017-04-10-20-27-54", model.Commits[0].Added[0].Path);
         }
 
         [Fact]

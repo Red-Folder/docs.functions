@@ -25,78 +25,51 @@ namespace DocFunctions.Lib
             {
                 _actionBuilder.Clear();
 
-                //TODO
-                //GetNewBlogs(commit).ForEach(x => _actionBuilder.NewBlog(x));
-                //GetDeletedBlogs(commit).ForEach(x => _actionBuilder.DeleteBlog(x));
+                GetNewBlogs(commit).ForEach(x => _actionBuilder.NewBlog(x));
+                GetDeletedBlogs(commit).ForEach(x => _actionBuilder.DeleteBlog(x));
 
-                //GetNewImages(commit).ForEach(x => _actionBuilder.NewImage(x.Item1, x.Item2));
-                //GetDeletedImages(commit).ForEach(x => _actionBuilder.DeleteImage(x.Item1, x.Item2));
+                GetNewImages(commit).ForEach(x => _actionBuilder.NewImage(x));
+                GetDeletedImages(commit).ForEach(x => _actionBuilder.DeleteImage(x));
 
                 var actions = _actionBuilder.Build();
                 Execute(actions);   
             }
         }
 
-        private List<string> GetNewBlogs(Commit commit)
+        private List<Added> GetNewBlogs(Commit commit)
         {
-            var filesList = new List<Tuple<string, string>>();
-            foreach (var added in commit.Added)
-            {
-                // TODO
-                //filesList.Add(new Tuple<string, string>(added.Split('/')[0], added.Split('/')[1]));
-            }
-            var newBlogs = filesList
-                                .Where(x => x.Item2.ToLower().EndsWith(".md") || x.Item2.ToLower().EndsWith(".json"))
-                                .Select(x => x.Item1)
-                                .Distinct();
-
-            return newBlogs.ToList();
+            return commit
+                    .Added
+                    .Where(x => x.IsBlogFile)
+                    .GroupBy(x => x.Path)
+                    .Select(x => x.First())
+                    .ToList();
         }
 
-        private List<Tuple<string, string>> GetNewImages(Commit commit)
+        private List<Added> GetNewImages(Commit commit)
         {
-            var filesList = new List<Tuple<string, string>>();
-            foreach (var added in commit.Added)
-            {
-                //TODO
-                //filesList.Add(new Tuple<string, string>(added.Split('/')[0], added.Split('/')[1]));
-            }
-            var newImages = filesList
-                                .Where(x => x.Item2.ToLower().EndsWith(".png") || x.Item2.ToLower().EndsWith(".jpg") || x.Item2.ToLower().EndsWith(".gif"))
-                                .Distinct();
-
-            return newImages.ToList();
+            return commit
+                    .Added
+                    .Where(x => x.IsImageFile)
+                    .ToList();
         }
 
-        private List<string> GetDeletedBlogs(Commit commit)
+        private List<Removed> GetDeletedBlogs(Commit commit)
         {
-            var filesList = new List<Tuple<string, string>>();
-            foreach (var added in commit.Removed)
-            {
-                // TODO
-                //filesList.Add(new Tuple<string, string>(added.Split('/')[0], added.Split('/')[1]));
-            }
-            var deletedBlogs = filesList
-                                .Where(x => x.Item2.ToLower().EndsWith(".md") || x.Item2.ToLower().EndsWith(".json"))
-                                .Select(x => x.Item1)
-                                .Distinct();
-
-            return deletedBlogs.ToList();
+            return commit
+                    .Removed
+                    .Where(x => x.IsBlogFile)
+                    .GroupBy(x => x.Path)
+                    .Select(x => x.First())
+                    .ToList();
         }
 
-        private List<Tuple<string, string>> GetDeletedImages(Commit commit)
+        private List<Removed> GetDeletedImages(Commit commit)
         {
-            var filesList = new List<Tuple<string, string>>();
-            foreach (var added in commit.Removed)
-            {
-                // TODO
-                //filesList.Add(new Tuple<string, string>(added.Split('/')[0], added.Split('/')[1]));
-            }
-            var deletedImages = filesList
-                                .Where(x => x.Item2.ToLower().EndsWith(".png") || x.Item2.ToLower().EndsWith(".jpg") || x.Item2.ToLower().EndsWith(".gif"))
-                                .Distinct();
-
-            return deletedImages.ToList();
+            return commit
+                    .Removed
+                    .Where(x => x.IsImageFile)
+                    .ToList();
         }
 
         private void Execute(IAction[] actions)

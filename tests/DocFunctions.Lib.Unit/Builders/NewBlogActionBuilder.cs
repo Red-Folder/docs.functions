@@ -1,4 +1,5 @@
 ﻿using DocFunctions.Lib.Actions;
+using DocFunctions.Lib.Models.Github;
 using DocFunctions.Lib.Wappers;
 using docsFunctions.Shared.Models;
 using Moq;
@@ -12,7 +13,7 @@ namespace DocFunctions.Lib.Unit.Builders
 {
     public class NewBlogActionBuilder
     {
-        private string _blogPath;
+        private Added _added;
 
         private Mock<IGithubReader> _mockGithubReader;
         private Mock<IMarkdownProcessor> _mockMarkdownProcessor;
@@ -31,14 +32,13 @@ namespace DocFunctions.Lib.Unit.Builders
         private bool _blogMetaRepositorySet = false;
         private IBlogMetaRepository _blogMetaRepository;
 
-        public NewBlogActionBuilder(string blogPath)
+        public NewBlogActionBuilder(Added added)
         {
-            _blogPath = blogPath;
+            _added = added;
 
             _mockGithubReader = new Mock<IGithubReader>();
-            // TODO
-            //_mockGithubReader.Setup(m => m.GetRawFile(It.Is<string>(x => x == "/test folder/blog.json"))).Returns("{}");
-            //_mockGithubReader.Setup(m => m.GetRawFile(It.Is<string>(x => x == "/test folder/blog.md"))).Returns("## Hello World");
+            _mockGithubReader.Setup(m => m.GetRawFile(It.Is<string>(x => x == "/test folder/blog.json"), It.Is<string>(x => x == "commit-sha-xxxx"))).Returns("{}");
+            _mockGithubReader.Setup(m => m.GetRawFile(It.Is<string>(x => x == "/test folder/blog.md"), It.Is<string>(x => x == "commit-sha-xxxx"))).Returns("## Hello World");
 
             _mockMarkdownProcessor = new Mock<IMarkdownProcessor>();
             _mockMarkdownProcessor.Setup(m => m.Process(It.IsAny<string>())).Returns("<h2>Hello World</h2>");
@@ -128,14 +128,13 @@ namespace DocFunctions.Lib.Unit.Builders
 
         public NewBlogAction Build()
         {
-            //TODO
-            //return new NewBlogAction(_blogPath,
-            //                            _githubReaderSet ? _githubReader : _mockGithubReader.Object,
-            //                            _markdownProcessorSet ? _markdownProcessor : _mockMarkdownProcessor.Object,
-            //                            _ftpsClientSet ? _ftpsClient : _mockFtpsClient.Object,
-            //                            _blogMetaReaderSet ? _blogMetaReader : _mockBlogMetaReader.Object,
-            //                            _blogMetaRepositorySet ? _blogMetaRepository : _mockBlogMetaRepository.Object
-            //                         );
+            return new NewBlogAction(_added,
+                                        _githubReaderSet ? _githubReader : _mockGithubReader.Object,
+                                        _markdownProcessorSet ? _markdownProcessor : _mockMarkdownProcessor.Object,
+                                        _ftpsClientSet ? _ftpsClient : _mockFtpsClient.Object,
+                                        _blogMetaReaderSet ? _blogMetaReader : _mockBlogMetaReader.Object,
+                                        _blogMetaRepositorySet ? _blogMetaRepository : _mockBlogMetaRepository.Object
+                                     );
 
             throw new NotImplementedException();
         }

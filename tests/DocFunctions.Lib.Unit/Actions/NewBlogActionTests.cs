@@ -27,7 +27,7 @@ namespace DocFunctions.Lib.Unit.Actions
         public void ConstructorThrowsErrorOnNullGithubReader()
         {
             // Arrange
-            var builder = new NewBlogActionBuilder("/test folder");
+            var builder = new NewBlogActionBuilder(new Models.Github.Added { FullFilename = "/test folder/blog.md", CommitShaForRead = "commit-sha-xxxx" } );
             builder.SetGithubReader(null);
             Assert.Throws<ArgumentNullException>(() => builder.Build());
         }
@@ -36,7 +36,7 @@ namespace DocFunctions.Lib.Unit.Actions
         public void ConstructorThrowsErrorOnNullMarkdownProcessor()
         {
             // Arrange
-            var builder = new NewBlogActionBuilder("/test folder");
+            var builder = new NewBlogActionBuilder(new Models.Github.Added { FullFilename = "/test folder/blog.md", CommitShaForRead = "commit-sha-xxxx" });
             builder.SetMarkdownProcessor(null);
             Assert.Throws<ArgumentNullException>(() => builder.Build());
         }
@@ -45,7 +45,7 @@ namespace DocFunctions.Lib.Unit.Actions
         public void ConstructorThrowsErrorOnNullFtpsClient()
         {
             // Arrange
-            var builder = new NewBlogActionBuilder("/test folder");
+            var builder = new NewBlogActionBuilder(new Models.Github.Added { FullFilename = "/test folder/blog.md", CommitShaForRead = "commit-sha-xxxx" });
             builder.SetFtpsClient(null);
             Assert.Throws<ArgumentNullException>(() => builder.Build());
         }
@@ -54,7 +54,7 @@ namespace DocFunctions.Lib.Unit.Actions
         public void ConstructorThrowsErrorOnNullBlogMetaReader()
         {
             // Arrange
-            var builder = new NewBlogActionBuilder("/test folder");
+            var builder = new NewBlogActionBuilder(new Models.Github.Added { FullFilename = "/test folder/blog.md", CommitShaForRead = "commit-sha-xxxx" });
             builder.SetBlogMetaProcessor(null);
             Assert.Throws<ArgumentNullException>(() => builder.Build());
         }
@@ -63,7 +63,7 @@ namespace DocFunctions.Lib.Unit.Actions
         public void ConstructorThrowsErrorOnNullBlogMetaRepository()
         {
             // Arrange
-            var builder = new NewBlogActionBuilder("/test folder");
+            var builder = new NewBlogActionBuilder(new Models.Github.Added { FullFilename = "/test folder/blog.md", CommitShaForRead = "commit-sha-xxxx" });
             builder.SetBlogMetaRepository(null);
             Assert.Throws<ArgumentNullException>(() => builder.Build());
         }
@@ -72,22 +72,21 @@ namespace DocFunctions.Lib.Unit.Actions
         public void ExecutesGithubGetForRawBlogText()
         {
             // Arrange
-            var builder = new NewBlogActionBuilder("/test folder");
+            var builder = new NewBlogActionBuilder(new Models.Github.Added { FullFilename = "/test folder/blog.md", CommitShaForRead = "commit-sha-xxxx" });
             var sut = builder.Build();
 
             // Act
             sut.Execute();
 
             // Assert
-            // TODO
-            //builder.MockGithubReader.Verify(m => m.GetRawFile(It.Is<string>(x => x == "/test folder/blog.md")));
+            builder.MockGithubReader.Verify(m => m.GetRawFile(It.Is<string>(x => x == "/test folder/blog.md"), It.Is<string>(x => x == "commit-sha-xxxx")));
         }
 
         [Fact]
         public void ExecutesMarkdownConvertOnRawBlogText()
         {
             // Arrange
-            var builder = new NewBlogActionBuilder("/test folder");
+            var builder = new NewBlogActionBuilder(new Models.Github.Added { FullFilename = "/test folder/blog.md", CommitShaForRead = "commit-sha-xxxx" });
             var sut = builder.Build();
 
             // Act
@@ -101,7 +100,7 @@ namespace DocFunctions.Lib.Unit.Actions
         public void ExecutesUploadsMarkup()
         {
             // Arrange
-            var builder = new NewBlogActionBuilder("/test folder");
+            var builder = new NewBlogActionBuilder(new Models.Github.Added { FullFilename = "/test folder/blog.md", CommitShaForRead = "commit-sha-xxxx" });
             var sut = builder.Build();
 
             // Act
@@ -115,22 +114,21 @@ namespace DocFunctions.Lib.Unit.Actions
         public void ExecutesGithubGetForRawBlogMeta()
         {
             // Arrange
-            var builder = new NewBlogActionBuilder("/test folder");
+            var builder = new NewBlogActionBuilder(new Models.Github.Added { FullFilename = "/test folder/blog.md", CommitShaForRead = "commit-sha-xxxx" });
             var sut = builder.Build();
 
             // Act
             sut.Execute();
 
             // Assert
-            // TODO
-            //builder.MockGithubReader.Verify(m => m.GetRawFile(It.Is<string>(x => x == "/test folder/blog.json")));
+            builder.MockGithubReader.Verify(m => m.GetRawFile(It.Is<string>(x => x == "/test folder/blog.json"), It.Is<string>(x => x == "commit-sha-xxxx")));
         }
 
         [Fact]
         public void ExecutesBlogMetaReaderOnRawBlogMeta()
         {
             // Arrange
-            var builder = new NewBlogActionBuilder("/test folder");
+            var builder = new NewBlogActionBuilder(new Models.Github.Added { FullFilename = "/test folder/blog.md", CommitShaForRead = "commit-sha-xxxx" });
             var sut = builder.Build();
 
             // Act
@@ -144,7 +142,7 @@ namespace DocFunctions.Lib.Unit.Actions
         public void ExecutesSaveBlogMeta()
         {
             // Arrange
-            var builder = new NewBlogActionBuilder("/test folder");
+            var builder = new NewBlogActionBuilder(new Models.Github.Added { FullFilename = "/test folder/blog.md", CommitShaForRead = "commit-sha-xxxx" });
             var sut = builder.Build();
 
             // Act

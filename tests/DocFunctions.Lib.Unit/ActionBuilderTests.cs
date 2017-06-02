@@ -75,8 +75,7 @@ namespace DocFunctions.Lib.Unit
                                         new Mock<IBlogMetaRepository>().Object);
 
             // Act
-            //TODO
-            //sut.NewBlog("NewBlogPath");
+            sut.NewBlog(new Models.Github.Added { FullFilename = @"Path/NewBlog.md" });
             var actionList = sut.Build();
 
             // Assert
@@ -95,8 +94,7 @@ namespace DocFunctions.Lib.Unit
                                         new Mock<IBlogMetaRepository>().Object);
 
             // Act
-            //TODO
-            //sut.NewImage("NewImagePath", "NewImage.png");
+            sut.NewImage(new Models.Github.Added { FullFilename = @"Path/NewImage.png" });
             var actionList = sut.Build();
 
             // Assert
@@ -104,7 +102,7 @@ namespace DocFunctions.Lib.Unit
             Assert.IsType(typeof(NewImageAction), actionList[0]);
         }
 
-        [Fact]
+        [Fact(Skip ="Not yet implemented")]
         public void CreateSingleDeleteBlogAction()
         {
             // Arrange
@@ -115,8 +113,7 @@ namespace DocFunctions.Lib.Unit
                                         new Mock<IBlogMetaRepository>().Object);
 
             // Act
-            // TODO
-            //sut.DeleteBlog("DeletedBlogPath");
+            sut.DeleteBlog(new Models.Github.Removed { FullFilename = @"Path/DeletedBlog.md" } );
             var actionList = sut.Build();
 
             // Assert
@@ -124,7 +121,7 @@ namespace DocFunctions.Lib.Unit
             Assert.IsType(typeof(DeleteBlogAction), actionList[0]);
         }
 
-        [Fact]
+        [Fact(Skip = "Not yet implemented")]
         public void CreateSingleDeleteImageAction()
         {
             // Arrange
@@ -135,8 +132,7 @@ namespace DocFunctions.Lib.Unit
                                         new Mock<IBlogMetaRepository>().Object);
 
             // Act
-            // TODO
-            //sut.DeleteImage("DeletedImagePath", "DeletedImage.png");
+            sut.DeleteImage(new Models.Github.Removed { FullFilename = @"Path/DeletedImage.png" } );
             var actionList = sut.Build();
 
             // Assert
