@@ -67,7 +67,7 @@ namespace DocFunctions.Functions
 
                 // Get request body
                 logger.Info("Getting rawJson from request");
-                var rawJson = await req.Content.ReadAsAsync<string>();
+                var rawJson = await req.Content.ReadAsStringAsync();
                 logger.Info($"Received: {rawJson}");
                 //logger.Info("Converting to WebhookData");
                 //WebhookData data = WebhookData.Deserialize(rawJson);
