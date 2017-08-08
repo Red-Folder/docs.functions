@@ -50,6 +50,11 @@ namespace DocFunctions.Lib.Clients
             response.Close();
         }
 
+        public void Delete(string filename)
+        {
+            throw new NotImplementedException();
+        }
+
         private string FormatUrl(string suffix)
         {
             return String.Format("ftp://{0}/{1}", _host, suffix);

@@ -90,7 +90,6 @@ namespace DocFunctions.Lib.Unit.Builders
                                         _ftpsClientSet ? _ftpsClient : _mockFtpsClient.Object,
                                         _blogMetaReaderSet ? _blogMetaReader : _mockBlogMetaReader.Object
                                      );
-            throw new NotImplementedException();
         }
     }
 }

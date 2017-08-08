@@ -40,5 +40,11 @@ namespace DocFunctions.Lib.Integration.Clients
 
             sut.Upload(filename, contents);
         }
+
+        [Fact(Skip="Not yet implemented")]
+        [Trait("Category", "Integration")]
+        public void DeleteImage()
+        {
+        }
     }
 }
