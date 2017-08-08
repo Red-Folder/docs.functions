@@ -11,3 +11,8 @@ Scenario: On new blog
 	Then I allow 60 seconds
 	Then I would expect the blog to be available via the Blog API
 	And I would expect the image to be available via the website
+	When I delete that blog from my Github repo
+	Then I allow 60 seconds
+	Then I would expect the blog to not be available via the Blog API
+	And I would expect the image to not be available via the website
+

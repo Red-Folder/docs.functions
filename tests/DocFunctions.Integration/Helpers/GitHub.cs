@@ -45,6 +45,30 @@ namespace DocFunctions.Integration.Helpers
             await AttachCommitToParent(github, commit.Sha);
         }
 
+        public void DeleteTestBog()
+        {
+            DeleteTestBogAsync().Wait();
+        }
+
+        public async Task DeleteTestBogAsync()
+        {
+            var github = CreateClient();
+
+            var parent = await GetParent(github);
+            var latestCommit = await GetLatestCommit(github, parent.Object.Sha);
+            var latestTree = await GetFullTree(github, latestCommit.Tree.Sha);
+
+            var workingTree = CloneTree(latestTree);
+            RemoveFromTree(workingTree, $"{_blogname}/Image.png");
+            RemoveFromTree(workingTree, $"{_blogname}/blog.json");
+            RemoveFromTree(workingTree, $"{_blogname}/blog.md");
+
+            var newTree = await CreateCommitTree(github, workingTree);
+            var commit = await CreateCommit(github, newTree.Sha, parent.Object.Sha);
+
+            await AttachCommitToParent(github, commit.Sha);
+        }
+
         private Octokit.GitHubClient CreateClient()
         {
             var credentials = new Octokit.Credentials(_username, _key);
@@ -93,6 +117,12 @@ namespace DocFunctions.Integration.Helpers
             return github.Git.Blob.Create(_username, _repo, mdBlob);
         }
 
+        private void RemoveFromTree(NewTree tree, string filename)
+        {
+            var toRemove = tree.Tree.Where(x => x.Path.Equals(filename)).First();
+            tree.Tree.Remove(toRemove);
+        }
+
         private Task<TreeResponse> CreateCommitTree(Octokit.GitHubClient github, TreeResponse currentTree, BlobReference imgBlobRef, BlobReference metaBlobRef, BlobReference mdBlobRef)
         {
 
@@ -101,6 +131,11 @@ namespace DocFunctions.Integration.Helpers
             newTree.Tree.Add(new NewTreeItem { Path = $"{_blogname}/blog.json", Mode = "100644", Type = TreeType.Blob, Sha = metaBlobRef.Sha });
             newTree.Tree.Add(new NewTreeItem { Path = $"{_blogname}/blog.md", Mode = "100644", Type = TreeType.Blob, Sha = mdBlobRef.Sha });
 
+            return CreateCommitTree(github, newTree);
+        }
+
+        private Task<TreeResponse> CreateCommitTree(Octokit.GitHubClient github, NewTree newTree)
+        {
             return github.Git.Tree.Create(_username, _repo, newTree);
         }
 

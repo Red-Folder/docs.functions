@@ -48,5 +48,18 @@ namespace DocFunctions.Integration
             Assert.True(HttpHelpers.Exists(_config.ImageUrl));
         }
 
+        [When(@"I delete that blog from my Github repo")]
+        public void WhenIDeleteThatBlogFromMyGithubRepo()
+        {
+            var github = new GitHub(_config.GitHubUsername, _config.GitHubKey, _config.GitHubRepo, _config.BlogName);
+            github.DeleteTestBog();
+        }
+
+        [Then(@"I would expect the image to not be available via the website")]
+        public void ThenIWouldExpectTheImageToNotBeAvailableViaTheWebsite()
+        {
+            Assert.True(HttpHelpers.NotFound(_config.ImageUrl));
+        }
+
     }
 }
