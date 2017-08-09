@@ -13,5 +13,6 @@ namespace DocFunctions.Lib.Wappers
         void Save(Blog blogMeta);
         Maybe<IList<Blog>> Get();
         Maybe<Blog> Get(string blogUrl);
+        void Delete(Blog blogMeta);
     }
 }

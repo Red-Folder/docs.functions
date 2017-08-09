@@ -75,5 +75,10 @@ namespace DocFunctions.Lib.Clients
                 return _blogs.Where(x => x.Url == blogUrl).First().ToMaybe<Blog>();
             }
         }
+
+        public void Delete(Blog blogMeta)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

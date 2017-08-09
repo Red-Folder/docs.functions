@@ -52,7 +52,21 @@ namespace DocFunctions.Lib.Clients
 
         public void Delete(string filename)
         {
-            throw new NotImplementedException();
+            var request = (FtpWebRequest)WebRequest.Create(FormatUrl(filename));
+
+            request.Method = WebRequestMethods.Ftp.DeleteFile;
+            request.Credentials = new NetworkCredential(_username, _password);
+
+            try
+            {
+                using (var resp = (FtpWebResponse)request.GetResponse()) // Exception occurs here
+                {
+                }
+            }
+            catch (WebException ex)
+            {
+                throw ex;
+            }
         }
 
         private string FormatUrl(string suffix)
@@ -118,6 +132,7 @@ namespace DocFunctions.Lib.Clients
             }
             catch (WebException ex)
             {
+                throw ex;
             }
         }
     }
