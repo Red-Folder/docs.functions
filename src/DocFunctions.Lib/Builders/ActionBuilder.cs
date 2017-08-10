@@ -73,12 +73,21 @@ namespace DocFunctions.Lib.Builders
 
         public IActionBuilder DeleteBlog(Removed removed)
         {
-            throw new NotImplementedException();
+            _actions.Add(new DeleteBlogAction(removed,
+                                            _githubReader,
+                                            _ftpsClient,
+                                            _blogMetaReader,
+                                            _blogMetaRepository));
+
+            return this;
         }
 
         public IActionBuilder DeleteImage(Removed removed)
         {
-            throw new NotImplementedException();
+            _actions.Add(new DeleteImageAction(removed,
+                                            _ftpsClient));
+
+            return this;
         }
     }
 }

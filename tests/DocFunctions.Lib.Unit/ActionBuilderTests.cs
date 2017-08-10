@@ -102,7 +102,7 @@ namespace DocFunctions.Lib.Unit
             Assert.IsType(typeof(NewImageAction), actionList[0]);
         }
 
-        [Fact(Skip ="Not yet implemented")]
+        [Fact]
         public void CreateSingleDeleteBlogAction()
         {
             // Arrange
@@ -121,7 +121,7 @@ namespace DocFunctions.Lib.Unit
             Assert.IsType(typeof(DeleteBlogAction), actionList[0]);
         }
 
-        [Fact(Skip = "Not yet implemented")]
+        [Fact]
         public void CreateSingleDeleteImageAction()
         {
             // Arrange
