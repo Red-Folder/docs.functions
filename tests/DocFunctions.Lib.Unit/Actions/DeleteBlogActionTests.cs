@@ -110,7 +110,7 @@ namespace DocFunctions.Lib.Unit.Actions
             sut.Execute();
 
             // Assert
-            builder.MockBlogMetaRepository.Verify(m => m.Delete(It.IsAny<Blog>()));
+            builder.MockBlogMetaRepository.Verify(m => m.Delete(It.IsAny<string>()));
         }
 
     }

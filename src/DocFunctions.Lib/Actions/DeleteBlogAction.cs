@@ -58,7 +58,7 @@ namespace DocFunctions.Lib.Actions
 
         private void DeleteBlogMeta(Blog blogMeta)
         {
-            _blogMetaRepository.Delete(blogMeta);
+            _blogMetaRepository.Delete(blogMeta.Url);
         }
 
         private void DeleteBlogMarkup(Blog blogMeta)

@@ -77,5 +77,41 @@ namespace DocFunctions.Lib.Integration.Clients
             // Assert
             Assert.False(result.HasValue);
         }
+
+        [Fact]
+        [Trait("Category", "Integration")]
+        public void DeleteBlogs()
+        {
+            var connectionString = ConfigurationManager.ConnectionStrings["BlogMetaStorage"].ConnectionString;
+            var containerName = ConfigurationManager.AppSettings["BlogMetaStorageContainerName"];
+            var sut = new BlogMetaRepository(connectionString, containerName);
+
+            // Get the current Blog count
+            var currentCount = sut.Get().Value.Count;
+
+            var id = Guid.NewGuid().ToString();
+            var url = $"/{id}.html";
+            // Create and save Blog
+            var newBlog = new Blog
+            {
+                Id = id,
+                Url = url,
+                Published = DateTime.Now,
+                Modified = DateTime.Now,
+                Title = "Test blog meta used for integration test of the docFunctions"
+            };
+            sut.Save(newBlog);
+
+            // Check that it has been created
+            Assert.Equal(currentCount + 1, sut.Get().Value.Count);
+            Assert.Equal(id, sut.Get(url).Value.Id);
+
+            // Delete the Blog
+            sut.Delete(url);
+
+            // Make sure we have removed the blog
+            Assert.Equal(currentCount, sut.Get().Value.Count);
+            Assert.False(sut.Get(url).HasValue);
+        }
     }
 }

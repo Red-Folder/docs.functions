@@ -76,9 +76,14 @@ namespace DocFunctions.Lib.Clients
             }
         }
 
-        public void Delete(Blog blogMeta)
+        public void Delete(string blogUrl)
         {
-            throw new NotImplementedException();
+            var toBeRemoved = Get(blogUrl);
+            if (toBeRemoved.HasValue)
+            {
+                _blogs.Remove(toBeRemoved.Value);
+                SaveAll();
+            }
         }
     }
 }
