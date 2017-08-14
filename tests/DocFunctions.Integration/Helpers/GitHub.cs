@@ -40,7 +40,7 @@ namespace DocFunctions.Integration.Helpers
             var mdBlogRef = await GetMarkdownBlogReference(github, @"Assets\blog.md");
 
             var newTree = await CreateCommitTree(github, latestTree, imgBlogRef, metaBlogRef, mdBlogRef);
-            var commit = await CreateCommit(github, newTree.Sha, parent.Object.Sha);
+            var commit = await CreateCommit(github, "Created test blog", newTree.Sha, parent.Object.Sha);
 
             await AttachCommitToParent(github, commit.Sha);
         }
@@ -64,7 +64,7 @@ namespace DocFunctions.Integration.Helpers
             RemoveFromTree(workingTree, $"{_blogname}/blog.md");
 
             var newTree = await CreateCommitTree(github, workingTree);
-            var commit = await CreateCommit(github, newTree.Sha, parent.Object.Sha);
+            var commit = await CreateCommit(github, "Deleted test blog", newTree.Sha, parent.Object.Sha);
 
             await AttachCommitToParent(github, commit.Sha);
         }
@@ -139,9 +139,9 @@ namespace DocFunctions.Integration.Helpers
             return github.Git.Tree.Create(_username, _repo, newTree);
         }
 
-        private Task<Commit> CreateCommit(Octokit.GitHubClient github, string newTreeSha, string parentSha)
+        private Task<Commit> CreateCommit(Octokit.GitHubClient github, string message, string newTreeSha, string parentSha)
         {
-            var newCommit = new NewCommit($"Created test blog {_blogname}", newTreeSha, parentSha);
+            var newCommit = new NewCommit($"{message} {_blogname}", newTreeSha, parentSha);
             return github.Git.Commit.Create(_username, _repo, newCommit);
         }
 
