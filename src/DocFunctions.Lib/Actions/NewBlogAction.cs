@@ -1,6 +1,7 @@
 ﻿using DocFunctions.Lib.Models.Github;
 using DocFunctions.Lib.Wappers;
 using docsFunctions.Shared.Models;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -65,6 +66,7 @@ namespace DocFunctions.Lib.Actions
 
         private void SaveBlogMeta(Blog blogMeta)
         {
+            Log.Information("Saving {Url} to meta repo", blogMeta.Url);
             _blogMetaRepository.Save(blogMeta);
         }
 
@@ -80,7 +82,9 @@ namespace DocFunctions.Lib.Actions
 
         private void UploadBlogMarkup(Blog blogMeta, string markup)
         {
-            _ftpsClient.Upload("/site/contentroot/" + blogMeta.Url + ".html", markup);
+            var filename = "/site/contentroot/" + blogMeta.Url + ".html";
+            Log.Information("Using Ftps to upload: {filename}", filename);
+            _ftpsClient.Upload(filename, markup);
         }
     }
 }

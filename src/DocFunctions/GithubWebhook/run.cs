@@ -11,6 +11,9 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Azure.WebJobs.Host;
+using Serilog;
+using Microsoft.ApplicationInsights;
+using Serilog.Context;
 
 namespace DocFunctions.Functions
 {
@@ -18,14 +21,33 @@ namespace DocFunctions.Functions
     {
         public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceWriter log)
         {
-            log.Info("GitHub Webhook initiated");
+
+            var appInsightsKey = ConfigurationManager.AppSettings["APPINSIGHTS_INSTRUMENTATIONKEY"];
+            TelemetryClient telemetryClient = null;
+
+            // Setup Serilog
+            if (appInsightsKey != null && appInsightsKey.Length > 0)
+            {
+                telemetryClient = new TelemetryClient()
+                {
+                    InstrumentationKey = appInsightsKey
+                };
+                Log.Logger = new LoggerConfiguration()
+                    .WriteTo
+                        .ApplicationInsightsTraces(telemetryClient)
+                    .CreateLogger();
+            }
+            else
+            {
+                Log.Logger = new LoggerConfiguration().CreateLogger();
+            }
+
+
+            Log.Information("GitHub Webhook initiated");
 
             try
             {
-
                 // Get all settings
-                var appInsightsKey = ConfigurationManager.AppSettings["APPINSIGHTS_INSTRUMENTATIONKEY"];
-
                 var gitUsername = ConfigurationManager.AppSettings["github-username"];
                 var gitKey = ConfigurationManager.AppSettings["github-key"];
                 var gitRepo = ConfigurationManager.AppSettings["github-repo"];
@@ -48,43 +70,43 @@ namespace DocFunctions.Functions
                 if (blogMetaContainerName == null || blogMetaContainerName.Length == 0) throw new InvalidOperationException("BlogMetaStorageContainerName not set");
                 if (blogMetaConnectionString == null || blogMetaConnectionString.Length == 0) throw new InvalidOperationException("BlogMetaStorage Connection String not set");
 
-                // Setup objects
-                ILogger logger = new NullLogger();
-                if (appInsightsKey != null && appInsightsKey.Length > 0)
+                using (LogContext.PushProperty("RequestID", Guid.NewGuid()))
                 {
-                    logger = new ApplicationInsightsLogger(appInsightsKey);
+                    var githubReader = new GithubClient(gitUsername, gitKey, gitRepo);
+                    var markdownProcessor = new MarkdownProcessor();
+                    var ftpsClient = new FtpsClient(ftpsHost, ftpsUsername, ftpsPassword);
+                    var blogMetaProcessor = new BlogMetaProcessor();
+                    var blogMetaRepository = new BlogMetaRepository(blogMetaConnectionString, blogMetaContainerName);
+                    var actionBuilder = new ActionBuilder(githubReader, markdownProcessor, ftpsClient, blogMetaProcessor, blogMetaRepository);
+
+                    var webhookAction = new WebhookActionBuilder(actionBuilder);
+
+                    // Get request body
+                    Log.Information("Getting rawJson from request");
+                    var rawJson = await req.Content.ReadAsStringAsync();
+                    Log.Information("Received: {rawJson}", rawJson);
+                    Log.Information("Converting to WebhookData");
+                    WebhookData data = WebhookData.Deserialize(rawJson);
+                    Log.Information("Converted - received {CommitCount} commits", data.Commits.Count);
+
+                    //// Act
+                    Log.Information("Processing the data");
+                    webhookAction.Process(data);
+                    Log.Information("Processing complete");
                 }
-
-                var loggerOperation = logger.StartOperation("DocFunctions - GitHub WebHook");
-                var githubReader = new GithubClient(gitUsername, gitKey, gitRepo);
-                var markdownProcessor = new MarkdownProcessor();
-                var ftpsClient = new FtpsClient(ftpsHost, ftpsUsername, ftpsPassword);
-                var blogMetaProcessor = new BlogMetaProcessor();
-                var blogMetaRepository = new BlogMetaRepository(blogMetaConnectionString, blogMetaContainerName);
-                var actionBuilder = new ActionBuilder(githubReader, markdownProcessor, ftpsClient, blogMetaProcessor, blogMetaRepository);
-        
-                var webhookAction = new WebhookActionBuilder(actionBuilder);
-
-                // Get request body
-                logger.Info("Getting rawJson from request");
-                var rawJson = await req.Content.ReadAsStringAsync();
-                logger.Info($"Received: {rawJson}");
-                logger.Info("Converting to WebhookData");
-                WebhookData data = WebhookData.Deserialize(rawJson);
-                logger.Info($"Converted - received {data.Commits.Count} commits");
-
-                //// Act
-                logger.Info("Processing the data");
-                webhookAction.Process(data);
-                logger.Info("Processing complete");
-
-                logger.EndOperation(loggerOperation);
                 return req.CreateResponse(HttpStatusCode.OK);
             }
             catch (Exception ex)
             {
                 log.Error("Function failed", ex);
                 throw ex;
+            }
+
+            // Ensure Application Insights log flushed
+            if (telemetryClient != null)
+            {
+                telemetryClient.Flush();
+                await Task.Delay(500);
             }
         }
     }
