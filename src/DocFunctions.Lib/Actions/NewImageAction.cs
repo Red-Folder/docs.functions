@@ -1,6 +1,7 @@
 ﻿using DocFunctions.Lib.Models.Github;
 using DocFunctions.Lib.Wappers;
 using docsFunctions.Shared.Models;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -61,7 +62,9 @@ namespace DocFunctions.Lib.Actions
 
         private void UploadImage(Blog blogMeta, byte[] image)
         {
-            _ftpsClient.Upload($"/site/mediaroot/blog/{blogMeta.Url}/{_data.Filename}", image);
+            var filename = $"/site/mediaroot/blog/{blogMeta.Url}/{_data.Filename}";
+            Log.Information("Using Ftps to upload: {filename}", filename);
+            _ftpsClient.Upload(filename, image);
         }
     }
 }

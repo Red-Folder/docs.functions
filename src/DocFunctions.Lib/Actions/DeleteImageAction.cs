@@ -1,5 +1,6 @@
 ﻿using DocFunctions.Lib.Models.Github;
 using DocFunctions.Lib.Wappers;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +27,9 @@ namespace DocFunctions.Lib.Actions
 
         public void Execute()
         {
-            _ftpsClient.Delete($"/site/mediaroot/blog{_data.FullFilename}");
+            var filename = $"/site/mediaroot/blog{_data.FullFilename}";
+            Log.Information("Using Ftps to delete: {filename}", filename);
+            _ftpsClient.Delete(filename);
         }
     }
 }

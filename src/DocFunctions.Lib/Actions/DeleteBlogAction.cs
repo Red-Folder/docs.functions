@@ -1,6 +1,7 @@
 ﻿using DocFunctions.Lib.Models.Github;
 using DocFunctions.Lib.Wappers;
 using docsFunctions.Shared.Models;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,12 +59,15 @@ namespace DocFunctions.Lib.Actions
 
         private void DeleteBlogMeta(Blog blogMeta)
         {
+            Log.Information("Removing {Url} from meta repo", blogMeta.Url);
             _blogMetaRepository.Delete(blogMeta.Url);
         }
 
         private void DeleteBlogMarkup(Blog blogMeta)
         {
-            _ftpsClient.Delete("/site/contentroot/" + blogMeta.Url + ".html");
+            var filename = "/site/contentroot/" + blogMeta.Url + ".html";
+            Log.Information("Using Ftps to delete: {filename}", filename);
+            _ftpsClient.Delete(filename);
         }
     }
 }
