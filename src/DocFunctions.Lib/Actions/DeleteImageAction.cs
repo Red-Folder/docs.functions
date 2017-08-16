@@ -27,7 +27,7 @@ namespace DocFunctions.Lib.Actions
 
         public void Execute()
         {
-            var filename = $"/site/mediaroot/blog{_data.FullFilename}";
+            var filename = $"/site/mediaroot/blog/{_data.FullFilename}";
             Log.Information("Using Ftps to delete: {filename}", filename);
             _ftpsClient.Delete(filename);
         }

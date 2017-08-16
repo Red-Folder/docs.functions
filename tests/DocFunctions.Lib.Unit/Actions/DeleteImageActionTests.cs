@@ -32,7 +32,7 @@ namespace DocFunctions.Lib.Unit.Actions
         public void ExecutesFtpDeleteForImages()
         {
             // Arrange
-            var builder = new DeleteImageActionBuilder(new Models.Github.Removed { FullFilename = @"/test folder/image.png" });
+            var builder = new DeleteImageActionBuilder(new Models.Github.Removed { FullFilename = @"test folder/image.png" });
             var sut = builder.Build();
 
             // Act
