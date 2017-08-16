@@ -7,12 +7,8 @@ using System.Threading.Tasks;
 
 namespace DocFunctions.Lib.Models.Github
 {
-    public class Commit
+
+    public class Modified: AbstractAction
     {
-        public List<Added> Added;
-
-        public List<Removed> Removed;
-
-        public List<Modified> Modified;
     }
 }

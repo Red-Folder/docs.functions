@@ -12,5 +12,6 @@ namespace DocFunctions.Lib.Models.Github.Raw
         public DateTime Timestamp;
         public string[] Added;
         public string[] Removed;
+        public string[] Modified;
     }
 }

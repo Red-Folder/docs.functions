@@ -22,8 +22,9 @@ namespace DocFunctions.Lib.Models.Github
 
                 commit.Added = new List<Added>();
                 commit.Removed = new List<Removed>();
+                commit.Modified = new List<Modified>();
 
-                foreach(var rawAdded in rawCommit.Added)
+                foreach (var rawAdded in rawCommit.Added)
                 {
                     commit.Added.Add(new Added { FullFilename = rawAdded, CommitSha = rawCommit.Id, CommitShaForRead = rawCommit.Id });
                 }
@@ -31,6 +32,11 @@ namespace DocFunctions.Lib.Models.Github
                 foreach (var rawRemoved in rawCommit.Removed)
                 {
                     commit.Removed.Add(new Removed { FullFilename = rawRemoved, CommitSha = rawCommit.Id , CommitShaForRead = GetPreviousCommitSha(raw, rawCommit.Id)});
+                }
+
+                foreach (var rawModified in rawCommit.Modified)
+                {
+                    commit.Modified.Add(new Modified { FullFilename = rawModified, CommitSha = rawCommit.Id, CommitShaForRead = GetPreviousCommitSha(raw, rawCommit.Id) });
                 }
 
                 commits.Add(commit);

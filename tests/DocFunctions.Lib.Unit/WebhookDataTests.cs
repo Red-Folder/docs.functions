@@ -36,6 +36,24 @@ namespace DocFunctions.Lib.Unit
         }
 
         [Fact]
+        public void CanDeSerialiseToModelAndGetModifiesIfExistingMetaAmended()
+        {
+            var model = JsonConvert.DeserializeObject<Models.Github.Raw.WebhookData>(_modifiedMetaFileJson);
+
+            Assert.Equal(1, model.Commits[0].Modified.Length);
+        }
+
+        [Fact]
+        public void CanDeSerialiseToModelAndGetActionsIfExistingFolderRenamed()
+        {
+            var model = JsonConvert.DeserializeObject<Models.Github.Raw.WebhookData>(_renamedFolderJson);
+
+            Assert.Equal(3, model.Commits[0].Added.Length);
+            Assert.Equal(3, model.Commits[0].Removed.Length);
+            Assert.Equal(0, model.Commits[0].Modified.Length);
+        }
+
+        [Fact]
         public void CanGetPathForFirstCommitFirstAdd()
         {
             var model = WebhookData.Deserialize(_rawJson);
@@ -73,6 +91,15 @@ namespace DocFunctions.Lib.Unit
             var model = WebhookData.Deserialize(_rawJson);
 
             Assert.Equal("276d28cc847fcf5b2df23af24b757670284fb38e", model.Commits[0].Removed[0].CommitShaForRead);
+        }
+
+        [Fact]
+        public void CanGetShasModifiedMetaFile()
+        {
+            var model = WebhookData.Deserialize(_modifiedMetaFileJson);
+
+            Assert.Equal("a52fa07f80711566c74994f9d4d8a7e79f5f9855", model.Commits[0].Modified[0].CommitShaForRead);
+            Assert.Equal("dad7dc011d32e3c09ea7a387d80e8a00553b8a0b", model.Commits[0].Modified[0].CommitSha);
         }
 
         [Fact]
@@ -347,6 +374,49 @@ namespace DocFunctions.Lib.Unit
 		            ""type"": ""User"",
 		            ""site_admin"": false
 	            }
+            }";
+
+        private const string _renamedFolderJson = @"
+            {
+                ""before"": ""a52fa07f80711566c74994f9d4d8a7e79f5f9855"",
+                ""after"": ""dad7dc011d32e3c09ea7a387d80e8a00553b8a0b"",
+                ""commits"": [
+                    {
+                        ""id"": ""dad7dc011d32e3c09ea7a387d80e8a00553b8a0b"",
+                        ""tree_id"": ""d1e4dd7ca94d26aafbc06494649dbba4f76e9717"",
+                        ""added"": [
+                            ""2017-08-15-21-15-54.renamed/Image.png"",
+                            ""2017-08-15-21-15-54.renamed/blog.json"",
+                            ""2017-08-15-21-15-54.renamed/blog.md""
+                        ],
+                        ""removed"": [
+                            ""2017-08-15-21-15-54/Image.png"",
+                            ""2017-08-15-21-15-54/blog.json"",
+                            ""2017-08-15-21-15-54/blog.md""
+                        ],
+                        ""modified"": [
+                        ]
+                    }
+                ],
+            }";
+
+        private const string _modifiedMetaFileJson = @"
+            {
+                ""before"": ""a52fa07f80711566c74994f9d4d8a7e79f5f9855"",
+                ""after"": ""dad7dc011d32e3c09ea7a387d80e8a00553b8a0b"",
+                ""commits"": [
+                    {
+                        ""id"": ""dad7dc011d32e3c09ea7a387d80e8a00553b8a0b"",
+                        ""tree_id"": ""d1e4dd7ca94d26aafbc06494649dbba4f76e9717"",
+                        ""added"": [
+                        ],
+                        ""removed"": [
+                        ],
+                        ""modified"": [
+                            ""2017-08-15-21-15-54/blog.json""
+                        ]
+                    }
+                ],
             }";
     }
 

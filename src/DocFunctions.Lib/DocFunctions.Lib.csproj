@@ -110,6 +110,7 @@
     <Compile Include="Clients\FtpsClient.cs" />
     <Compile Include="Clients\GithubClient.cs" />
     <Compile Include="Models\Github\AbstractAction.cs" />
+    <Compile Include="Models\Github\Modified.cs" />
     <Compile Include="Models\Github\Added.cs" />
     <Compile Include="Models\Github\Commit.cs" />
     <Compile Include="Models\Github\Raw\Commit.cs" />
