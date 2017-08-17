@@ -74,9 +74,12 @@
     <Compile Include="ActionBuilderTests.cs" />
     <Compile Include="Actions\DeleteBlogActionTests.cs" />
     <Compile Include="Actions\DeleteImageActionTests.cs" />
+    <Compile Include="Actions\ModifyBlogActionTests.cs" />
+    <Compile Include="Actions\ModifyImageActionTests.cs" />
     <Compile Include="Actions\NewBlogActionTests.cs" />
     <Compile Include="Actions\NewImageActionTests.cs" />
     <Compile Include="Builders\DeleteBlogActionBuilder.cs" />
+    <Compile Include="Builders\ModifyBlogActionBuilder.cs" />
     <Compile Include="Builders\ModifyImageActionBuilder.cs" />
     <Compile Include="Builders\NewImageActionBuilder.cs" />
     <Compile Include="Builders\NewBlogActionBuilder.cs" />
