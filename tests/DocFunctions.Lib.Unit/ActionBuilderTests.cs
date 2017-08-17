@@ -139,5 +139,43 @@ namespace DocFunctions.Lib.Unit
             Assert.Equal(1, actionList.Length);
             Assert.IsType(typeof(DeleteImageAction), actionList[0]);
         }
+
+        [Fact]
+        public void CreateSingleModifiyBlogAction()
+        {
+            // Arrange
+            var sut = new ActionBuilder(new Mock<IGithubReader>().Object,
+                                        new Mock<IMarkdownProcessor>().Object,
+                                        new Mock<IFtpsClient>().Object,
+                                        new Mock<IBlogMetaProcessor>().Object,
+                                        new Mock<IBlogMetaRepository>().Object);
+
+            // Act
+            sut.ModifyBlog(new Models.Github.Modified { FullFilename = @"Path/DeletedBlog.md" });
+            var actionList = sut.Build();
+
+            // Assert
+            Assert.Equal(1, actionList.Length);
+            Assert.IsType(typeof(ModifyBlogAction), actionList[0]);
+        }
+
+        [Fact]
+        public void CreateSingleModifyImageAction()
+        {
+            // Arrange
+            var sut = new ActionBuilder(new Mock<IGithubReader>().Object,
+                                        new Mock<IMarkdownProcessor>().Object,
+                                        new Mock<IFtpsClient>().Object,
+                                        new Mock<IBlogMetaProcessor>().Object,
+                                        new Mock<IBlogMetaRepository>().Object);
+
+            // Act
+            sut.ModifyImage(new Models.Github.Modified { FullFilename = @"Path/DeletedImage.png" });
+            var actionList = sut.Build();
+
+            // Assert
+            Assert.Equal(1, actionList.Length);
+            Assert.IsType(typeof(ModifyImageAction), actionList[0]);
+        }
     }
 }

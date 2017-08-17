@@ -76,5 +76,38 @@ namespace DocFunctions.Lib.Unit
             actionBuilder.Verify(m => m.DeleteImage(It.IsAny<Removed>()), Times.Once);
             actionBuilder.Verify(m => m.Build());
         }
+
+        [Fact]
+        public void ModifiedFileCreatesModifyBlogAction()
+        {
+            // Arrange
+            var actionBuilder = new Mock<IActionBuilder>();
+            var sut = new WebhookActionBuilder(actionBuilder.Object);
+            var webhookData = new WebhookDataBuilder().Build();
+
+            // Act
+            sut.Process(webhookData);
+
+            // Assert
+            actionBuilder.Verify(m => m.ModifyBlog(It.IsAny<Modified>()), Times.Once);
+            actionBuilder.Verify(m => m.Build());
+        }
+
+        [Fact]
+        public void ModifiedImageCreatesModifyImageAction()
+        {
+            // Arrange
+            var actionBuilder = new Mock<IActionBuilder>();
+            var sut = new WebhookActionBuilder(actionBuilder.Object);
+            var webhookData = new WebhookDataBuilder().Build();
+
+            // Act
+            sut.Process(webhookData);
+
+            // Assert
+            actionBuilder.Verify(m => m.ModifyImage(It.IsAny<Modified>()), Times.Once);
+            actionBuilder.Verify(m => m.Build());
+        }
+
     }
 }

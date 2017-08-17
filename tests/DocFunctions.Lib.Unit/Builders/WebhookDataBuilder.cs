@@ -29,6 +29,12 @@ namespace DocFunctions.Lib.Unit.Builders
                             new Removed { FullFilename = "2017-04-10-20-27-54/Image.jpg" },
                             new Removed { FullFilename = "2017-04-10-20-27-54/blog.json" },
                             new Removed { FullFilename = "2017-04-10-20-27-54/blog.md" }
+                        },
+                        Modified = new List<Modified>
+                        {
+                            new Modified { FullFilename = "2017-04-10-20-27-54/Image.jpg" },
+                            new Modified { FullFilename = "2017-04-10-20-27-54/blog.json" },
+                            new Modified { FullFilename = "2017-04-10-20-27-54/blog.md" }
                         }
                    }
                 }
