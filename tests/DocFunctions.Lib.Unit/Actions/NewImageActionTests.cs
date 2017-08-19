@@ -1,10 +1,6 @@
 ﻿using DocFunctions.Lib.Unit.Builders;
 using Moq;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace DocFunctions.Lib.Unit.Actions

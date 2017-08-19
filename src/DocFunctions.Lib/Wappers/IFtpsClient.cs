@@ -11,6 +11,5 @@ namespace DocFunctions.Lib.Wappers
         void Upload(string filename, string contents);
         void Upload(string filename, byte[] contents);
         void Delete(string filename);
-        void Delete(object p);
     }
 }

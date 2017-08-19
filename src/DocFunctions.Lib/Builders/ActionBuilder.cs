@@ -89,5 +89,19 @@ namespace DocFunctions.Lib.Builders
 
             return this;
         }
+
+        public IActionBuilder ModifyBlog(Modified modified)
+        {
+            DeleteBlog(modified);
+            NewBlog(modified);
+            return this;
+        }
+
+        public IActionBuilder ModifyImage(Modified modified)
+        {
+            DeleteImage(modified);
+            NewImage(modified);
+            return this;
+        }
     }
 }

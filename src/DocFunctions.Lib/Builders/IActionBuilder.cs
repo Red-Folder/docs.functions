@@ -11,9 +11,11 @@ namespace DocFunctions.Lib.Builders
     public interface IActionBuilder
     {
         IActionBuilder NewBlog(Added added);
+        IActionBuilder ModifyBlog(Modified modified);
         IActionBuilder DeleteBlog(Removed removed);
 
         IActionBuilder NewImage(Added added);
+        IActionBuilder ModifyImage(Modified modified);
         IActionBuilder DeleteImage(Removed removed);
 
         IAction[] Build();

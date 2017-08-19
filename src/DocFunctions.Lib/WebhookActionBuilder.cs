@@ -26,9 +26,11 @@ namespace DocFunctions.Lib
                 _actionBuilder.Clear();
 
                 GetNewBlogs(commit).ForEach(x => _actionBuilder.NewBlog(x));
+                GetModifiedBlogs(commit).ForEach(x => _actionBuilder.ModifyBlog(x));
                 GetDeletedBlogs(commit).ForEach(x => _actionBuilder.DeleteBlog(x));
 
                 GetNewImages(commit).ForEach(x => _actionBuilder.NewImage(x));
+                GetModifiedImages(commit).ForEach(x => _actionBuilder.ModifyImage(x));
                 GetDeletedImages(commit).ForEach(x => _actionBuilder.DeleteImage(x));
 
                 var actions = _actionBuilder.Build();
@@ -50,6 +52,24 @@ namespace DocFunctions.Lib
         {
             return commit
                     .Added
+                    .Where(x => x.IsImageFile)
+                    .ToList();
+        }
+
+        private List<Modified> GetModifiedBlogs(Commit commit)
+        {
+            return commit
+                    .Modified
+                    .Where(x => x.IsBlogFile)
+                    .GroupBy(x => x.Path)
+                    .Select(x => x.First())
+                    .ToList();
+        }
+
+        private List<Modified> GetModifiedImages(Commit commit)
+        {
+            return commit
+                    .Modified
                     .Where(x => x.IsImageFile)
                     .ToList();
         }

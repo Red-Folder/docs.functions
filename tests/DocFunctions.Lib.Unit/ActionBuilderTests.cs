@@ -155,8 +155,9 @@ namespace DocFunctions.Lib.Unit
             var actionList = sut.Build();
 
             // Assert
-            Assert.Equal(1, actionList.Length);
-            Assert.IsType(typeof(ModifyBlogAction), actionList[0]);
+            Assert.Equal(2, actionList.Length);
+            Assert.IsType(typeof(DeleteBlogAction), actionList[0]);
+            Assert.IsType(typeof(NewBlogAction), actionList[1]);
         }
 
         [Fact]
@@ -174,8 +175,9 @@ namespace DocFunctions.Lib.Unit
             var actionList = sut.Build();
 
             // Assert
-            Assert.Equal(1, actionList.Length);
-            Assert.IsType(typeof(ModifyImageAction), actionList[0]);
+            Assert.Equal(2, actionList.Length);
+            Assert.IsType(typeof(DeleteImageAction), actionList[0]);
+            Assert.IsType(typeof(NewImageAction), actionList[1]);
         }
     }
 }
