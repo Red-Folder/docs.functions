@@ -23,5 +23,11 @@ namespace DocFunctions.Integration.Helpers
             var result = client.GetAsync(url).Result;
             return (result.StatusCode == HttpStatusCode.NotFound);
         }
+
+        public static long? FileSize(string url)
+        {
+            var result = client.GetAsync(url).Result;
+            return result.Content.Headers.ContentLength;
+        }
     }
 }

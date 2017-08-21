@@ -75,33 +75,75 @@ namespace DocFunctions.Integration
         [RedFolder.xUnit.IntegrationFact.IntegrationFactAttribute(DisplayName="On new blog")]
         [Xunit.TraitAttribute("FeatureTitle", "DocFunctions")]
         [Xunit.TraitAttribute("Description", "On new blog")]
-        [Xunit.TraitAttribute("Category", "ApplicationTest")]
         public virtual void OnNewBlog()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("On new blog", new string[] {
-                        "ApplicationTest"});
-#line 7
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("On new blog", ((string[])(null)));
+#line 6
 this.ScenarioSetup(scenarioInfo);
-#line 8
+#line 7
  testRunner.Given("I don\'t already have a blog with name of the current date and time", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 8
+ testRunner.Then("I would expect the blog to not be available via the Blog API", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 9
- testRunner.Then("I would expect the blog to not be available via the Blog API", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 10
  testRunner.When("I publish a new blog to my Github repo", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 10
+ testRunner.Then("I allow 60 seconds", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 11
- testRunner.Then("I allow 60 seconds", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 12
  testRunner.Then("I would expect the blog to be available via the Blog API", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 13
+#line 12
  testRunner.And("I would expect the image to be available via the website", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [RedFolder.xUnit.IntegrationFact.IntegrationFactAttribute(DisplayName="On deleting a blog")]
+        [Xunit.TraitAttribute("FeatureTitle", "DocFunctions")]
+        [Xunit.TraitAttribute("Description", "On deleting a blog")]
+        public virtual void OnDeletingABlog()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("On deleting a blog", ((string[])(null)));
 #line 14
- testRunner.When("I delete that blog from my Github repo", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+this.ScenarioSetup(scenarioInfo);
 #line 15
- testRunner.Then("I allow 60 seconds", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Given("I publish a new blog to my Github repo", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 16
- testRunner.Then("I would expect the blog to not be available via the Blog API", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("I allow 60 seconds", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 17
+ testRunner.Then("I would expect the blog to be available via the Blog API", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 18
+ testRunner.And("I would expect the image to be available via the website", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 19
+ testRunner.When("I delete that blog from my Github repo", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 20
+ testRunner.Then("I allow 60 seconds", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 21
+ testRunner.Then("I would expect the blog to not be available via the Blog API", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 22
  testRunner.And("I would expect the image to not be available via the website", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [RedFolder.xUnit.IntegrationFact.IntegrationFactAttribute(DisplayName="On amending an image on an existing blog")]
+        [Xunit.TraitAttribute("FeatureTitle", "DocFunctions")]
+        [Xunit.TraitAttribute("Description", "On amending an image on an existing blog")]
+        public virtual void OnAmendingAnImageOnAnExistingBlog()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("On amending an image on an existing blog", ((string[])(null)));
+#line 24
+this.ScenarioSetup(scenarioInfo);
+#line 25
+ testRunner.Given("I publish a new blog to my Github repo", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 26
+ testRunner.Then("I allow 60 seconds", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 27
+ testRunner.Then("I would expect the image to be available via the website", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 28
+ testRunner.When("I update that image", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 29
+ testRunner.Then("I allow 60 seconds", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 30
+ testRunner.Then("I would expect the new image to be available via the website", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

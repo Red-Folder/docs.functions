@@ -16,7 +16,7 @@ namespace DocFunctions.Lib.Models.Github
             {
                 FullFilename = modified.FullFilename,
                 CommitSha = modified.CommitSha,
-                CommitShaForRead = modified.CommitShaForRead
+                CommitShaForRead = modified.CommitSha
             };
         }
 

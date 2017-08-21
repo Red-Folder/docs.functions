@@ -69,6 +69,29 @@ namespace DocFunctions.Integration.Helpers
             await AttachCommitToParent(github, commit.Sha);
         }
 
+        public void UpdateImage()
+        {
+            UpdateImageAsync().Wait();
+        }
+
+        public async Task UpdateImageAsync()
+        {
+            var github = CreateClient();
+
+            var parent = await GetParent(github);
+            var latestCommit = await GetLatestCommit(github, parent.Object.Sha);
+            var latestTree = await GetFullTree(github, latestCommit.Tree.Sha);
+
+            //var workingTree = CloneTree(latestTree);
+            var imgBlogRef = await GetImageBlogReference(github, @"Assets\Image2.png");
+
+            //var newTree = await CreateCommitTree(github, workingTree);
+            var newTree = await CreateCommitTree(github, latestTree, imgBlogRef);
+            var commit = await CreateCommit(github, "Updated image", newTree.Sha, parent.Object.Sha);
+
+            await AttachCommitToParent(github, commit.Sha);
+        }
+
         private Octokit.GitHubClient CreateClient()
         {
             var credentials = new Octokit.Credentials(_username, _key);
@@ -130,6 +153,15 @@ namespace DocFunctions.Integration.Helpers
             newTree.Tree.Add(new NewTreeItem { Path = $"{_blogname}/Image.png", Mode = "100644", Type = TreeType.Blob, Sha = imgBlobRef.Sha });
             newTree.Tree.Add(new NewTreeItem { Path = $"{_blogname}/blog.json", Mode = "100644", Type = TreeType.Blob, Sha = metaBlobRef.Sha });
             newTree.Tree.Add(new NewTreeItem { Path = $"{_blogname}/blog.md", Mode = "100644", Type = TreeType.Blob, Sha = mdBlobRef.Sha });
+
+            return CreateCommitTree(github, newTree);
+        }
+
+        private Task<TreeResponse> CreateCommitTree(Octokit.GitHubClient github, TreeResponse currentTree, BlobReference imgBlobRef)
+        {
+
+            var newTree = CloneTree(currentTree);
+            newTree.Tree.Add(new NewTreeItem { Path = $"{_blogname}/Image.png", Mode = "100644", Type = TreeType.Blob, Sha = imgBlobRef.Sha });
 
             return CreateCommitTree(github, newTree);
         }

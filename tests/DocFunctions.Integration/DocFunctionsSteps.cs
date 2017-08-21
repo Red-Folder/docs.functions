@@ -11,10 +11,14 @@ namespace DocFunctions.Integration
     {
         private Config _config;
 
+        public DocFunctionsSteps()
+        {
+            _config = new Config(DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss"));
+        }
+
         [Given(@"I don't already have a blog with name of the current date and time")]
         public void GivenIDonTAlreadyHaveABlogWithNameOfTheCurrentDateAndTime()
         {
-            _config = new Config(DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss"));
         }
 
         [Then(@"I would expect the blog to not be available via the Blog API")]
@@ -23,6 +27,7 @@ namespace DocFunctions.Integration
             Assert.True(HttpHelpers.NotFound(_config.RepoUrl));
         }
 
+        [Given(@"I publish a new blog to my Github repo")]
         [When(@"I publish a new blog to my Github repo")]
         public void WhenIPublishANewBlogToMyGithubRepo()
         {
@@ -59,6 +64,19 @@ namespace DocFunctions.Integration
         public void ThenIWouldExpectTheImageToNotBeAvailableViaTheWebsite()
         {
             Assert.True(HttpHelpers.NotFound(_config.ImageUrl));
+        }
+
+        [When(@"I update that image")]
+        public void WhenIUpdateThatImage()
+        {
+            var github = new GitHub(_config.GitHubUsername, _config.GitHubKey, _config.GitHubRepo, _config.BlogName);
+            github.UpdateImage();
+        }
+
+        [Then(@"I would expect the new image to be available via the website")]
+        public void ThenIWouldExpectTheNewImageToBeAvailableViaTheWebsite()
+        {
+            Assert.Equal(5585, HttpHelpers.FileSize(_config.ImageUrl));
         }
 
     }
