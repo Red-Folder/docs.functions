@@ -92,6 +92,27 @@ namespace DocFunctions.Integration.Helpers
             await AttachCommitToParent(github, commit.Sha);
         }
 
+        public void UpdateBlogText()
+        {
+            UpdateBlogTextAsync().Wait();
+        }
+
+        public async Task UpdateBlogTextAsync()
+        {
+            var github = CreateClient();
+
+            var parent = await GetParent(github);
+            var latestCommit = await GetLatestCommit(github, parent.Object.Sha);
+            var latestTree = await GetFullTree(github, latestCommit.Tree.Sha);
+
+            var mdBlogRef = await GetMarkdownBlogReference(github, @"Assets\blog2.md");
+
+            var newTree = await CreateCommitTree(github, latestTree, mdBlogRef);
+            var commit = await CreateCommit(github, "Updated blog text", newTree.Sha, parent.Object.Sha);
+
+            await AttachCommitToParent(github, commit.Sha);
+        }
+
         private Octokit.GitHubClient CreateClient()
         {
             var credentials = new Octokit.Credentials(_username, _key);

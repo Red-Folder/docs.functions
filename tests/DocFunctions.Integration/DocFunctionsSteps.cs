@@ -79,5 +79,18 @@ namespace DocFunctions.Integration
             Assert.Equal(5585, HttpHelpers.FileSize(_config.ImageUrl));
         }
 
+        [When(@"I update that blog text")]
+        public void WhenIUpdateThatBlogText()
+        {
+            var github = new GitHub(_config.GitHubUsername, _config.GitHubKey, _config.GitHubRepo, _config.BlogName);
+            github.UpdateBlogText();
+        }
+
+        [Then(@"I would expect the new blog text to be available via the website")]
+        public void ThenIWouldExpectTheNewBlogTextToBeAvailableViaTheWebsite()
+        {
+            Assert.Equal(169, HttpHelpers.FileSize(_config.ImageUrl));
+        }
+
     }
 }

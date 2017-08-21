@@ -28,3 +28,11 @@ Scenario: On amending an image on an existing blog
 	When I update that image
 	Then I allow 60 seconds
 	Then I would expect the new image to be available via the website
+
+Scenario: On amending text on an existing blog
+	Given I publish a new blog to my Github repo
+	Then I allow 60 seconds
+	Then I would expect the blog to be available via the Blog API
+	When I update that blog test
+	Then I allow 60 seconds
+	Then I would expect the new blog text to be available via the website

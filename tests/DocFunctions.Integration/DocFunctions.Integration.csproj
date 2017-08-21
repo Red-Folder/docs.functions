@@ -123,6 +123,7 @@
     <None Include="Assets\blog.md">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Assets\blog2.md" />
     <None Include="DocFunctions.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>DocFunctions.feature.cs</LastGenOutput>
