@@ -17,8 +17,19 @@ namespace DocFunctions.Integration
         public DocFunctionsSteps()
         {
             _config = new Config(DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss"));
-            _repoClient = new GithubRepoClient(_config.GitHubUsername, _config.GitHubKey, _config.GitHubRepo);
-            _websiteClient = new HttpWebsiteClient();
+
+            var runLocal = true;
+            if (runLocal)
+            {
+                var localFake = new LocalFakeClients();
+                _repoClient = localFake;
+                _websiteClient = localFake;
+            }
+            else
+            {
+                _repoClient = new GithubRepoClient(_config.GitHubUsername, _config.GitHubKey, _config.GitHubRepo);
+                _websiteClient = new HttpWebsiteClient();
+            }
         }
 
         [Given(@"I don't already have a blog with name of the current date and time")]

@@ -14,11 +14,7 @@ namespace DocFunctions.Integration.Clients
         private string _key;
         private string _repo;
 
-        private bool _inCommit = false;
-        private List<ToBeAdded> _toAdd;
-        private List<ToBeModified> _toModify;
-        private List<ToBeDeleted> _toDelete;
-
+        private DocFunctions.Integration.Models.Commit _toBeCommitted = null;
 
         public GithubRepoClient(string username, string key, string repo)
         {
@@ -31,7 +27,7 @@ namespace DocFunctions.Integration.Clients
 
         private void StartCommitIfNotAlreadyInProgress()
         {
-            if (!_inCommit)
+            if (_toBeCommitted == null)
             {
                 StartCommit();
             }
@@ -39,18 +35,12 @@ namespace DocFunctions.Integration.Clients
 
         private void StartCommit()
         {
-            _toAdd = new List<ToBeAdded>();
-            _toModify = new List<ToBeModified>();
-            _toDelete = new List<ToBeDeleted>();
-            _inCommit = true;
+            _toBeCommitted = new DocFunctions.Integration.Models.Commit();
         }
 
         private void EndCommit()
         {
-            _toAdd = null;
-            _toModify = null;
-            _toDelete = null;
-            _inCommit = false;
+            _toBeCommitted = null;
         }
 
         public void AddFileToCommit(string repoFilename, string sourceFilename)
@@ -142,7 +132,7 @@ namespace DocFunctions.Integration.Clients
 
             var newTree = CloneTree(currentTree);
 
-            foreach (var toAdd in _toAdd)
+            foreach (var toAdd in _toBeCommitted.ToAdd)
             {
                 var blob = GetBlobReference(github, toAdd.SourceFilename).Result;
                 newTree.Tree.Add(
@@ -155,7 +145,7 @@ namespace DocFunctions.Integration.Clients
                     });
             }
 
-            foreach (var toModify in _toModify)
+            foreach (var toModify in _toBeCommitted.ToModify)
             {
                 var blob = GetBlobReference(github, toModify.SourceFilename).Result;
                 newTree.Tree.Add(
@@ -168,7 +158,7 @@ namespace DocFunctions.Integration.Clients
                     });
             }
 
-            foreach (var toDelete in _toDelete)
+            foreach (var toDelete in _toBeCommitted.ToDelete)
             {
                 RemoveFromTree(newTree, toDelete.RepoFilename);
             }
@@ -207,24 +197,6 @@ namespace DocFunctions.Integration.Clients
                         .ToList()
                         .ForEach(x => newTree.Tree.Add(x));
             return newTree;
-        }
-
-
-        private class ToBeAdded
-        {
-            public string RepoFilename;
-            public string SourceFilename;
-        }
-
-        private class ToBeDeleted
-        {
-            public string RepoFilename;
-        }
-
-        private class ToBeModified
-        {
-            public string RepoFilename;
-            public string SourceFilename;
         }
     }
 }
