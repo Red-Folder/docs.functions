@@ -10,6 +10,6 @@ namespace DocFunctions.Integration.Clients
     {
         bool UrlExists(string url);
         bool UrlNotFound(string url);
-        bool UrlSize(string url);
+        long UrlSize(string url);
     }
 }

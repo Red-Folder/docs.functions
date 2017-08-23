@@ -6,28 +6,30 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DocFunctions.Integration.Helpers
+namespace DocFunctions.Integration.Clients
 {
-    public class HttpHelpers
+    public class HttpWebsiteClient : IWebsiteClient
     {
         private static HttpClient client = new HttpClient();
 
-        public static bool Exists(string url)
+        public bool UrlExists(string url)
         {
             var result = client.GetAsync(url).Result;
             return (result.StatusCode == HttpStatusCode.OK);
         }
 
-        public static bool NotFound(string url)
+        public bool UrlNotFound(string url)
         {
             var result = client.GetAsync(url).Result;
             return (result.StatusCode == HttpStatusCode.NotFound);
         }
 
-        public static long? FileSize(string url)
+        public long UrlSize(string url)
         {
             var result = client.GetAsync(url).Result;
-            return result.Content.Headers.ContentLength;
+            var length = result.Content.Headers.ContentLength;
+
+            return length == null ? 0 : (long)length;
         }
     }
 }

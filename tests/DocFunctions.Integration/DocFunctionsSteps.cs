@@ -12,10 +12,13 @@ namespace DocFunctions.Integration
     {
         private Config _config;
         private IRepoClient _repoClient;
+        private IWebsiteClient _websiteClient;
 
         public DocFunctionsSteps()
         {
             _config = new Config(DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss"));
+            _repoClient = new GithubRepoClient(_config.GitHubUsername, _config.GitHubKey, _config.GitHubRepo);
+            _websiteClient = new HttpWebsiteClient();
         }
 
         [Given(@"I don't already have a blog with name of the current date and time")]
@@ -26,7 +29,7 @@ namespace DocFunctions.Integration
         [Then(@"I would expect the blog to not be available via the Blog API")]
         public void ThenIWouldExpectTheBlogToNotBeAvailableViaTheBlogAPI()
         {
-            Assert.True(HttpHelpers.NotFound(_config.RepoUrl));
+            Assert.True(_websiteClient.UrlNotFound(_config.RepoUrl));
         }
 
         [Then(@"I allow (.*) seconds")]
@@ -38,38 +41,37 @@ namespace DocFunctions.Integration
         [Then(@"I would expect the blog to be available via the Blog API")]
         public void ThenIWouldExpectTheBlogToBeAvailableViaTheBlogAPI()
         {
-            Assert.True(HttpHelpers.Exists(_config.RepoUrl));
+            Assert.True(_websiteClient.UrlExists(_config.RepoUrl));
         }
 
         [Then(@"I would expect the image to be available via the website")]
         public void ThenIWouldExpectTheImageToBeAvailableViaTheWebsite()
         {
-            Assert.True(HttpHelpers.Exists(_config.ImageUrl));
+            Assert.True(_websiteClient.UrlExists(_config.ImageUrl));
         }
 
         [Then(@"I would expect the image to not be available via the website")]
         public void ThenIWouldExpectTheImageToNotBeAvailableViaTheWebsite()
         {
-            Assert.True(HttpHelpers.NotFound(_config.ImageUrl));
+            Assert.True(_websiteClient.UrlNotFound(_config.ImageUrl));
         }
 
         [Then(@"I would expect the new image to be available via the website")]
         public void ThenIWouldExpectTheNewImageToBeAvailableViaTheWebsite()
         {
-            Assert.Equal(5585, HttpHelpers.FileSize(_config.ImageUrl));
+            Assert.Equal(5585, _websiteClient.UrlSize(_config.ImageUrl));
         }
 
         [Then(@"I would expect the new blog text to be available via the website")]
         public void ThenIWouldExpectTheNewBlogTextToBeAvailableViaTheWebsite()
         {
-            Assert.Equal(169, HttpHelpers.FileSize(_config.ImageUrl));
+            Assert.Equal(169, _websiteClient.UrlSize(_config.ImageUrl));
         }
 
         [Given(@"I start a new commit")]
         [When(@"I start a new commit")]
         public void WhenIStartANewCommit()
         {
-            _repoClient = new GithubRepoClient(_config.GitHubUsername, _config.GitHubKey, _config.GitHubRepo);
         }
 
         [Given(@"Add (.*) to the commit")]
