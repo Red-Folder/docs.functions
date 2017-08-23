@@ -1,5 +1,5 @@
 ﻿using DocFunctions.Integration.Clients;
-using DocFunctions.Integration.Helpers;
+using DocFunctions.Integration.Models;
 using System;
 using System.Threading;
 using TechTalk.SpecFlow;
@@ -78,19 +78,19 @@ namespace DocFunctions.Integration
         [When(@"Add (.*) to the commit")]
         public void WhenAddToTheCommit(string filename)
         {
-            _repoClient.AddFileToCommit(GetRepoFilename(filename), GetAssetFilename(filename));
+            _repoClient.AddFileToCommit(_config.GetRepoFilename(filename), _config.GetAssetFilename(filename));
         }
 
         [When(@"Delete (.*) from the commit")]
         public void WhenDeleteFromTheCommit(string filename)
         {
-            _repoClient.DeleteFileFromCommit(GetRepoFilename(filename));
+            _repoClient.DeleteFileFromCommit(_config.GetRepoFilename(filename));
         }
 
         [When(@"Replace (.*) with (.*) in the commit")]
         public void WhenReplaceInTheCommit(string original, string replacement)
         {
-            _repoClient.ModifyFileInCommit(GetRepoFilename(original), GetAssetFilename(replacement));
+            _repoClient.ModifyFileInCommit(_config.GetRepoFilename(original), _config.GetAssetFilename(replacement));
         }
 
         [Given(@"Push the commit with message ""(.*)""")]
@@ -98,16 +98,6 @@ namespace DocFunctions.Integration
         public void WhenPushTheCommit(string commitMessage)
         {
             _repoClient.PushCommit(commitMessage);
-        }
-
-        private string GetRepoFilename(string filename)
-        {
-            return $"{_config.BlogName}/{filename}";
-        }
-
-        private string GetAssetFilename(string filename)
-        {
-            return $"Assets\\{filename}";
         }
     }
 }

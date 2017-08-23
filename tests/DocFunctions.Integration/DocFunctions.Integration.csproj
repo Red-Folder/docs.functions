@@ -103,7 +103,7 @@
       <DependentUpon>DocFunctions.feature</DependentUpon>
     </Compile>
     <Compile Include="DocFunctionsSteps.cs" />
-    <Compile Include="Helpers\Config.cs" />
+    <Compile Include="Models\Config.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

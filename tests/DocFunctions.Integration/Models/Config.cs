@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DocFunctions.Integration.Helpers
+namespace DocFunctions.Integration.Models
 {
     public class Config
     {
@@ -89,5 +89,14 @@ namespace DocFunctions.Integration.Helpers
             return System.Environment.GetEnvironmentVariable(key);
         }
 
+        public string GetRepoFilename(string filename)
+        {
+            return $"{BlogName}/{filename}";
+        }
+
+        public string GetAssetFilename(string filename)
+        {
+            return $"Assets\\{filename}";
+        }
     }
 }
