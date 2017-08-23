@@ -106,6 +106,7 @@
     <Compile Include="Clients\IRepoClient.cs" />
     <Compile Include="Clients\IWebsiteClient.cs" />
     <Compile Include="Clients\LocalFakeClients.cs" />
+    <Compile Include="Clients\Wrappers\AssetReader.cs" />
     <Compile Include="DocFunctions.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

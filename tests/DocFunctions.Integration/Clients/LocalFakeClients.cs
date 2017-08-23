@@ -1,4 +1,6 @@
 ﻿using DocFunctions.Integration.Clients.Fakes;
+using DocFunctions.Integration.Clients.Wrappers;
+using DocFunctions.Integration.Models;
 using DocFunctions.Lib;
 using DocFunctions.Lib.Builders;
 using DocFunctions.Lib.Models.Github;
@@ -13,8 +15,13 @@ namespace DocFunctions.Integration.Clients
 {
     public class LocalFakeClients : IRepoClient, IWebsiteClient
     {
-        private LocalFakeDataManager _dataManager = new LocalFakeDataManager();
+        private LocalFakeDataManager _dataManager;
         private DocFunctions.Integration.Models.Commit _toBeCommitted = new Models.Commit();
+
+        public LocalFakeClients(AssetReader assetReader)
+        {
+            _dataManager = new LocalFakeDataManager(assetReader);
+        }
 
         public void AddFileToCommit(string repoFilename, string sourceFilename)
         {
@@ -40,13 +47,12 @@ namespace DocFunctions.Integration.Clients
 
         public bool UrlExists(string url)
         {
-            throw new NotImplementedException();
+            return _dataManager.UrlExists(url);
         }
 
         public bool UrlNotFound(string url)
         {
-            // TODO
-            throw new NotImplementedException();
+            return !UrlExists(url);
         }
 
         public long UrlSize(string url)

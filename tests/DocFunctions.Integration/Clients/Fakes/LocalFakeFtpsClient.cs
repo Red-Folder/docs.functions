@@ -23,12 +23,12 @@ namespace DocFunctions.Integration.Clients.Fakes
 
         public void Upload(string filename, byte[] contents)
         {
-            throw new NotImplementedException();
+            _dataManager.AddImageToWebsite(filename);
         }
 
         public void Upload(string filename, string contents)
         {
-            throw new NotImplementedException();
+            _dataManager.AddBlogToWebsite(filename);
         }
     }
 }

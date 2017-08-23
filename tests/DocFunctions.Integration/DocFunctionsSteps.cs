@@ -1,4 +1,5 @@
 ﻿using DocFunctions.Integration.Clients;
+using DocFunctions.Integration.Clients.Wrappers;
 using DocFunctions.Integration.Models;
 using System;
 using System.Threading;
@@ -14,20 +15,24 @@ namespace DocFunctions.Integration
         private IRepoClient _repoClient;
         private IWebsiteClient _websiteClient;
 
+        private bool _ignoreSleep = false;
+
         public DocFunctionsSteps()
         {
             _config = new Config(DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss"));
 
+            var assetReader = new AssetReader(_config);
             var runLocal = true;
             if (runLocal)
             {
-                var localFake = new LocalFakeClients();
+                var localFake = new LocalFakeClients(assetReader);
                 _repoClient = localFake;
                 _websiteClient = localFake;
+                _ignoreSleep = true;
             }
             else
             {
-                _repoClient = new GithubRepoClient(_config.GitHubUsername, _config.GitHubKey, _config.GitHubRepo);
+                _repoClient = new GithubRepoClient(_config.GitHubUsername, _config.GitHubKey, _config.GitHubRepo, assetReader);
                 _websiteClient = new HttpWebsiteClient();
             }
         }
@@ -46,7 +51,10 @@ namespace DocFunctions.Integration
         [Then(@"I allow (.*) seconds")]
         public void ThenIAllowSeconds(int seconds)
         {
-            Thread.Sleep(seconds * 1000);
+            if (!_ignoreSleep)
+            {
+                Thread.Sleep(seconds * 1000);
+            }
         }
 
         [Then(@"I would expect the blog to be available via the Blog API")]

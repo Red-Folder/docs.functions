@@ -19,12 +19,12 @@ namespace DocFunctions.Integration.Clients.Fakes
 
         public string GetRawFile(string path, string commitSha)
         {
-            throw new NotImplementedException();
+            return _dataManager.GetRawFile(path, commitSha);
         }
 
         public byte[] GetRawImageFile(string path, string commitSha)
         {
-            throw new NotImplementedException();
+            return _dataManager.GetRawImageFile(path, commitSha);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Octokit;
+﻿using DocFunctions.Integration.Clients.Wrappers;
+using Octokit;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,13 +15,17 @@ namespace DocFunctions.Integration.Clients
         private string _key;
         private string _repo;
 
+        private AssetReader _assetReader;
+
         private DocFunctions.Integration.Models.Commit _toBeCommitted = null;
 
-        public GithubRepoClient(string username, string key, string repo)
+        public GithubRepoClient(string username, string key, string repo, AssetReader assetReader)
         {
             _username = username;
             _key = key;
             _repo = repo;
+
+            _assetReader = assetReader;
 
             StartCommit();
         }
@@ -111,13 +116,13 @@ namespace DocFunctions.Integration.Clients
 
         private NewBlob GetImageBlob(string sourceFilename)
         {
-            var imgBase64 = Convert.ToBase64String(File.ReadAllBytes(sourceFilename));
+            var imgBase64 = Convert.ToBase64String(_assetReader.GetImageFile(sourceFilename));
             return new NewBlob { Encoding = EncodingType.Base64, Content = (imgBase64) };
         }
 
         private NewBlob GetTextBlob(string sourceFilename)
         {
-            var textContents = File.ReadAllText(sourceFilename);
+            var textContents = _assetReader.GetTextFile(sourceFilename);
             return new NewBlob { Encoding = EncodingType.Utf8, Content = textContents };
         }
 

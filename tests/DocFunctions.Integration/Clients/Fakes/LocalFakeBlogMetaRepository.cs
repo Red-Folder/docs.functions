@@ -30,7 +30,7 @@ namespace DocFunctions.Integration.Clients.Fakes
 
         public void Save(global::docsFunctions.Shared.Models.Blog blogMeta)
         {
-            throw new NotImplementedException();
+            _dataManager.SaveBlogToRepo(blogMeta);
         }
     }
 }
