@@ -14,9 +14,10 @@ namespace DocFunctions.Integration.Clients.Fakes
     {
         private string NO_PREVIOUS_COMMIT = Guid.NewGuid().ToString();
 
-        private OrderedDictionary _commits = new OrderedDictionary();
+        private string _lastCommit;
+        private Dictionary<string, Models.Commit> _commits = new Dictionary<string, Models.Commit>();
 
-        private List<string> _website = new List<string>();
+        private List<WebsiteItem> _website = new List<WebsiteItem>();
 
         private List<Blog> _repo = new List<Blog>();
 
@@ -25,12 +26,13 @@ namespace DocFunctions.Integration.Clients.Fakes
         public LocalFakeDataManager(AssetReader assetReader)
         {
             _assetReader = assetReader;
+            _lastCommit = NO_PREVIOUS_COMMIT;
         }
 
         public WebhookData GetGithubWebhookData(Models.Commit commit)
         {
             var newCommitSha = Guid.NewGuid();
-            var previousCommitSha = _commits.Count == 0 ? NO_PREVIOUS_COMMIT : _commits[_commits.Count - 1];
+            var previousCommitSha = _lastCommit;
 
             _commits.Add(newCommitSha.ToString(), commit);
 
@@ -66,6 +68,8 @@ namespace DocFunctions.Integration.Clients.Fakes
                 }
             };
 
+            _lastCommit = newCommitSha.ToString();
+
             return data;
         }
 
@@ -93,59 +97,120 @@ namespace DocFunctions.Integration.Clients.Fakes
 
         private bool IsAdd(string path, string commitSha)
         {
-            var commit = (Models.Commit)_commits[commitSha];
+            var commit = _commits[commitSha];
             return commit.ToAdd.Any(x => x.RepoFilename == path);
         }
 
         private bool IsModify(string path, string commitSha)
         {
-            var commit = (Models.Commit)_commits[commitSha];
+            var commit = _commits[commitSha];
             return commit.ToModify.Any(x => x.RepoFilename == path);
         }
 
         private bool IsDelete(string path, string commitSha)
         {
-            var commit = (Models.Commit)_commits[commitSha];
+            var commit = _commits[commitSha];
             return commit.ToDelete.Any(x => x.RepoFilename == path);
         }
 
         private string GetAddSourceFilename(string path, string commitSha)
         {
-            var commit = (Models.Commit)_commits[commitSha];
+            var commit = _commits[commitSha];
             return commit.ToAdd.Where(x => x.RepoFilename == path).First().SourceFilename;
         }
 
         private string GetModifySourceFilename(string path, string commitSha)
         {
-            var commit = (Models.Commit)_commits[commitSha];
+            var commit = _commits[commitSha];
             return commit.ToModify.Where(x => x.RepoFilename == path).First().SourceFilename;
         }
 
-        public void AddBlogToWebsite(string filename)
+        public void AddBlogToWebsite(string filename, string content)
         {
-            var urlSuffix = filename
-                                .Replace("/site/contentroot/", "")
-                                .Replace(".html", "");
-            var url = $"https://rfc-doc-functions-staging.azurewebsites.net/api/Blog/{urlSuffix}";
-            _website.Add(url.ToLower());
+            _website.Add(new WebsiteItem(filename, content));
         }
 
-        public void AddImageToWebsite(string filename)
+        public void AddImageToWebsite(string filename, byte[] content)
         {
-            var url = $"http://rfc-website-staging.azurewebsites.net/media/blog/{filename.Replace("/site/mediaroot/blog/", "")}";
-            _website.Add(url.ToLower());
+            _website.Add(new WebsiteItem(filename, content));
         }
 
         public bool UrlExists(string url)
         {
             // Remove any parameters after the url
             var cleanUrl = url.Split('?')[0];
-            return _website.Any(x => x == cleanUrl.ToLower());
+            return _website.Any(x => x.FullUrl == cleanUrl.ToLower());
         }
 
         public void SaveBlogToRepo(Blog blogMeta)
         {
             _repo.Add(blogMeta);
+        }
+
+        public void DeleteFromWebsite(string filename)
+        {
+            _website.RemoveAll(x => x.PhysicalFilename == filename);
+        }
+
+        public void DeleteBlogFromRepo(string blogUrl)
+        {
+            _repo.RemoveAll(x => x.Url == blogUrl);
+        }
+
+        public class WebsiteItem
+        {
+            private string _physicalFilename;
+            private Object _contents;
+
+            public WebsiteItem(string physicalFilename, Object contents)
+            {
+                _physicalFilename = physicalFilename;
+                _contents = contents;
+            }
+
+            public string FullUrl
+            {
+                get
+                {
+                    if (IsImage)
+                    {
+                        var url = $"http://rfc-website-staging.azurewebsites.net/media/blog/{_physicalFilename.Replace("/site/mediaroot/blog/", "")}";
+                        return url.ToLower();
+                    }
+                    else
+                    {
+                        var urlSuffix = _physicalFilename
+                                            .Replace("/site/contentroot/", "")
+                                            .Replace(".html", "");
+                        var url = $"https://rfc-doc-functions-staging.azurewebsites.net/api/Blog/{urlSuffix}";
+                        return url.ToLower();
+                    }
+                }
+            }
+
+            public bool IsImage
+            {
+                get
+                {
+                    return (_physicalFilename.ToLower().EndsWith(".png") || _physicalFilename.ToLower().EndsWith(".jpg"));
+                }
+            }
+
+            public string PhysicalFilename
+            {
+                get
+                {
+                    return _physicalFilename;
+                }
+            }
+
+            public Object Contents
+            {
+                get
+                {
+                    return _contents;
+                }
+            }
         }
     }
 }

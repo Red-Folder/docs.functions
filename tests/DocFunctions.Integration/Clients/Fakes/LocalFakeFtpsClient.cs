@@ -18,17 +18,17 @@ namespace DocFunctions.Integration.Clients.Fakes
 
         public void Delete(string filename)
         {
-            throw new NotImplementedException();
+            _dataManager.DeleteFromWebsite(filename);
         }
 
         public void Upload(string filename, byte[] contents)
         {
-            _dataManager.AddImageToWebsite(filename);
+            _dataManager.AddImageToWebsite(filename, contents);
         }
 
         public void Upload(string filename, string contents)
         {
-            _dataManager.AddBlogToWebsite(filename);
+            _dataManager.AddBlogToWebsite(filename, contents);
         }
     }
 }

@@ -15,7 +15,7 @@ namespace DocFunctions.Integration.Clients.Fakes
 
         public void Delete(string blogUrl)
         {
-            throw new NotImplementedException();
+            _dataManager.DeleteBlogFromRepo(blogUrl);
         }
 
         public global::Functional.Maybe.Maybe<IList<global::docsFunctions.Shared.Models.Blog>> Get()
