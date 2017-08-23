@@ -1,4 +1,5 @@
-﻿using DocFunctions.Integration.Helpers;
+﻿using DocFunctions.Integration.Clients;
+using DocFunctions.Integration.Helpers;
 using System;
 using System.Threading;
 using TechTalk.SpecFlow;
@@ -10,6 +11,7 @@ namespace DocFunctions.Integration
     public class DocFunctionsSteps
     {
         private Config _config;
+        private IRepoClient _repoClient;
 
         public DocFunctionsSteps()
         {
@@ -25,14 +27,6 @@ namespace DocFunctions.Integration
         public void ThenIWouldExpectTheBlogToNotBeAvailableViaTheBlogAPI()
         {
             Assert.True(HttpHelpers.NotFound(_config.RepoUrl));
-        }
-
-        [Given(@"I publish a new blog to my Github repo")]
-        [When(@"I publish a new blog to my Github repo")]
-        public void WhenIPublishANewBlogToMyGithubRepo()
-        {
-            var github = new GitHub(_config.GitHubUsername, _config.GitHubKey, _config.GitHubRepo, _config.BlogName);
-            github.CreateTestBog();
         }
 
         [Then(@"I allow (.*) seconds")]
@@ -53,24 +47,10 @@ namespace DocFunctions.Integration
             Assert.True(HttpHelpers.Exists(_config.ImageUrl));
         }
 
-        [When(@"I delete that blog from my Github repo")]
-        public void WhenIDeleteThatBlogFromMyGithubRepo()
-        {
-            var github = new GitHub(_config.GitHubUsername, _config.GitHubKey, _config.GitHubRepo, _config.BlogName);
-            github.DeleteTestBog();
-        }
-
         [Then(@"I would expect the image to not be available via the website")]
         public void ThenIWouldExpectTheImageToNotBeAvailableViaTheWebsite()
         {
             Assert.True(HttpHelpers.NotFound(_config.ImageUrl));
-        }
-
-        [When(@"I update that image")]
-        public void WhenIUpdateThatImage()
-        {
-            var github = new GitHub(_config.GitHubUsername, _config.GitHubKey, _config.GitHubRepo, _config.BlogName);
-            github.UpdateImage();
         }
 
         [Then(@"I would expect the new image to be available via the website")]
@@ -79,18 +59,53 @@ namespace DocFunctions.Integration
             Assert.Equal(5585, HttpHelpers.FileSize(_config.ImageUrl));
         }
 
-        [When(@"I update that blog text")]
-        public void WhenIUpdateThatBlogText()
-        {
-            var github = new GitHub(_config.GitHubUsername, _config.GitHubKey, _config.GitHubRepo, _config.BlogName);
-            github.UpdateBlogText();
-        }
-
         [Then(@"I would expect the new blog text to be available via the website")]
         public void ThenIWouldExpectTheNewBlogTextToBeAvailableViaTheWebsite()
         {
             Assert.Equal(169, HttpHelpers.FileSize(_config.ImageUrl));
         }
 
+        [Given(@"I start a new commit")]
+        [When(@"I start a new commit")]
+        public void WhenIStartANewCommit()
+        {
+            _repoClient = new GithubRepoClient(_config.GitHubUsername, _config.GitHubKey, _config.GitHubRepo);
+        }
+
+        [Given(@"Add (.*) to the commit")]
+        [When(@"Add (.*) to the commit")]
+        public void WhenAddToTheCommit(string filename)
+        {
+            _repoClient.AddFileToCommit(GetRepoFilename(filename), GetAssetFilename(filename));
+        }
+
+        [When(@"Delete (.*) from the commit")]
+        public void WhenDeleteFromTheCommit(string filename)
+        {
+            _repoClient.DeleteFileFromCommit(GetRepoFilename(filename));
+        }
+
+        [When(@"Replace (.*) with (.*) in the commit")]
+        public void WhenReplaceInTheCommit(string original, string replacement)
+        {
+            _repoClient.ModifyFileInCommit(GetRepoFilename(original), GetAssetFilename(replacement));
+        }
+
+        [Given(@"Push the commit with message ""(.*)""")]
+        [When(@"Push the commit with message ""(.*)""")]
+        public void WhenPushTheCommit(string commitMessage)
+        {
+            _repoClient.PushCommit(commitMessage);
+        }
+
+        private string GetRepoFilename(string filename)
+        {
+            return $"{_config.BlogName}/{filename}";
+        }
+
+        private string GetAssetFilename(string filename)
+        {
+            return $"Assets\\{filename}";
+        }
     }
 }

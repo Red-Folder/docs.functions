@@ -93,6 +93,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Clients\GithubRepoClient.cs" />
+    <Compile Include="Clients\IRepoClient.cs" />
+    <Compile Include="Clients\IWebsiteClient.cs" />
     <Compile Include="DocFunctions.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -100,7 +103,6 @@
     </Compile>
     <Compile Include="DocFunctionsSteps.cs" />
     <Compile Include="Helpers\Config.cs" />
-    <Compile Include="Helpers\GitHub.cs" />
     <Compile Include="Helpers\HttpHelpers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

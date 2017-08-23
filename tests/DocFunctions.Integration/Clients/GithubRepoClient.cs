@@ -1,0 +1,230 @@
+﻿using Octokit;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DocFunctions.Integration.Clients
+{
+    public class GithubRepoClient : IRepoClient
+    {
+        private string _username;
+        private string _key;
+        private string _repo;
+
+        private bool _inCommit = false;
+        private List<ToBeAdded> _toAdd;
+        private List<ToBeModified> _toModify;
+        private List<ToBeDeleted> _toDelete;
+
+
+        public GithubRepoClient(string username, string key, string repo)
+        {
+            _username = username;
+            _key = key;
+            _repo = repo;
+
+            StartCommit();
+        }
+
+        private void StartCommitIfNotAlreadyInProgress()
+        {
+            if (!_inCommit)
+            {
+                StartCommit();
+            }
+        }
+
+        private void StartCommit()
+        {
+            _toAdd = new List<ToBeAdded>();
+            _toModify = new List<ToBeModified>();
+            _toDelete = new List<ToBeDeleted>();
+            _inCommit = true;
+        }
+
+        private void EndCommit()
+        {
+            _toAdd = null;
+            _toModify = null;
+            _toDelete = null;
+            _inCommit = false;
+        }
+
+        public void AddFileToCommit(string repoFilename, string sourceFilename)
+        {
+            StartCommitIfNotAlreadyInProgress();
+
+        }
+
+        public void DeleteFileFromCommit(string repoFilename)
+        {
+            StartCommitIfNotAlreadyInProgress();
+        }
+
+        public void ModifyFileInCommit(string repoFilename, string sourceFilename)
+        {
+            StartCommitIfNotAlreadyInProgress();
+        }
+
+        public void PushCommit(string commitMessage)
+        {
+            var github = CreateClient();
+
+            var parent = GetParent(github).Result;
+            var latestCommit = GetLatestCommit(github, parent.Object.Sha).Result;
+            var latestTree = GetFullTree(github, latestCommit.Tree.Sha).Result;
+            var newTree = CreateCommitTree(github, latestTree).Result;
+            var commit = CreateCommit(github, commitMessage, newTree.Sha, parent.Object.Sha).Result;
+
+            AttachCommitToParent(github, commit.Sha).Wait();
+
+            EndCommit();
+        }
+
+        private Octokit.GitHubClient CreateClient()
+        {
+            var credentials = new Octokit.Credentials(_username, _key);
+            var connection = new Octokit.Connection(new Octokit.ProductHeaderValue("Red-Folder.DocFunctions.IntegrationTests"))
+            {
+                Credentials = credentials
+            };
+            return new Octokit.GitHubClient(connection);
+        }
+
+        private Task<Reference> GetParent(Octokit.GitHubClient github)
+        {
+            return github.Git.Reference.Get(_username, _repo, "heads/master");
+        }
+
+        private Task<Commit> GetLatestCommit(Octokit.GitHubClient github, string parentSha)
+        {
+            return github.Git.Commit.Get(_username, _repo, parentSha);
+        }
+        private Task<TreeResponse> GetFullTree(Octokit.GitHubClient github, string treeSha)
+        {
+            return github.Git.Tree.GetRecursive(_username, _repo, treeSha);
+        }
+
+        private Task<BlobReference> GetBlobReference(Octokit.GitHubClient github, string sourceFilename)
+        {
+            var blob = IsImage(sourceFilename) ? GetImageBlob(sourceFilename) : GetTextBlob(sourceFilename);
+            return github.Git.Blob.Create(_username, _repo, blob);
+        }
+
+        private bool IsImage(string sourceFilename)
+        {
+            return (sourceFilename.ToLower().EndsWith(".png") || sourceFilename.ToLower().EndsWith(".jpg"));
+        }
+
+        private NewBlob GetImageBlob(string sourceFilename)
+        {
+            var imgBase64 = Convert.ToBase64String(File.ReadAllBytes(sourceFilename));
+            return new NewBlob { Encoding = EncodingType.Base64, Content = (imgBase64) };
+        }
+
+        private NewBlob GetTextBlob(string sourceFilename)
+        {
+            var textContents = File.ReadAllText(sourceFilename);
+            return new NewBlob { Encoding = EncodingType.Utf8, Content = textContents };
+        }
+
+        private void RemoveFromTree(NewTree tree, string filename)
+        {
+            var toRemove = tree.Tree.Where(x => x.Path.Equals(filename)).First();
+            tree.Tree.Remove(toRemove);
+        }
+
+        private Task<TreeResponse> CreateCommitTree(Octokit.GitHubClient github, TreeResponse currentTree)
+        {
+
+            var newTree = CloneTree(currentTree);
+
+            foreach (var toAdd in _toAdd)
+            {
+                var blob = GetBlobReference(github, toAdd.SourceFilename).Result;
+                newTree.Tree.Add(
+                    new NewTreeItem
+                    {
+                        Path = toAdd.RepoFilename,
+                        Mode = "100644",
+                        Type = TreeType.Blob,
+                        Sha = blob.Sha
+                    });
+            }
+
+            foreach (var toModify in _toModify)
+            {
+                var blob = GetBlobReference(github, toModify.SourceFilename).Result;
+                newTree.Tree.Add(
+                    new NewTreeItem
+                    {
+                        Path = toModify.RepoFilename,
+                        Mode = "100644",
+                        Type = TreeType.Blob,
+                        Sha = blob.Sha
+                    });
+            }
+
+            foreach (var toDelete in _toDelete)
+            {
+                RemoveFromTree(newTree, toDelete.RepoFilename);
+            }
+
+            return CreateCommitTree(github, newTree);
+        }
+
+        private Task<TreeResponse> CreateCommitTree(Octokit.GitHubClient github, NewTree newTree)
+        {
+            return github.Git.Tree.Create(_username, _repo, newTree);
+        }
+
+        private Task<Commit> CreateCommit(Octokit.GitHubClient github, string message, string newTreeSha, string parentSha)
+        {
+            var newCommit = new NewCommit(message, newTreeSha, parentSha);
+            return github.Git.Commit.Create(_username, _repo, newCommit);
+        }
+
+        private Task<Reference> AttachCommitToParent(Octokit.GitHubClient github, string commitSha)
+        {
+            return github.Git.Reference.Update(_username, _repo, "heads/master", new ReferenceUpdate(commitSha));
+        }
+
+        private NewTree CloneTree(TreeResponse original)
+        {
+            var newTree = new NewTree();
+            original.Tree
+                        .Where(x => x.Type != TreeType.Tree)
+                        .Select(x => new NewTreeItem
+                        {
+                            Path = x.Path,
+                            Mode = x.Mode,
+                            Type = x.Type,
+                            Sha = x.Sha
+                        })
+                        .ToList()
+                        .ForEach(x => newTree.Tree.Add(x));
+            return newTree;
+        }
+
+
+        private class ToBeAdded
+        {
+            public string RepoFilename;
+            public string SourceFilename;
+        }
+
+        private class ToBeDeleted
+        {
+            public string RepoFilename;
+        }
+
+        private class ToBeModified
+        {
+            public string RepoFilename;
+            public string SourceFilename;
+        }
+    }
+}
