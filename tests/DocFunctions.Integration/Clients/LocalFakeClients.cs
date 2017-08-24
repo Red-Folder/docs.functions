@@ -3,6 +3,7 @@ using DocFunctions.Integration.Clients.Wrappers;
 using DocFunctions.Integration.Models;
 using DocFunctions.Lib;
 using DocFunctions.Lib.Builders;
+using DocFunctions.Lib.Models.Audit;
 using DocFunctions.Lib.Processors;
 
 namespace DocFunctions.Integration.Clients

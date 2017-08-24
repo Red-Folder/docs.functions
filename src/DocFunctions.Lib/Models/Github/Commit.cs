@@ -9,6 +9,8 @@ namespace DocFunctions.Lib.Models.Github
 {
     public class Commit
     {
+        public string Sha;
+
         public List<Added> Added;
 
         public List<Removed> Removed;

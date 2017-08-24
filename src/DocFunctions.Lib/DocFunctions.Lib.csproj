@@ -109,6 +109,11 @@
     <Compile Include="Clients\BlogMetaRepository.cs" />
     <Compile Include="Clients\FtpsClient.cs" />
     <Compile Include="Clients\GithubClient.cs" />
+    <Compile Include="Models\Audit\AuditAsHtml.cs" />
+    <Compile Include="Models\Audit\AuditAsText.cs" />
+    <Compile Include="Models\Audit\AuditNode.cs" />
+    <Compile Include="Models\Audit\AuditTree.cs" />
+    <Compile Include="Models\Audit\IAuditVisitor.cs" />
     <Compile Include="Models\Github\AbstractAction.cs" />
     <Compile Include="Models\Github\Modified.cs" />
     <Compile Include="Models\Github\Added.cs" />

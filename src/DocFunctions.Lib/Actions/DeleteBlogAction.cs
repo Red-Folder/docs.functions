@@ -1,4 +1,5 @@
-﻿using DocFunctions.Lib.Models.Github;
+﻿using DocFunctions.Lib.Models.Audit;
+using DocFunctions.Lib.Models.Github;
 using DocFunctions.Lib.Wappers;
 using docsFunctions.Shared.Models;
 using Serilog;
@@ -39,12 +40,25 @@ namespace DocFunctions.Lib.Actions
 
         public void Execute()
         {
-            var blogMetaJson = GetMetaJsonFromGithub();
-            var blogMeta = GetMetaFromMetaJson(blogMetaJson);
+            AuditTree.Instance.StartOperation($"Executing Delete Blog Action for {_data.Filename}");
+            try
+            {
+                AuditTree.Instance.Add("Getting Json from Github");
+                var blogMetaJson = GetMetaJsonFromGithub();
+                AuditTree.Instance.Add("Converting the Json to Blog Meta data");
+                var blogMeta = GetMetaFromMetaJson(blogMetaJson);
 
-            DeleteBlogMarkup(blogMeta);
+                AuditTree.Instance.Add("Deleting the HTML from the server");
+                DeleteBlogMarkup(blogMeta);
 
-            DeleteBlogMeta(blogMeta);
+                AuditTree.Instance.Add("Deleting the Blog Meta from the respository");
+                DeleteBlogMeta(blogMeta);
+            }
+            catch (Exception ex)
+            {
+                AuditTree.Instance.AddFailure($"Failed due to exception: {ex.Message}");
+            }
+            AuditTree.Instance.EndOperation();
         }
 
         private string GetMetaJsonFromGithub()

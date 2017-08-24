@@ -1,4 +1,5 @@
-﻿using DocFunctions.Lib.Models.Github;
+﻿using DocFunctions.Lib.Models.Audit;
+using DocFunctions.Lib.Models.Github;
 using DocFunctions.Lib.Wappers;
 using docsFunctions.Shared.Models;
 using Serilog;
@@ -16,8 +17,6 @@ namespace DocFunctions.Lib.Actions
         private IGithubReader _githubReader;
         private IFtpsClient _ftpsClient;
         private IBlogMetaProcessor _blogMetaReader;
-
-
 
         public NewImageAction(Added data,
                                 IGithubReader githubReader,
@@ -38,11 +37,24 @@ namespace DocFunctions.Lib.Actions
 
         public void Execute()
         {
-            var blogMetaJson = GetMetaJsonFromGithub();
-            var blogMeta = GetMetaFromMetaJson(blogMetaJson);
+            AuditTree.Instance.StartOperation($"Executing New Image Action for {_data.Filename}");
+            try
+            {
+                AuditTree.Instance.Add("Getting Json from Github");
+                var blogMetaJson = GetMetaJsonFromGithub();
+                AuditTree.Instance.Add("Converting the Json to Blog Meta data");
+                var blogMeta = GetMetaFromMetaJson(blogMetaJson);
 
-            var blogImage = GetImageFromGithub();
-            UploadImage(blogMeta, blogImage);
+                AuditTree.Instance.Add("Getting Image from Github");
+                var blogImage = GetImageFromGithub();
+                AuditTree.Instance.Add("Uploading Image to the server");
+                UploadImage(blogMeta, blogImage);
+            }
+            catch (Exception ex)
+            {
+                AuditTree.Instance.AddFailure($"Failed due to exception: {ex.Message}");
+            }
+            AuditTree.Instance.EndOperation();
         }
 
         private string GetMetaJsonFromGithub()

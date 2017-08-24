@@ -1,4 +1,5 @@
-﻿using DocFunctions.Lib.Models.Github;
+﻿using DocFunctions.Lib.Models.Audit;
+using DocFunctions.Lib.Models.Github;
 using DocFunctions.Lib.Wappers;
 using docsFunctions.Shared.Models;
 using Serilog;
@@ -44,14 +45,29 @@ namespace DocFunctions.Lib.Actions
 
         public void Execute()
         {
-            var blogMetaJson = GetMetaJsonFromGithub();
-            var blogMeta = GetMetaFromMetaJson(blogMetaJson);
+            AuditTree.Instance.StartOperation($"Executing New Blog Action for {_data.Filename}");
+            try
+            {
+                AuditTree.Instance.Add("Getting Json from Github");
+                var blogMetaJson = GetMetaJsonFromGithub();
+                AuditTree.Instance.Add("Converting the Json to Blog Meta data");
+                var blogMeta = GetMetaFromMetaJson(blogMetaJson);
 
-            var blogMarkdown = GetMarkdownFromGithub();
-            var blogMarkup = ConvertRawBlogToMarkup(blogMarkdown);
-            UploadBlogMarkup(blogMeta, blogMarkup);
+                AuditTree.Instance.Add("Getting the Markdown from Github");
+                var blogMarkdown = GetMarkdownFromGithub();
+                AuditTree.Instance.Add("Converting the Markdown to HTML");
+                var blogMarkup = ConvertRawBlogToMarkup(blogMarkdown);
+                AuditTree.Instance.Add("Uploading the HTML to the server");
+                UploadBlogMarkup(blogMeta, blogMarkup);
 
-            SaveBlogMeta(blogMeta);
+                AuditTree.Instance.Add("Saving to the Blog Meta to the repository");
+                SaveBlogMeta(blogMeta);
+            }
+            catch (Exception ex)
+            {
+                AuditTree.Instance.AddFailure($"Failed due to exception: {ex.Message}");
+            }
+            AuditTree.Instance.EndOperation();
         }
 
         private string GetMetaJsonFromGithub()

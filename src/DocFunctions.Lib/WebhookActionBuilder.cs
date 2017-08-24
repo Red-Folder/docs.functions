@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DocFunctions.Lib.Models.Github;
 using DocFunctions.Lib.Actions;
+using DocFunctions.Lib.Models.Audit;
 
 namespace DocFunctions.Lib
 {
@@ -21,8 +22,11 @@ namespace DocFunctions.Lib
 
         public void Process(WebhookData data)
         {
+            AuditTree.Instance.StartOperation("Processing data received from Github Webhook function");
+
             foreach (var commit in data.Commits)
             {
+                AuditTree.Instance.StartOperation($"Processing actions for commit: {commit.Sha}");
                 _actionBuilder.Clear();
 
                 GetNewBlogs(commit).ForEach(x => _actionBuilder.NewBlog(x));
@@ -34,8 +38,13 @@ namespace DocFunctions.Lib
                 GetDeletedImages(commit).ForEach(x => _actionBuilder.DeleteImage(x));
 
                 var actions = _actionBuilder.Build();
-                Execute(actions);   
+                Execute(actions);
+                AuditTree.Instance.EndOperation();
             }
+
+            AuditTree.Instance.EndOperation();
+
+            var auditHtml = new AuditAsHtml(AuditTree.Instance).ToString();
         }
 
         private List<Added> GetNewBlogs(Commit commit)
