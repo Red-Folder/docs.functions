@@ -198,26 +198,28 @@ this.ScenarioSetup(scenarioInfo);
 #line 51
  testRunner.Given("I start a new commit", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 52
- testRunner.And("Add blog.md to the commit\tAnd Add blog.json to the commit", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("Add blog.md to the commit", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 53
- testRunner.And("Add Image.png to the commit", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("Add blog.json to the commit", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 54
+ testRunner.And("Add Image.png to the commit", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 55
  testRunner.And("Push the commit with message \"On amending the text on an existing blog scenario -" +
                     " create the target blog\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 55
- testRunner.Then("I allow 60 seconds", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 56
- testRunner.Then("I would expect the blog to be available via the Blog API", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("I allow 60 seconds", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 57
- testRunner.When("I start a new commit", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.Then("I would expect the blog to be available via the Blog API", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 58
- testRunner.And("Replace blog.md with blog2.md in the commit", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.When("I start a new commit", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 59
+ testRunner.And("Replace blog.md with blog2.md in the commit", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 60
  testRunner.And("Push the commit with message \"On amending the text on an existing blog scenario -" +
                     " modified text in the target blog\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 60
- testRunner.Then("I allow 60 seconds", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 61
+ testRunner.Then("I allow 60 seconds", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 62
  testRunner.Then("I would expect the new blog text to be available via the website", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();

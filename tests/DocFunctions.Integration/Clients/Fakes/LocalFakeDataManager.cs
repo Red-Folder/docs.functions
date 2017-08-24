@@ -145,16 +145,22 @@ namespace DocFunctions.Integration.Clients.Fakes
 
         public bool UrlExists(string url)
         {
+            var cleanUrl = CleanUrl(url);
+            return _website.Any(x => x.FullUrl == cleanUrl);
+        }
+
+        private string CleanUrl(string url)
+        {
             // Remove any parameters after the url
-            var cleanUrl = url.Split('?')[0];
-            return _website.Any(x => x.FullUrl == cleanUrl.ToLower());
+            return url.Split('?')[0].ToLower();
         }
 
         public long UrlSize(string url)
         {
-            if (UrlExists(url))
+            var cleanUrl = CleanUrl(url);
+            if (UrlExists(cleanUrl))
             {
-                var websiteItem = _website.Where(x => x.FullUrl == url.ToLower()).First();
+                var websiteItem = _website.Where(x => x.FullUrl == cleanUrl).First();
                 var content = websiteItem.Contents;
                 if (content is byte[])
                 {

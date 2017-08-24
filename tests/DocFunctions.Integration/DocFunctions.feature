@@ -49,7 +49,8 @@ Scenario: On amending an image on an existing blog
 
 Scenario: On amending text on an existing blog
 	Given I start a new commit
-	And Add blog.md to the commit	And Add blog.json to the commit
+	And Add blog.md to the commit
+	And Add blog.json to the commit
 	And Add Image.png to the commit
 	And Push the commit with message "On amending the text on an existing blog scenario - create the target blog"
 	Then I allow 60 seconds

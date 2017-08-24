@@ -84,7 +84,7 @@ namespace DocFunctions.Integration
         [Then(@"I would expect the new blog text to be available via the website")]
         public void ThenIWouldExpectTheNewBlogTextToBeAvailableViaTheWebsite()
         {
-            Assert.Equal(169, _websiteClient.UrlSize(_config.ImageUrl));
+            Assert.Equal(190, _websiteClient.UrlSize(_config.RepoUrl));
         }
 
         [Given(@"I start a new commit")]
