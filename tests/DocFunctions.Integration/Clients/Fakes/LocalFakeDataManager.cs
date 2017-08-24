@@ -17,9 +17,9 @@ namespace DocFunctions.Integration.Clients.Fakes
         private Dictionary<string, ToBeBase> _fileHistory = new Dictionary<string, ToBeBase>();
 
 
-        private List<Blog> _repo = new List<Blog>();
 
         private LocalFakeWebsiteDataManager _websiteManager = new LocalFakeWebsiteDataManager();
+        private LocalFakeRepoDataManager _repoManager = new LocalFakeRepoDataManager();
 
         private AssetReader _assetReader;
 
@@ -158,12 +158,12 @@ namespace DocFunctions.Integration.Clients.Fakes
 
         public void SaveBlogToRepo(Blog blogMeta)
         {
-            _repo.Add(blogMeta);
+            _repoManager.SaveBlogToRepo(blogMeta);
         }
 
         public void DeleteBlogFromRepo(string blogUrl)
         {
-            _repo.RemoveAll(x => x.Url == blogUrl);
+            _repoManager.DeleteBlogFromRepo(blogUrl);
         }
     }
 }
