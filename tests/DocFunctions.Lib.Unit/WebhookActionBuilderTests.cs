@@ -18,7 +18,7 @@ namespace DocFunctions.Lib.Unit
         {
             // Arrange
             var actionBuilder = new Mock<IActionBuilder>();
-            var sut = new WebhookActionBuilder(actionBuilder.Object);
+            var sut = new WebhookActionBuilder(actionBuilder.Object, null);
             var webhookData = new WebhookDataBuilder().Build();
 
             // Act
@@ -34,7 +34,7 @@ namespace DocFunctions.Lib.Unit
         {
             // Arrange
             var actionBuilder = new Mock<IActionBuilder>();
-            var sut = new WebhookActionBuilder(actionBuilder.Object);
+            var sut = new WebhookActionBuilder(actionBuilder.Object, null);
             var webhookData = new WebhookDataBuilder().Build();
 
             // Act
@@ -50,7 +50,7 @@ namespace DocFunctions.Lib.Unit
         {
             // Arrange
             var actionBuilder = new Mock<IActionBuilder>();
-            var sut = new WebhookActionBuilder(actionBuilder.Object);
+            var sut = new WebhookActionBuilder(actionBuilder.Object, null);
             var webhookData = new WebhookDataBuilder().Build();
 
             // Act
@@ -66,7 +66,7 @@ namespace DocFunctions.Lib.Unit
         {
             // Arrange
             var actionBuilder = new Mock<IActionBuilder>();
-            var sut = new WebhookActionBuilder(actionBuilder.Object);
+            var sut = new WebhookActionBuilder(actionBuilder.Object, null);
             var webhookData = new WebhookDataBuilder().Build();
 
             // Act
@@ -82,7 +82,7 @@ namespace DocFunctions.Lib.Unit
         {
             // Arrange
             var actionBuilder = new Mock<IActionBuilder>();
-            var sut = new WebhookActionBuilder(actionBuilder.Object);
+            var sut = new WebhookActionBuilder(actionBuilder.Object, null);
             var webhookData = new WebhookDataBuilder().Build();
 
             // Act
@@ -98,7 +98,7 @@ namespace DocFunctions.Lib.Unit
         {
             // Arrange
             var actionBuilder = new Mock<IActionBuilder>();
-            var sut = new WebhookActionBuilder(actionBuilder.Object);
+            var sut = new WebhookActionBuilder(actionBuilder.Object, null);
             var webhookData = new WebhookDataBuilder().Build();
 
             // Act

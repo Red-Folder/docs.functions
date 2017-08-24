@@ -8,16 +8,19 @@ using System.Threading.Tasks;
 using DocFunctions.Lib.Models.Github;
 using DocFunctions.Lib.Actions;
 using DocFunctions.Lib.Models.Audit;
+using DocFunctions.Lib.Wappers;
 
 namespace DocFunctions.Lib
 {
     public class WebhookActionBuilder
     {
         private IActionBuilder _actionBuilder;
+        private IEmailClient _emailClient;
 
-        public WebhookActionBuilder(IActionBuilder actionBuilder)
+        public WebhookActionBuilder(IActionBuilder actionBuilder, IEmailClient emailClient)
         {
             _actionBuilder = actionBuilder;
+            _emailClient = emailClient;
         }
 
         public void Process(WebhookData data)
@@ -44,7 +47,11 @@ namespace DocFunctions.Lib
 
             AuditTree.Instance.EndOperation();
 
-            var auditHtml = new AuditAsHtml(AuditTree.Instance).ToString();
+            if (_emailClient != null)
+            {
+                var auditHtml = new AuditAsHtml(AuditTree.Instance).ToString();
+                _emailClient.Send(auditHtml);
+            }
         }
 
         private List<Added> GetNewBlogs(Commit commit)

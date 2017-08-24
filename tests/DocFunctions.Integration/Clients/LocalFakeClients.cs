@@ -5,6 +5,7 @@ using DocFunctions.Lib;
 using DocFunctions.Lib.Builders;
 using DocFunctions.Lib.Models.Audit;
 using DocFunctions.Lib.Processors;
+using DocFunctions.Lib.Wappers;
 
 namespace DocFunctions.Integration.Clients
 {
@@ -68,8 +69,9 @@ namespace DocFunctions.Integration.Clients
                                                     fakeFtpsClient, 
                                                     blogMetaProcessor, 
                                                     fakeBlogMetaRepository);
+            IEmailClient emailClient = null;
 
-            var webhookAction = new WebhookActionBuilder(actionBuilder);
+            var webhookAction = new WebhookActionBuilder(actionBuilder, emailClient);
 
             var githubWebhookData = _dataManager.GetGithubWebhookData(_toBeCommitted);
 

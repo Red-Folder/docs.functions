@@ -36,7 +36,7 @@ namespace DocFunctions.Lib.Integration
 
             var actionBuilder = new ActionBuilder(githubReader, markdownProcessor, ftpsClient, blogMetaProcessor, blogMetaRepository);
 
-            var sut = new WebhookActionBuilder(actionBuilder);
+            var sut = new WebhookActionBuilder(actionBuilder, null);
             var webhookData = new WebhookData
             {
                 Commits = new List<Commit>

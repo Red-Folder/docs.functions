@@ -14,6 +14,7 @@ using Microsoft.Azure.WebJobs.Host;
 using Serilog;
 using Serilog.Context;
 using Serilog.Sinks.AzureWebJobsTraceWriter;
+using DocFunctions.Lib.Wappers;
 
 namespace DocFunctions.Functions
 {
@@ -60,8 +61,9 @@ namespace DocFunctions.Functions
                     var blogMetaProcessor = new BlogMetaProcessor();
                     var blogMetaRepository = new BlogMetaRepository(blogMetaConnectionString, blogMetaContainerName);
                     var actionBuilder = new ActionBuilder(githubReader, markdownProcessor, ftpsClient, blogMetaProcessor, blogMetaRepository);
+                    IEmailClient emailClient = null;
 
-                    var webhookAction = new WebhookActionBuilder(actionBuilder);
+                    var webhookAction = new WebhookActionBuilder(actionBuilder, emailClient);
 
                     // Get request body
                     Log.Information("Getting rawJson from request");
