@@ -12,37 +12,60 @@ namespace DocFunctions.Integration.Models
         public List<ToBeModified> ToModify = new List<ToBeModified>();
         public List<ToBeDeleted> ToDelete = new List<ToBeDeleted>();
 
-        public class ToBeAdded
+        public partial class ToBeBase
         {
-            public string RepoFilename;
-            public string SourceFilename;
+            internal string _repoFilename;
 
-            public ToBeAdded(string repoFilename, string sourceFilename)
+            public ToBeBase(string repoFilename)
             {
-                RepoFilename = repoFilename;
-                SourceFilename = sourceFilename;
+                _repoFilename = repoFilename;
+            }
+
+            public string RepoFilename
+            {
+                get
+                {
+                    return _repoFilename;
+                }
             }
         }
 
-        public class ToBeDeleted
+        public partial class ToBeBaseWithSource: ToBeBase
         {
-            public string RepoFilename;
+            internal string _sourceFilename;
 
-            public ToBeDeleted(string repoFilename)
+            public ToBeBaseWithSource(string repoFilename, string sourceFilename) : base(repoFilename)
             {
-                RepoFilename = repoFilename;
+                _sourceFilename = sourceFilename;
+            }
+
+            public string SourceFilename
+            {
+                get
+                {
+                    return _sourceFilename;
+                }
             }
         }
 
-        public class ToBeModified
+        public class ToBeAdded: ToBeBaseWithSource
         {
-            public string RepoFilename;
-            public string SourceFilename;
-
-            public ToBeModified(string repoFilename, string sourceFilename)
+            public ToBeAdded(string repoFilename, string sourceFilename): base(repoFilename, sourceFilename)
             {
-                RepoFilename = repoFilename;
-                SourceFilename = sourceFilename;
+            }
+        }
+
+        public class ToBeDeleted: ToBeBase
+        {
+            public ToBeDeleted(string repoFilename): base(repoFilename)
+            {
+            }
+        }
+
+        public class ToBeModified: ToBeBaseWithSource
+        {
+            public ToBeModified(string repoFilename, string sourceFilename): base (repoFilename, sourceFilename)
+            {
             }
         }
     }

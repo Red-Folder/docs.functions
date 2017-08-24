@@ -57,7 +57,7 @@ namespace DocFunctions.Integration.Clients
 
         public long UrlSize(string url)
         {
-            throw new NotImplementedException();
+            return _dataManager.UrlSize(url);
         }
 
         private void Process()

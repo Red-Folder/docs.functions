@@ -15,7 +15,9 @@ namespace DocFunctions.Integration.Clients.Fakes
         private string NO_PREVIOUS_COMMIT = Guid.NewGuid().ToString();
 
         private string _lastCommit;
-        private Dictionary<string, Models.Commit> _commits = new Dictionary<string, Models.Commit>();
+        private Dictionary<string, string> _previousCommits = new Dictionary<string, string>();
+        //private Dictionary<string, Models.Commit> _commits = new Dictionary<string, Models.Commit>();
+        private Dictionary<string, Models.Commit.ToBeBase> _fileHistory = new Dictionary<string, Models.Commit.ToBeBase>();
 
         private List<WebsiteItem> _website = new List<WebsiteItem>();
 
@@ -34,7 +36,11 @@ namespace DocFunctions.Integration.Clients.Fakes
             var newCommitSha = Guid.NewGuid();
             var previousCommitSha = _lastCommit;
 
-            _commits.Add(newCommitSha.ToString(), commit);
+            // _commits.Add(newCommitSha.ToString(), commit);
+            commit.ToAdd.ForEach(x =>
+            {
+                _fileHistory.Add(CreateKey(x.RepoFilename, newCommitSha), x);
+            });
 
             var toBeAdded = commit.ToAdd.Select(x => new Added
             {
@@ -68,9 +74,20 @@ namespace DocFunctions.Integration.Clients.Fakes
                 }
             };
 
+            _previousCommits.Add(newCommitSha.ToString(), _lastCommit);
             _lastCommit = newCommitSha.ToString();
 
             return data;
+        }
+
+        private string CreateKey(string filename, Guid commitSha)
+        {
+            return CreateKey(filename, commitSha.ToString());
+        }
+
+        private string CreateKey(string filename, string commitSha)
+        {
+            return $"{filename}:{commitSha}";
         }
 
         public string GetRawFile(string path, string commitSha)
@@ -89,40 +106,23 @@ namespace DocFunctions.Integration.Clients.Fakes
 
         private string GetSourceFilename(string path, string commitSha)
         {
-            if (IsAdd(path, commitSha)) return GetAddSourceFilename(path, commitSha);
-            if (IsModify(path, commitSha)) return GetModifySourceFilename(path, commitSha);
+            var key = CreateKey(path, commitSha);
+            if (_fileHistory.ContainsKey(key))
+            {
+                var record = _fileHistory[key];
+                if (record != null && record is Models.Commit.ToBeBaseWithSource)
+                {
+                    return (record as Models.Commit.ToBeBaseWithSource).SourceFilename;
+                }
+            }
 
-            throw new Exception("Unable to find source file");
-        }
+            var previousCommitSha = _previousCommits[commitSha];
+            if (previousCommitSha == NO_PREVIOUS_COMMIT)
+            {
+                throw new Exception("Unable to find source file");
+            }
 
-        private bool IsAdd(string path, string commitSha)
-        {
-            var commit = _commits[commitSha];
-            return commit.ToAdd.Any(x => x.RepoFilename == path);
-        }
-
-        private bool IsModify(string path, string commitSha)
-        {
-            var commit = _commits[commitSha];
-            return commit.ToModify.Any(x => x.RepoFilename == path);
-        }
-
-        private bool IsDelete(string path, string commitSha)
-        {
-            var commit = _commits[commitSha];
-            return commit.ToDelete.Any(x => x.RepoFilename == path);
-        }
-
-        private string GetAddSourceFilename(string path, string commitSha)
-        {
-            var commit = _commits[commitSha];
-            return commit.ToAdd.Where(x => x.RepoFilename == path).First().SourceFilename;
-        }
-
-        private string GetModifySourceFilename(string path, string commitSha)
-        {
-            var commit = _commits[commitSha];
-            return commit.ToModify.Where(x => x.RepoFilename == path).First().SourceFilename;
+            return GetSourceFilename(path, previousCommitSha);
         }
 
         public void AddBlogToWebsite(string filename, string content)
@@ -140,6 +140,27 @@ namespace DocFunctions.Integration.Clients.Fakes
             // Remove any parameters after the url
             var cleanUrl = url.Split('?')[0];
             return _website.Any(x => x.FullUrl == cleanUrl.ToLower());
+        }
+
+        public long UrlSize(string url)
+        {
+            if (UrlExists(url))
+            {
+                var websiteItem = _website.Where(x => x.FullUrl == url.ToLower()).First();
+                var content = websiteItem.Contents;
+                if (content is byte[])
+                {
+                    return (content as byte[]).Length;
+                }
+                else
+                {
+                    return (content as string).Length;
+                }
+            }
+            else
+            {
+                throw new Exception("Url not found");
+            }
         }
 
         public void SaveBlogToRepo(Blog blogMeta)
