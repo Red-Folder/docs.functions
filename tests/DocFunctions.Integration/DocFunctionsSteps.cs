@@ -15,20 +15,17 @@ namespace DocFunctions.Integration
         private IRepoClient _repoClient;
         private IWebsiteClient _websiteClient;
 
-        private bool _ignoreSleep = false;
-
         public DocFunctionsSteps()
         {
             _config = new Config(DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss"));
 
             var assetReader = new AssetReader(_config);
-            var runLocal = true;
-            if (runLocal)
+
+            if (_config.UseLocalFake)
             {
                 var localFake = new LocalFakeClients(assetReader);
                 _repoClient = localFake;
                 _websiteClient = localFake;
-                _ignoreSleep = true;
             }
             else
             {
@@ -51,7 +48,7 @@ namespace DocFunctions.Integration
         [Then(@"I allow (.*) seconds")]
         public void ThenIAllowSeconds(int seconds)
         {
-            if (!_ignoreSleep)
+            if (!_config.UseLocalFake)
             {
                 Thread.Sleep(seconds * 1000);
             }

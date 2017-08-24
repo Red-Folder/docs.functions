@@ -12,7 +12,6 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Azure.WebJobs.Host;
 using Serilog;
-//using Microsoft.ApplicationInsights;
 using Serilog.Context;
 using Serilog.Sinks.AzureWebJobsTraceWriter;
 
@@ -22,27 +21,6 @@ namespace DocFunctions.Functions
     {
         public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceWriter log)
         {
-            // Convert to https://github.com/StarRez/Serilog.Sinks.AzureWebJobsTraceWriter?
-            //var appInsightsKey = ConfigurationManager.AppSettings["APPINSIGHTS_INSTRUMENTATIONKEY"];
-            //TelemetryClient telemetryClient = null;
-
-            // Setup Serilog
-            //if (appInsightsKey != null && appInsightsKey.Length > 0)
-            //{
-            //    telemetryClient = new TelemetryClient()
-            //    {
-            //        InstrumentationKey = appInsightsKey
-            //    };
-            //    Log.Logger = new LoggerConfiguration()
-            //        .WriteTo
-            //            .ApplicationInsightsTraces(telemetryClient)
-            //        .CreateLogger();
-            //}
-            //else
-            //{
-            //    Log.Logger = new LoggerConfiguration().CreateLogger();
-            //}
-
             Log.Logger = new LoggerConfiguration()
                         .WriteTo.TraceWriter(log)
                         .CreateLogger();
@@ -105,13 +83,6 @@ namespace DocFunctions.Functions
                 log.Error("Function failed", ex);
                 throw ex;
             }
-
-            // Ensure Application Insights log flushed
-            //if (telemetryClient != null)
-            //{
-            //    telemetryClient.Flush();
-            //    await Task.Delay(500);
-            //}
         }
     }
 }

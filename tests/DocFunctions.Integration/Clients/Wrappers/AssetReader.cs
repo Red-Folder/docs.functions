@@ -1,16 +1,12 @@
 ﻿using DocFunctions.Integration.Models;
-using DocFunctions.Lib.Wappers;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DocFunctions.Integration.Clients.Wrappers
 {
     public class AssetReader
     {
+        private const string TOKEN_BLOGNAME = "[BLOGNAME]";
+
         private Config _config;
         public AssetReader(Config config)
         {
@@ -21,7 +17,7 @@ namespace DocFunctions.Integration.Clients.Wrappers
         {
             var rawText = File.ReadAllText(path);
 
-            return rawText.Replace("[BLOGNAME]", _config.BlogName);
+            return rawText.Replace(TOKEN_BLOGNAME, _config.BlogName);
         }
 
         public byte[] GetImageFile(string path)

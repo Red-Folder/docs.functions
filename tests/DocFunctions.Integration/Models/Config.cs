@@ -40,6 +40,24 @@ namespace DocFunctions.Integration.Models
             }
         }
 
+        public bool UseLocalFake
+        {
+            get
+            {
+                var setting = GetAppSetting("UseLocalFake");
+                bool value;
+                if (Boolean.TryParse(setting, out value))
+                {
+                    return value;
+                }
+                else
+                {
+                    return false;
+                }
+
+            }
+        }
+
         public string AzureFunctionKey
         {
             get

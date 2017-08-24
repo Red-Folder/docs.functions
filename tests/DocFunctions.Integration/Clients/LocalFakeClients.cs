@@ -1,15 +1,8 @@
 ﻿using DocFunctions.Integration.Clients.Fakes;
 using DocFunctions.Integration.Clients.Wrappers;
-using DocFunctions.Integration.Models;
 using DocFunctions.Lib;
 using DocFunctions.Lib.Builders;
-using DocFunctions.Lib.Models.Github;
 using DocFunctions.Lib.Processors;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DocFunctions.Integration.Clients
 {
@@ -40,7 +33,8 @@ namespace DocFunctions.Integration.Clients
 
         public void PushCommit(string commitMessage)
         {
-            Process();
+            EmulateGithubWebhookFunction();
+
             // And clear the toBeCommitted
             _toBeCommitted = new Models.Commit();
         }
@@ -60,7 +54,7 @@ namespace DocFunctions.Integration.Clients
             return _dataManager.UrlSize(url);
         }
 
-        private void Process()
+        private void EmulateGithubWebhookFunction()
         {
             var fakeGithubReader = new LocalFakeGithubClient(_dataManager);
             var markdownProcessor = new MarkdownProcessor();

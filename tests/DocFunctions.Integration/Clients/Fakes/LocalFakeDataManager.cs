@@ -2,11 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System;
-using System.Collections.Specialized;
-using System.IO;
 using docsFunctions.Shared.Models;
 using DocFunctions.Integration.Clients.Wrappers;
-using System.Text.RegularExpressions;
 
 namespace DocFunctions.Integration.Clients.Fakes
 {
@@ -16,7 +13,6 @@ namespace DocFunctions.Integration.Clients.Fakes
 
         private string _lastCommit;
         private Dictionary<string, string> _previousCommits = new Dictionary<string, string>();
-        //private Dictionary<string, Models.Commit> _commits = new Dictionary<string, Models.Commit>();
         private Dictionary<string, Models.Commit.ToBeBase> _fileHistory = new Dictionary<string, Models.Commit.ToBeBase>();
 
         private List<WebsiteItem> _website = new List<WebsiteItem>();
