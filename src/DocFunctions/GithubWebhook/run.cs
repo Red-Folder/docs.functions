@@ -60,7 +60,8 @@ namespace DocFunctions.Functions
                     var ftpsClient = new FtpsClient(ftpsHost, ftpsUsername, ftpsPassword);
                     var blogMetaProcessor = new BlogMetaProcessor();
                     var blogMetaRepository = new BlogMetaRepository(blogMetaConnectionString, blogMetaContainerName);
-                    var actionBuilder = new ActionBuilder(githubReader, markdownProcessor, ftpsClient, blogMetaProcessor, blogMetaRepository);
+                    var cache = new AllCachesClient(null);
+                    var actionBuilder = new ActionBuilder(githubReader, markdownProcessor, ftpsClient, blogMetaProcessor, blogMetaRepository, cache);
                     IEmailClient emailClient = null;
 
                     var webhookAction = new WebhookActionBuilder(actionBuilder, emailClient);

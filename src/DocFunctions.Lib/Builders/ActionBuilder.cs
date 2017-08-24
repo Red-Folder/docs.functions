@@ -16,6 +16,7 @@ namespace DocFunctions.Lib.Builders
         private IFtpsClient _ftpsClient;
         private IBlogMetaProcessor _blogMetaReader;
         private IBlogMetaRepository _blogMetaRepository;
+        private IWebCache _cache;
 
         private List<IAction> _actions = new List<IAction>();
 
@@ -23,19 +24,22 @@ namespace DocFunctions.Lib.Builders
                              IMarkdownProcessor markdownProcessor,
                              IFtpsClient ftpsClient,
                              IBlogMetaProcessor blogMetaReader,
-                             IBlogMetaRepository blogMetaRepository)
+                             IBlogMetaRepository blogMetaRepository,
+                             IWebCache cache)
         {
             if (githubReader == null) throw new ArgumentNullException("githubReader");
             if (markdownProcessor == null) throw new ArgumentNullException("markdownProcessor");
             if (ftpsClient == null) throw new ArgumentNullException("ftpsClient");
             if (blogMetaReader == null) throw new ArgumentNullException("blogMetaReader");
             if (blogMetaRepository == null) throw new ArgumentNullException("blogMetaRepository");
+            if (cache == null) throw new ArgumentNullException("cache");
 
             _githubReader = githubReader;
             _markdownProcessor = markdownProcessor;
             _ftpsClient = ftpsClient;
             _blogMetaReader = blogMetaReader;
             _blogMetaRepository = blogMetaRepository;
+            _cache = cache;
         }
 
         public IAction[] Build()
@@ -50,7 +54,8 @@ namespace DocFunctions.Lib.Builders
                                             _markdownProcessor,
                                             _ftpsClient,
                                             _blogMetaReader,
-                                            _blogMetaRepository));
+                                            _blogMetaRepository,
+                                            _cache));
 
             return this;
         }
@@ -60,7 +65,8 @@ namespace DocFunctions.Lib.Builders
             _actions.Add(new NewImageAction(added,
                                                 _githubReader,
                                                 _ftpsClient,
-                                                _blogMetaReader));
+                                                _blogMetaReader,
+                                                _cache));
             return this;
         }
 
@@ -77,7 +83,8 @@ namespace DocFunctions.Lib.Builders
                                             _githubReader,
                                             _ftpsClient,
                                             _blogMetaReader,
-                                            _blogMetaRepository));
+                                            _blogMetaRepository,
+                                            _cache));
 
             return this;
         }
@@ -85,7 +92,8 @@ namespace DocFunctions.Lib.Builders
         public IActionBuilder DeleteImage(Removed removed)
         {
             _actions.Add(new DeleteImageAction(removed,
-                                            _ftpsClient));
+                                            _ftpsClient,
+                                            _cache));
 
             return this;
         }

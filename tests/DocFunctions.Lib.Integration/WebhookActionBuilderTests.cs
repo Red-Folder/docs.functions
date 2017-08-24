@@ -34,7 +34,9 @@ namespace DocFunctions.Lib.Integration
             var blogMetaContainerName = ConfigurationManager.AppSettings["BlogMetaStorageContainerName"];
             var blogMetaRepository = new BlogMetaRepository(blogMetaConnectionString, blogMetaContainerName);
 
-            var actionBuilder = new ActionBuilder(githubReader, markdownProcessor, ftpsClient, blogMetaProcessor, blogMetaRepository);
+            var cache = new AllCachesClient(null);
+
+            var actionBuilder = new ActionBuilder(githubReader, markdownProcessor, ftpsClient, blogMetaProcessor, blogMetaRepository, cache);
 
             var sut = new WebhookActionBuilder(actionBuilder, null);
             var webhookData = new WebhookData

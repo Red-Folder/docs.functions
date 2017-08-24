@@ -20,6 +20,7 @@ namespace DocFunctions.Lib.Unit.Builders
         private Mock<IFtpsClient> _mockFtpsClient;
         private Mock<IBlogMetaProcessor> _mockBlogMetaReader;
         private Mock<IBlogMetaRepository> _mockBlogMetaRepository;
+        private Mock<IWebCache> _mockCache;
 
         private bool _githubReaderSet = false;
         private IGithubReader _githubReader;
@@ -49,6 +50,8 @@ namespace DocFunctions.Lib.Unit.Builders
             _mockBlogMetaReader.Setup(m => m.Transform(It.IsAny<string>())).Returns(new Blog { Url = "testblog" });
 
             _mockBlogMetaRepository = new Mock<IBlogMetaRepository>();
+
+            _mockCache = new Mock<IWebCache>();
         }
 
         public Mock<IGithubReader> MockGithubReader
@@ -133,7 +136,8 @@ namespace DocFunctions.Lib.Unit.Builders
                                         _markdownProcessorSet ? _markdownProcessor : _mockMarkdownProcessor.Object,
                                         _ftpsClientSet ? _ftpsClient : _mockFtpsClient.Object,
                                         _blogMetaReaderSet ? _blogMetaReader : _mockBlogMetaReader.Object,
-                                        _blogMetaRepositorySet ? _blogMetaRepository : _mockBlogMetaRepository.Object
+                                        _blogMetaRepositorySet ? _blogMetaRepository : _mockBlogMetaRepository.Object,
+                                        _mockCache.Object
                                      );
         }
     }

@@ -17,22 +17,25 @@ namespace DocFunctions.Lib.Actions
         private IGithubReader _githubReader;
         private IFtpsClient _ftpsClient;
         private IBlogMetaProcessor _blogMetaReader;
+        private IWebCache _cache;
 
         public NewImageAction(Added data,
                                 IGithubReader githubReader,
                                 IFtpsClient ftpsClient,
-                                IBlogMetaProcessor blogMetaReader)
+                                IBlogMetaProcessor blogMetaReader,
+                                IWebCache cache)
         {
             if (data == null) throw new ArgumentNullException("data");
             if (githubReader == null) throw new ArgumentNullException("githubReader");
             if (ftpsClient == null) throw new ArgumentNullException("ftpsClient");
             if (blogMetaReader == null) throw new ArgumentNullException("blogMetaReader");
-
+            if (cache == null) throw new ArgumentNullException("cache");
 
             _data = data;
             _githubReader = githubReader;
             _ftpsClient = ftpsClient;
             _blogMetaReader = blogMetaReader;
+            _cache = cache;
         }
 
         public void Execute()
@@ -49,6 +52,9 @@ namespace DocFunctions.Lib.Actions
                 var blogImage = GetImageFromGithub();
                 AuditTree.Instance.Add("Uploading Image to the server");
                 UploadImage(blogMeta, blogImage);
+
+                AuditTree.Instance.Add($"Removing cache for TODO - need image url");
+                _cache.RemoveCachedInstances("TODO - need image url");
             }
             catch (Exception ex)
             {

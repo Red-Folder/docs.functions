@@ -18,24 +18,28 @@ namespace DocFunctions.Lib.Actions
         private IFtpsClient _ftpsClient;
         private IBlogMetaProcessor _blogMetaReader;
         private IBlogMetaRepository _blogMetaRepository;
+        private IWebCache _cache;
 
         public DeleteBlogAction(Removed data,
                                 IGithubReader githubReader,
                                 IFtpsClient ftpsClient,
                                 IBlogMetaProcessor blogMetaReader,
-                                IBlogMetaRepository blogMetaRepository)
+                                IBlogMetaRepository blogMetaRepository,
+                                IWebCache cache)
         {
             if (data == null) throw new ArgumentNullException("data");
             if (githubReader == null) throw new ArgumentNullException("githubReader");
             if (ftpsClient == null) throw new ArgumentNullException("ftpsClient");
             if (blogMetaReader == null) throw new ArgumentNullException("blogMetaReader");
             if (blogMetaRepository == null) throw new ArgumentNullException("blogMetaRepository");
+            if (cache == null) throw new ArgumentNullException("cache");
 
             _data = data;
             _githubReader = githubReader;
             _ftpsClient = ftpsClient;
             _blogMetaReader = blogMetaReader;
             _blogMetaRepository = blogMetaRepository;
+            _cache = cache;
         }
 
         public void Execute()
@@ -53,6 +57,9 @@ namespace DocFunctions.Lib.Actions
 
                 AuditTree.Instance.Add("Deleting the Blog Meta from the respository");
                 DeleteBlogMeta(blogMeta);
+
+                AuditTree.Instance.Add($"Removing cache for {blogMeta.Url}");
+                _cache.RemoveCachedInstances(blogMeta.Url);
             }
             catch (Exception ex)
             {

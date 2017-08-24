@@ -19,14 +19,15 @@ namespace DocFunctions.Lib.Actions
         private IFtpsClient _ftpsClient;
         private IBlogMetaProcessor _blogMetaReader;
         private IBlogMetaRepository _blogMetaRepository;
-
+        private IWebCache _cache;
 
         public NewBlogAction(Added data,
                                 IGithubReader githubReader,
                                 IMarkdownProcessor markdownProcessor,
                                 IFtpsClient ftpsClient,
                                 IBlogMetaProcessor blogMetaReader,
-                                IBlogMetaRepository blogMetaRepository)
+                                IBlogMetaRepository blogMetaRepository,
+                                IWebCache cache)
         {
             if (data == null) throw new ArgumentNullException("data");
             if (githubReader == null) throw new ArgumentNullException("githubReader");
@@ -34,6 +35,7 @@ namespace DocFunctions.Lib.Actions
             if (ftpsClient == null) throw new ArgumentNullException("ftpsClient");
             if (blogMetaReader == null) throw new ArgumentNullException("blogMetaReader");
             if (blogMetaRepository == null) throw new ArgumentNullException("blogMetaRepository");
+            if (cache == null) throw new ArgumentNullException("cache");
 
             _data = data;
             _githubReader = githubReader;
@@ -41,6 +43,7 @@ namespace DocFunctions.Lib.Actions
             _ftpsClient = ftpsClient;
             _blogMetaReader = blogMetaReader;
             _blogMetaRepository = blogMetaRepository;
+            _cache = cache;
         }
 
         public void Execute()
@@ -62,6 +65,9 @@ namespace DocFunctions.Lib.Actions
 
                 AuditTree.Instance.Add("Saving to the Blog Meta to the repository");
                 SaveBlogMeta(blogMeta);
+
+                AuditTree.Instance.Add($"Removing cache for {blogMeta.Url}");
+                _cache.RemoveCachedInstances(blogMeta.Url);
             }
             catch (Exception ex)
             {

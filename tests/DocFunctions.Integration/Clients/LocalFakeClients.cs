@@ -3,6 +3,7 @@ using DocFunctions.Integration.Clients.Wrappers;
 using DocFunctions.Integration.Models;
 using DocFunctions.Lib;
 using DocFunctions.Lib.Builders;
+using DocFunctions.Lib.Clients;
 using DocFunctions.Lib.Models.Audit;
 using DocFunctions.Lib.Processors;
 using DocFunctions.Lib.Wappers;
@@ -64,11 +65,13 @@ namespace DocFunctions.Integration.Clients
             var fakeFtpsClient = new LocalFakeFtpsClient(_dataManager);
             var blogMetaProcessor = new BlogMetaProcessor();
             var fakeBlogMetaRepository = new LocalFakeBlogMetaRepository(_dataManager);
+            var cache = new AllCachesClient(null);
             var actionBuilder = new ActionBuilder(fakeGithubReader, 
                                                     markdownProcessor, 
                                                     fakeFtpsClient, 
                                                     blogMetaProcessor, 
-                                                    fakeBlogMetaRepository);
+                                                    fakeBlogMetaRepository,
+                                                    cache);
             IEmailClient emailClient = null;
 
             var webhookAction = new WebhookActionBuilder(actionBuilder, emailClient);

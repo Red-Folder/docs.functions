@@ -14,6 +14,7 @@ namespace DocFunctions.Lib.Unit.Builders
     {
         private Removed _removed;
         private Mock<IFtpsClient> _mockFtpsClient;
+        private Mock<IWebCache> _mockCache;
 
         private bool _ftpsClientSet = false;
         private IFtpsClient _ftpsClient;
@@ -23,6 +24,7 @@ namespace DocFunctions.Lib.Unit.Builders
             _removed = removed;
 
             _mockFtpsClient = new Mock<IFtpsClient>();
+            _mockCache = new Mock<IWebCache>();
         }
 
         public Mock<IFtpsClient> MockFtpsClient
@@ -43,7 +45,8 @@ namespace DocFunctions.Lib.Unit.Builders
         public DeleteImageAction Build()
         {
             return new DeleteImageAction(_removed,
-                                        _ftpsClientSet ? _ftpsClient : _mockFtpsClient.Object
+                                        _ftpsClientSet ? _ftpsClient : _mockFtpsClient.Object,
+                                        _mockCache.Object
                                      );
         }
 

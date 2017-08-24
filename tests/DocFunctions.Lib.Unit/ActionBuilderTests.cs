@@ -20,7 +20,8 @@ namespace DocFunctions.Lib.Unit
                                                                             new Mock<IMarkdownProcessor>().Object,
                                                                             new Mock<IFtpsClient>().Object,
                                                                             new Mock<IBlogMetaProcessor>().Object,
-                                                                            new Mock<IBlogMetaRepository>().Object));
+                                                                            new Mock<IBlogMetaRepository>().Object,
+                                                                            new Mock<IWebCache>().Object));
         }
 
         [Fact]
@@ -30,7 +31,8 @@ namespace DocFunctions.Lib.Unit
                                                                             null,
                                                                             new Mock<IFtpsClient>().Object,
                                                                             new Mock<IBlogMetaProcessor>().Object,
-                                                                            new Mock<IBlogMetaRepository>().Object));
+                                                                            new Mock<IBlogMetaRepository>().Object,
+                                                                            new Mock<IWebCache>().Object));
         }
 
         [Fact]
@@ -40,7 +42,8 @@ namespace DocFunctions.Lib.Unit
                                                                             new Mock<IMarkdownProcessor>().Object,
                                                                             null,
                                                                             new Mock<IBlogMetaProcessor>().Object,
-                                                                            new Mock<IBlogMetaRepository>().Object));
+                                                                            new Mock<IBlogMetaRepository>().Object,
+                                                                            new Mock<IWebCache>().Object));
         }
 
         [Fact]
@@ -50,7 +53,8 @@ namespace DocFunctions.Lib.Unit
                                                                             new Mock<IMarkdownProcessor>().Object,
                                                                             new Mock<IFtpsClient>().Object,
                                                                             null,
-                                                                            new Mock<IBlogMetaRepository>().Object));
+                                                                            new Mock<IBlogMetaRepository>().Object,
+                                                                            new Mock<IWebCache>().Object));
         }
 
         [Fact]
@@ -60,7 +64,8 @@ namespace DocFunctions.Lib.Unit
                                                                             new Mock<IMarkdownProcessor>().Object,
                                                                             new Mock<IFtpsClient>().Object,
                                                                             new Mock<IBlogMetaProcessor>().Object,
-                                                                            null));
+                                                                            null,
+                                                                            new Mock<IWebCache>().Object));
         }
 
 
@@ -72,7 +77,8 @@ namespace DocFunctions.Lib.Unit
                                         new Mock<IMarkdownProcessor>().Object,
                                         new Mock<IFtpsClient>().Object,
                                         new Mock<IBlogMetaProcessor>().Object,
-                                        new Mock<IBlogMetaRepository>().Object);
+                                        new Mock<IBlogMetaRepository>().Object,
+                                        new Mock<IWebCache>().Object);
 
             // Act
             sut.NewBlog(new Models.Github.Added { FullFilename = @"Path/NewBlog.md" });
@@ -91,7 +97,8 @@ namespace DocFunctions.Lib.Unit
                                         new Mock<IMarkdownProcessor>().Object,
                                         new Mock<IFtpsClient>().Object,
                                         new Mock<IBlogMetaProcessor>().Object,
-                                        new Mock<IBlogMetaRepository>().Object);
+                                        new Mock<IBlogMetaRepository>().Object,
+                                        new Mock<IWebCache>().Object);
 
             // Act
             sut.NewImage(new Models.Github.Added { FullFilename = @"Path/NewImage.png" });
@@ -110,7 +117,8 @@ namespace DocFunctions.Lib.Unit
                                         new Mock<IMarkdownProcessor>().Object,
                                         new Mock<IFtpsClient>().Object,
                                         new Mock<IBlogMetaProcessor>().Object,
-                                        new Mock<IBlogMetaRepository>().Object);
+                                        new Mock<IBlogMetaRepository>().Object,
+                                        new Mock<IWebCache>().Object);
 
             // Act
             sut.DeleteBlog(new Models.Github.Removed { FullFilename = @"Path/DeletedBlog.md" } );
@@ -129,7 +137,8 @@ namespace DocFunctions.Lib.Unit
                                         new Mock<IMarkdownProcessor>().Object,
                                         new Mock<IFtpsClient>().Object,
                                         new Mock<IBlogMetaProcessor>().Object,
-                                        new Mock<IBlogMetaRepository>().Object);
+                                        new Mock<IBlogMetaRepository>().Object,
+                                        new Mock<IWebCache>().Object);
 
             // Act
             sut.DeleteImage(new Models.Github.Removed { FullFilename = @"Path/DeletedImage.png" } );
@@ -148,7 +157,8 @@ namespace DocFunctions.Lib.Unit
                                         new Mock<IMarkdownProcessor>().Object,
                                         new Mock<IFtpsClient>().Object,
                                         new Mock<IBlogMetaProcessor>().Object,
-                                        new Mock<IBlogMetaRepository>().Object);
+                                        new Mock<IBlogMetaRepository>().Object,
+                                        new Mock<IWebCache>().Object);
 
             // Act
             sut.ModifyBlog(new Models.Github.Modified { FullFilename = @"Path/DeletedBlog.md" });
@@ -168,7 +178,8 @@ namespace DocFunctions.Lib.Unit
                                         new Mock<IMarkdownProcessor>().Object,
                                         new Mock<IFtpsClient>().Object,
                                         new Mock<IBlogMetaProcessor>().Object,
-                                        new Mock<IBlogMetaRepository>().Object);
+                                        new Mock<IBlogMetaRepository>().Object,
+                                        new Mock<IWebCache>().Object);
 
             // Act
             sut.ModifyImage(new Models.Github.Modified { FullFilename = @"Path/DeletedImage.png" });
