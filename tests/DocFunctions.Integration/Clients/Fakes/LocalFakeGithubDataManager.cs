@@ -4,8 +4,6 @@ using DocFunctions.Lib.Models.Github;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DocFunctions.Integration.Clients.Fakes
 {
@@ -27,54 +25,12 @@ namespace DocFunctions.Integration.Clients.Fakes
 
         public WebhookData GetGithubWebhookData(ToBeCommitted commit)
         {
-            var newCommitSha = Guid.NewGuid();
+            var newCommitSha = Guid.NewGuid().ToString();
             var previousCommitSha = _lastCommit;
 
-            commit.ToAdd.ForEach(x =>
-            {
-                _fileHistory.Add(CreateKey(x.RepoFilename, newCommitSha), x);
-            });
-            commit.ToModify.ForEach(x =>
-            {
-                _fileHistory.Add(CreateKey(x.RepoFilename, newCommitSha), x);
-            });
-            commit.ToDelete.ForEach(x =>
-            {
-                _fileHistory.Add(CreateKey(x.RepoFilename, newCommitSha), x);
-            });
+            PopulateFileHistory(commit, newCommitSha);
 
-
-            var toBeAdded = commit.ToAdd.Select(x => new Added
-            {
-                FullFilename = x.RepoFilename,
-                CommitSha = newCommitSha.ToString(),
-                CommitShaForRead = newCommitSha.ToString()
-            }).ToList();
-            var toBeModified = commit.ToModify.Select(x => new Modified
-            {
-                FullFilename = x.RepoFilename,
-                CommitSha = newCommitSha.ToString(),
-                CommitShaForRead = previousCommitSha.ToString()
-            }).ToList();
-            var toBeDeleted = commit.ToDelete.Select(x => new Removed
-            {
-                FullFilename = x.RepoFilename,
-                CommitSha = newCommitSha.ToString(),
-                CommitShaForRead = previousCommitSha.ToString()
-            }).ToList();
-
-            WebhookData data = new WebhookData
-            {
-                Commits = new List<Commit>
-                {
-                    new Commit
-                    {
-                        Added = toBeAdded,
-                        Modified = toBeModified,
-                        Removed = toBeDeleted
-                    }
-                }
-            };
+            var data = CreateWebhookData(commit, newCommitSha, previousCommitSha);
 
             _previousCommits.Add(newCommitSha.ToString(), _lastCommit);
             _lastCommit = newCommitSha.ToString();
@@ -94,11 +50,6 @@ namespace DocFunctions.Integration.Clients.Fakes
             var sourceFilename = GetSourceFilename(path, commitSha);
 
             return _assetReader.GetImageFile(sourceFilename);
-        }
-
-        private string CreateKey(string filename, Guid commitSha)
-        {
-            return CreateKey(filename, commitSha.ToString());
         }
 
         private string CreateKey(string filename, string commitSha)
@@ -127,5 +78,66 @@ namespace DocFunctions.Integration.Clients.Fakes
             return GetSourceFilename(path, previousCommitSha);
         }
 
+        private void PopulateFileHistory(ToBeCommitted commit, string newCommitSha)
+        {
+            commit.ToAdd.ForEach(x =>
+            {
+                _fileHistory.Add(CreateKey(x.RepoFilename, newCommitSha), x);
+            });
+            commit.ToModify.ForEach(x =>
+            {
+                _fileHistory.Add(CreateKey(x.RepoFilename, newCommitSha), x);
+            });
+            commit.ToDelete.ForEach(x =>
+            {
+                _fileHistory.Add(CreateKey(x.RepoFilename, newCommitSha), x);
+            });
+        }
+
+        private WebhookData CreateWebhookData(ToBeCommitted commit, string newCommitSha, string previousCommitSha)
+        {
+            return new WebhookData
+            {
+                Commits = new List<Commit>
+                {
+                    new Commit
+                    {
+                        Added = CreateWebhookAddedData(commit, newCommitSha, previousCommitSha),
+                        Modified = CreateWebhookModifiedData(commit, newCommitSha, previousCommitSha),
+                        Removed = CreateWebhookRemovedData(commit, newCommitSha, previousCommitSha)
+                    }
+                }
+            };
+        }
+
+        private List<Added> CreateWebhookAddedData(ToBeCommitted commit, String newCommitSha, String previousCommitSha)
+        {
+            return commit.ToAdd.Select(x => new Added
+            {
+                FullFilename = x.RepoFilename,
+                CommitSha = newCommitSha.ToString(),
+                CommitShaForRead = newCommitSha.ToString()
+            }).ToList();
+        }
+
+        private List<Modified> CreateWebhookModifiedData(ToBeCommitted commit, String newCommitSha, String previousCommitSha)
+        {
+            return commit.ToModify.Select(x => new Modified
+            {
+                FullFilename = x.RepoFilename,
+                CommitSha = newCommitSha.ToString(),
+                CommitShaForRead = previousCommitSha.ToString()
+            }).ToList();
+        }
+
+        private List<Removed> CreateWebhookRemovedData(ToBeCommitted commit, String newCommitSha, String previousCommitSha)
+        {
+            return commit.ToDelete.Select(x => new Removed
+            {
+                FullFilename = x.RepoFilename,
+                CommitSha = newCommitSha.ToString(),
+                CommitShaForRead = previousCommitSha.ToString()
+            }).ToList();
+        }
     }
 }
