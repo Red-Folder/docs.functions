@@ -36,11 +36,19 @@ namespace DocFunctions.Integration.Clients.Fakes
             var newCommitSha = Guid.NewGuid();
             var previousCommitSha = _lastCommit;
 
-            // _commits.Add(newCommitSha.ToString(), commit);
             commit.ToAdd.ForEach(x =>
             {
                 _fileHistory.Add(CreateKey(x.RepoFilename, newCommitSha), x);
             });
+            commit.ToModify.ForEach(x =>
+            {
+                _fileHistory.Add(CreateKey(x.RepoFilename, newCommitSha), x);
+            });
+            commit.ToDelete.ForEach(x =>
+            {
+                _fileHistory.Add(CreateKey(x.RepoFilename, newCommitSha), x);
+            });
+
 
             var toBeAdded = commit.ToAdd.Select(x => new Added
             {
