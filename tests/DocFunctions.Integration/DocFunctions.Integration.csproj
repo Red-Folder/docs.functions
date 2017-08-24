@@ -113,8 +113,13 @@
       <DependentUpon>DocFunctions.feature</DependentUpon>
     </Compile>
     <Compile Include="DocFunctionsSteps.cs" />
-    <Compile Include="Models\Commit.cs" />
+    <Compile Include="Models\ToBeAdded.cs" />
+    <Compile Include="Models\ToBeBase.cs" />
+    <Compile Include="Models\ToBeBaseWithSource.cs" />
+    <Compile Include="Models\ToBeCommitted.cs" />
     <Compile Include="Models\Config.cs" />
+    <Compile Include="Models\ToBeDeleted.cs" />
+    <Compile Include="Models\ToBeModified.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -14,7 +14,7 @@ namespace DocFunctions.Integration.Clients
 
         private AssetReader _assetReader;
 
-        private DocFunctions.Integration.Models.Commit _toBeCommitted = null;
+        private DocFunctions.Integration.Models.ToBeCommitted _toBeCommitted = null;
 
         public GithubRepoClient(string username, string key, string repo, AssetReader assetReader)
         {
@@ -37,7 +37,7 @@ namespace DocFunctions.Integration.Clients
 
         private void StartCommit()
         {
-            _toBeCommitted = new DocFunctions.Integration.Models.Commit();
+            _toBeCommitted = new DocFunctions.Integration.Models.ToBeCommitted();
         }
 
         private void EndCommit()

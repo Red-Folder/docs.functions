@@ -4,6 +4,7 @@ using System.Linq;
 using System;
 using docsFunctions.Shared.Models;
 using DocFunctions.Integration.Clients.Wrappers;
+using DocFunctions.Integration.Models;
 
 namespace DocFunctions.Integration.Clients.Fakes
 {
@@ -13,7 +14,7 @@ namespace DocFunctions.Integration.Clients.Fakes
 
         private string _lastCommit;
         private Dictionary<string, string> _previousCommits = new Dictionary<string, string>();
-        private Dictionary<string, Models.Commit.ToBeBase> _fileHistory = new Dictionary<string, Models.Commit.ToBeBase>();
+        private Dictionary<string, ToBeBase> _fileHistory = new Dictionary<string, ToBeBase>();
 
         private List<WebsiteItem> _website = new List<WebsiteItem>();
 
@@ -27,7 +28,7 @@ namespace DocFunctions.Integration.Clients.Fakes
             _lastCommit = NO_PREVIOUS_COMMIT;
         }
 
-        public WebhookData GetGithubWebhookData(Models.Commit commit)
+        public WebhookData GetGithubWebhookData(ToBeCommitted commit)
         {
             var newCommitSha = Guid.NewGuid();
             var previousCommitSha = _lastCommit;
@@ -114,9 +115,9 @@ namespace DocFunctions.Integration.Clients.Fakes
             if (_fileHistory.ContainsKey(key))
             {
                 var record = _fileHistory[key];
-                if (record != null && record is Models.Commit.ToBeBaseWithSource)
+                if (record != null && record is ToBeBaseWithSource)
                 {
-                    return (record as Models.Commit.ToBeBaseWithSource).SourceFilename;
+                    return (record as ToBeBaseWithSource).SourceFilename;
                 }
             }
 

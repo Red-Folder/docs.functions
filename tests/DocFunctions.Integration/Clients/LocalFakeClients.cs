@@ -1,5 +1,6 @@
 ﻿using DocFunctions.Integration.Clients.Fakes;
 using DocFunctions.Integration.Clients.Wrappers;
+using DocFunctions.Integration.Models;
 using DocFunctions.Lib;
 using DocFunctions.Lib.Builders;
 using DocFunctions.Lib.Processors;
@@ -9,7 +10,7 @@ namespace DocFunctions.Integration.Clients
     public class LocalFakeClients : IRepoClient, IWebsiteClient
     {
         private LocalFakeDataManager _dataManager;
-        private DocFunctions.Integration.Models.Commit _toBeCommitted = new Models.Commit();
+        private ToBeCommitted _toBeCommitted = new ToBeCommitted();
 
         public LocalFakeClients(AssetReader assetReader)
         {
@@ -18,17 +19,17 @@ namespace DocFunctions.Integration.Clients
 
         public void AddFileToCommit(string repoFilename, string sourceFilename)
         {
-            _toBeCommitted.ToAdd.Add(new Models.Commit.ToBeAdded(repoFilename, sourceFilename));
+            _toBeCommitted.ToAdd.Add(new ToBeAdded(repoFilename, sourceFilename));
         }
 
         public void DeleteFileFromCommit(string repoFilename)
         {
-            _toBeCommitted.ToDelete.Add(new Models.Commit.ToBeDeleted(repoFilename));
+            _toBeCommitted.ToDelete.Add(new ToBeDeleted(repoFilename));
         }
 
         public void ModifyFileInCommit(string repoFilename, string sourceFilename)
         {
-            _toBeCommitted.ToModify.Add(new Models.Commit.ToBeModified(repoFilename, sourceFilename));
+            _toBeCommitted.ToModify.Add(new ToBeModified(repoFilename, sourceFilename));
         }
 
         public void PushCommit(string commitMessage)
@@ -36,7 +37,7 @@ namespace DocFunctions.Integration.Clients
             EmulateGithubWebhookFunction();
 
             // And clear the toBeCommitted
-            _toBeCommitted = new Models.Commit();
+            _toBeCommitted = new Models.ToBeCommitted();
         }
 
         public bool UrlExists(string url)
