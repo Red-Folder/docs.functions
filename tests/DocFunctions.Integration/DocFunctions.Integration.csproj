@@ -101,6 +101,8 @@
     <Compile Include="Clients\Fakes\LocalFakeDataManager.cs" />
     <Compile Include="Clients\Fakes\LocalFakeFtpsClient.cs" />
     <Compile Include="Clients\Fakes\LocalFakeGithubClient.cs" />
+    <Compile Include="Clients\Fakes\LocalFakeWebsiteDataManager.cs" />
+    <Compile Include="Clients\Fakes\Models\WebsiteItem.cs" />
     <Compile Include="Clients\HttpWebsiteClient.cs" />
     <Compile Include="Clients\GithubRepoClient.cs" />
     <Compile Include="Clients\IRepoClient.cs" />

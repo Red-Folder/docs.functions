@@ -16,9 +16,10 @@ namespace DocFunctions.Integration.Clients.Fakes
         private Dictionary<string, string> _previousCommits = new Dictionary<string, string>();
         private Dictionary<string, ToBeBase> _fileHistory = new Dictionary<string, ToBeBase>();
 
-        private List<WebsiteItem> _website = new List<WebsiteItem>();
 
         private List<Blog> _repo = new List<Blog>();
+
+        private LocalFakeWebsiteDataManager _websiteManager = new LocalFakeWebsiteDataManager();
 
         private AssetReader _assetReader;
 
@@ -132,46 +133,27 @@ namespace DocFunctions.Integration.Clients.Fakes
 
         public void AddBlogToWebsite(string filename, string content)
         {
-            _website.Add(new WebsiteItem(filename, content));
+            _websiteManager.AddBlogToWebsite(filename, content);
         }
 
         public void AddImageToWebsite(string filename, byte[] content)
         {
-            _website.Add(new WebsiteItem(filename, content));
+            _websiteManager.AddImageToWebsite(filename, content);
         }
 
         public bool UrlExists(string url)
         {
-            var cleanUrl = CleanUrl(url);
-            return _website.Any(x => x.FullUrl == cleanUrl);
-        }
-
-        private string CleanUrl(string url)
-        {
-            // Remove any parameters after the url
-            return url.Split('?')[0].ToLower();
+            return _websiteManager.UrlExists(url);
         }
 
         public long UrlSize(string url)
         {
-            var cleanUrl = CleanUrl(url);
-            if (UrlExists(cleanUrl))
-            {
-                var websiteItem = _website.Where(x => x.FullUrl == cleanUrl).First();
-                var content = websiteItem.Contents;
-                if (content is byte[])
-                {
-                    return (content as byte[]).Length;
-                }
-                else
-                {
-                    return (content as string).Length;
-                }
-            }
-            else
-            {
-                throw new Exception("Url not found");
-            }
+            return _websiteManager.UrlSize(url);
+        }
+
+        public void DeleteFromWebsite(string filename)
+        {
+            _websiteManager.DeleteFromWebsite(filename);
         }
 
         public void SaveBlogToRepo(Blog blogMeta)
@@ -179,70 +161,9 @@ namespace DocFunctions.Integration.Clients.Fakes
             _repo.Add(blogMeta);
         }
 
-        public void DeleteFromWebsite(string filename)
-        {
-            _website.RemoveAll(x => x.PhysicalFilename == filename);
-        }
-
         public void DeleteBlogFromRepo(string blogUrl)
         {
             _repo.RemoveAll(x => x.Url == blogUrl);
-        }
-
-        public class WebsiteItem
-        {
-            private string _physicalFilename;
-            private Object _contents;
-
-            public WebsiteItem(string physicalFilename, Object contents)
-            {
-                _physicalFilename = physicalFilename;
-                _contents = contents;
-            }
-
-            public string FullUrl
-            {
-                get
-                {
-                    if (IsImage)
-                    {
-                        var url = $"http://rfc-website-staging.azurewebsites.net/media/blog/{_physicalFilename.Replace("/site/mediaroot/blog/", "")}";
-                        return url.ToLower();
-                    }
-                    else
-                    {
-                        var urlSuffix = _physicalFilename
-                                            .Replace("/site/contentroot/", "")
-                                            .Replace(".html", "");
-                        var url = $"https://rfc-doc-functions-staging.azurewebsites.net/api/Blog/{urlSuffix}";
-                        return url.ToLower();
-                    }
-                }
-            }
-
-            public bool IsImage
-            {
-                get
-                {
-                    return (_physicalFilename.ToLower().EndsWith(".png") || _physicalFilename.ToLower().EndsWith(".jpg"));
-                }
-            }
-
-            public string PhysicalFilename
-            {
-                get
-                {
-                    return _physicalFilename;
-                }
-            }
-
-            public Object Contents
-            {
-                get
-                {
-                    return _contents;
-                }
-            }
         }
     }
 }
