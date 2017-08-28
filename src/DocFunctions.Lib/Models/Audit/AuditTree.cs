@@ -51,6 +51,11 @@ namespace DocFunctions.Lib.Models.Audit
         public void EndOperation()
         {
             _currentNode = _currentNode.EndOperation();
+
+            if (_currentNode == null)
+            {
+                _currentNode = _baseNode;
+            }
         }
 
         public void Visit(IAuditVisitor visitor)
