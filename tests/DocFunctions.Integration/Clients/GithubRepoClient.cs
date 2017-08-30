@@ -48,17 +48,19 @@ namespace DocFunctions.Integration.Clients
         public void AddFileToCommit(string repoFilename, string sourceFilename)
         {
             StartCommitIfNotAlreadyInProgress();
-
+            _toBeCommitted.ToAdd.Add(new Models.ToBeAdded(repoFilename, sourceFilename));
         }
 
         public void DeleteFileFromCommit(string repoFilename)
         {
             StartCommitIfNotAlreadyInProgress();
+            _toBeCommitted.ToDelete.Add(new Models.ToBeDeleted(repoFilename));
         }
 
         public void ModifyFileInCommit(string repoFilename, string sourceFilename)
         {
             StartCommitIfNotAlreadyInProgress();
+            _toBeCommitted.ToModify.Add(new Models.ToBeModified(repoFilename, sourceFilename));
         }
 
         public void PushCommit(string commitMessage)
