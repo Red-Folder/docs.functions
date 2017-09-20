@@ -1,4 +1,5 @@
 ﻿using DocFunctions.Lib.Wappers;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -31,23 +32,35 @@ namespace DocFunctions.Lib.Clients
 
         public void Upload(string filename, byte[] contents)
         {
-            EnsurePathExists(filename);
-
-            FtpWebRequest request = (FtpWebRequest)WebRequest.Create(FormatUrl(filename));
-            request.Credentials = new NetworkCredential(_username, _password);
-            request.Method = WebRequestMethods.Ftp.UploadFile;
-            request.EnableSsl = true;
-            request.UseBinary = true;
-
-            request.ContentLength = contents.Length;
-            using (Stream s = request.GetRequestStream())
+            try
             {
-                s.Write(contents, 0, contents.Length);
+                EnsurePathExists(filename);
+
+                FtpWebRequest request = (FtpWebRequest)WebRequest.Create(FormatUrl(filename));
+                request.Credentials = new NetworkCredential(_username, _password);
+                request.Method = WebRequestMethods.Ftp.UploadFile;
+                request.EnableSsl = true;
+                request.UseBinary = true;
+
+                request.ContentLength = contents.Length;
+                using (Stream s = request.GetRequestStream())
+                {
+                    s.Write(contents, 0, contents.Length);
+                }
+
+                FtpWebResponse response = (FtpWebResponse)request.GetResponse();
+
+                Log.Information("Uploaded {filename} - Status {StatusCode}:{StatusDescription} - Exit Message:{ExitMessage}", 
+                        filename, 
+                        response.StatusCode, 
+                        response.StatusDescription, 
+                        response.ExitMessage);
+                response.Close();
             }
-
-            FtpWebResponse response = (FtpWebResponse)request.GetResponse();
-
-            response.Close();
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Upload of {filename} failed", filename);
+            }
         }
 
         public void Delete(string filename)
