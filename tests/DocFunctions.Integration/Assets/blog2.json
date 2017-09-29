@@ -1,0 +1,12 @@
+﻿{
+  "id": "84146e3f-787d-4133-8cf2-da924a29cc31",
+  "url": "[BLOGNAME]",
+  "published": "2017-01-23",
+  "modified": "2017-01-23",
+  "title": "Test Blog",
+  "enabled": "true",
+  "keyWords": [],
+  "description": "UPDATED - Blogged used for testing Docs Functions",
+  "image": "/media/blog/[BLOGNAME]/Image.png",
+  "author": "Mark Taylor"
+}

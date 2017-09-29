@@ -1,5 +1,9 @@
-﻿using docsFunctions.Shared.Models;
+﻿using System;
+using docsFunctions.Shared.Models;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
+using System.Linq;
+using Newtonsoft;
 
 namespace DocFunctions.Integration.Clients.Fakes
 {
@@ -15,6 +19,18 @@ namespace DocFunctions.Integration.Clients.Fakes
         public void DeleteBlogFromRepo(string blogUrl)
         {
             _repo.RemoveAll(x => x.Url == blogUrl);
+        }
+
+        public string UrlContent(string fullUrl)
+        {
+            Regex regex = new Regex(@"/api/Blog/(.*)\?");
+
+            var blogUrl = regex.Match(fullUrl).Groups[1].Value;
+
+            var metaObject = _repo.Where(x => x.Url == blogUrl).FirstOrDefault();
+
+            var metaString = Newtonsoft.Json.JsonConvert.SerializeObject(metaObject);
+            return metaString;
         }
     }
 }

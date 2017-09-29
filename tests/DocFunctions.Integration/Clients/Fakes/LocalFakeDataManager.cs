@@ -58,6 +58,18 @@ namespace DocFunctions.Integration.Clients.Fakes
             return _websiteManager.UrlSize(url);
         }
 
+        public string UrlContent(string url)
+        {
+            if (url.Contains("/api/Blog"))
+            {
+                return _repoManager.UrlContent(url);
+            }
+            else
+            {
+                return _websiteManager.UrlContent(url);
+            }
+        }
+
         public void DeleteFromWebsite(string filename)
         {
             _websiteManager.DeleteFromWebsite(filename);

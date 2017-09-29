@@ -5,5 +5,6 @@
         bool UrlExists(string url);
         bool UrlNotFound(string url);
         long UrlSize(string url);
+        string GetContent(string url);
     }
 }

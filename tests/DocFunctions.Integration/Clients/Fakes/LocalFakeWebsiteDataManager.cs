@@ -51,6 +51,27 @@ namespace DocFunctions.Integration.Clients.Fakes
             }
         }
 
+        public string UrlContent(string url)
+        {
+            var websiteItem = Get(url);
+            if (websiteItem != null)
+            {
+                var content = websiteItem.Contents;
+                if (content is byte[])
+                {
+                    throw new Exception("Url not in expected format");
+                }
+                else
+                {
+                    return (content as string);
+                }
+            }
+            else
+            {
+                throw new Exception("Url not found");
+            }
+        }
+
         private WebsiteItem Get(string url)
         {
             var cleanUrl = url.Split('?')[0].ToLower();

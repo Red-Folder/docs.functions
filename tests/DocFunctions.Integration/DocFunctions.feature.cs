@@ -215,12 +215,14 @@ this.ScenarioSetup(scenarioInfo);
 #line 59
  testRunner.And("Replace blog.md with blog2.md in the commit", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 60
- testRunner.And("Push the commit with message \"On amending the text on an existing blog scenario -" +
-                    " modified text in the target blog\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("Replace blog.json with blog2.json in the commit", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 61
- testRunner.Then("I allow 60 seconds", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.And("Push the commit with message \"On amending the meta of an existing blog scenario -" +
+                    " modified description is in the meta\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 62
- testRunner.Then("I would expect the new blog text to be available via the website", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("I allow 60 seconds", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 63
+ testRunner.Then("I would expect the new blog meta to be available via the website", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

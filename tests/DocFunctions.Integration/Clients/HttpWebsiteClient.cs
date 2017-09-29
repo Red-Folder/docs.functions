@@ -26,5 +26,12 @@ namespace DocFunctions.Integration.Clients
 
             return length == null ? 0 : (long)length;
         }
+
+        public string GetContent(string url)
+        {
+            var result = client.GetAsync(url).Result;
+
+            return result.Content.ReadAsStringAsync().Result;
+        }
     }
 }

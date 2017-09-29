@@ -1,4 +1,5 @@
-﻿using DocFunctions.Integration.Clients.Fakes;
+﻿using System;
+using DocFunctions.Integration.Clients.Fakes;
 using DocFunctions.Integration.Clients.Wrappers;
 using DocFunctions.Integration.Models;
 using DocFunctions.Lib;
@@ -56,6 +57,11 @@ namespace DocFunctions.Integration.Clients
         public long UrlSize(string url)
         {
             return _dataManager.UrlSize(url);
+        }
+
+        public string GetContent(string url)
+        {
+            return _dataManager.UrlContent(url);
         }
 
         private void EmulateGithubWebhookFunction()

@@ -57,6 +57,7 @@ Scenario: On amending text on an existing blog
 	Then I would expect the blog to be available via the Blog API
 	When I start a new commit
 	And Replace blog.md with blog2.md in the commit
-	And Push the commit with message "On amending the text on an existing blog scenario - modified text in the target blog"
+	And Replace blog.json with blog2.json in the commit
+	And Push the commit with message "On amending the meta of an existing blog scenario - modified description is in the meta"
 	Then I allow 60 seconds
-	Then I would expect the new blog text to be available via the website
+	Then I would expect the new blog meta to be available via the website

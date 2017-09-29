@@ -78,10 +78,10 @@ namespace DocFunctions.Integration
             Assert.Equal(5585, _websiteClient.UrlSize(_config.ImageUrl));
         }
 
-        [Then(@"I would expect the new blog text to be available via the website")]
+        [Then(@"I would expect the new blog meta to be available via the website")]
         public void ThenIWouldExpectTheNewBlogTextToBeAvailableViaTheWebsite()
         {
-            Assert.Equal(190, _websiteClient.UrlSize(_config.RepoUrl));
+            Assert.Contains("UPDATED", _websiteClient.GetContent(_config.RepoUrl));
         }
 
         [Given(@"I start a new commit")]
