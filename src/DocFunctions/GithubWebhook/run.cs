@@ -35,33 +35,31 @@ namespace DocFunctions.Functions
                 var gitKey = ConfigurationManager.AppSettings["github-key"];
                 var gitRepo = ConfigurationManager.AppSettings["github-repo"];
 
-                var ftpsHost = ConfigurationManager.AppSettings["ftps-host"];
-                var ftpsUsername = ConfigurationManager.AppSettings["ftps-username"];
-                var ftpsPassword = ConfigurationManager.AppSettings["ftps-password"];
-
                 var blogMetaContainerName = ConfigurationManager.AppSettings["BlogMetaStorageContainerName"];
                 var blogMetaConnectionString = ConfigurationManager.ConnectionStrings["BlogMetaStorage"].ConnectionString;
+
+                var blobContainerName = ConfigurationManager.AppSettings["BlobStorageContainerName"];
+                var blobConnectionString = ConfigurationManager.ConnectionStrings["BlobStorage"].ConnectionString;
 
                 if (gitUsername == null || gitUsername.Length == 0) throw new InvalidOperationException("github-username not set");
                 if (gitKey == null || gitKey.Length == 0) throw new InvalidOperationException("github-key not set");
                 if (gitRepo == null || gitRepo.Length == 0) throw new InvalidOperationException("github-repo not set");
 
-                if (ftpsHost == null || ftpsHost.Length == 0) throw new InvalidOperationException("ftps-host not set");
-                if (ftpsUsername == null || ftpsUsername.Length == 0) throw new InvalidOperationException("ftps-username not set");
-                if (ftpsPassword == null || ftpsPassword.Length == 0) throw new InvalidOperationException("ftps-password not set");
-
                 if (blogMetaContainerName == null || blogMetaContainerName.Length == 0) throw new InvalidOperationException("BlogMetaStorageContainerName not set");
                 if (blogMetaConnectionString == null || blogMetaConnectionString.Length == 0) throw new InvalidOperationException("BlogMetaStorage Connection String not set");
+
+                if (blobContainerName == null || blobContainerName.Length == 0) throw new InvalidOperationException("BlobStorageContainerName not set");
+                if (blobConnectionString == null || blobConnectionString.Length == 0) throw new InvalidOperationException("BlobStorage Connection String not set");
 
                 using (LogContext.PushProperty("RequestID", Guid.NewGuid()))
                 {
                     var githubReader = new GithubClient(gitUsername, gitKey, gitRepo);
                     var markdownProcessor = new MarkdownProcessor();
-                    var ftpsClient = new FtpsBlobClient(ftpsHost, ftpsUsername, ftpsPassword);
+                    var blobClient = new AzureBlobClient(blobConnectionString, blobContainerName);
                     var blogMetaProcessor = new BlogMetaProcessor();
                     var blogMetaRepository = new BlogMetaRepository(blogMetaConnectionString, blogMetaContainerName);
                     var cache = new AllCachesClient(null);
-                    var actionBuilder = new ActionBuilder(githubReader, markdownProcessor, ftpsClient, blogMetaProcessor, blogMetaRepository, cache);
+                    var actionBuilder = new ActionBuilder(githubReader, markdownProcessor, blobClient, blogMetaProcessor, blogMetaRepository, cache);
                     IEmailClient emailClient = null;
 
                     var webhookAction = new WebhookActionBuilder(actionBuilder, emailClient);
