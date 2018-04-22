@@ -195,7 +195,7 @@ namespace DocFunctions.Integration.Clients
                         {
                             Path = x.Path,
                             Mode = x.Mode,
-                            Type = x.Type,
+                            Type = x.Type.Value,
                             Sha = x.Sha
                         })
                         .ToList()
