@@ -50,7 +50,14 @@ namespace DocFunctions.Integration.Clients.Fakes
 
         public bool UrlExists(string url)
         {
-            return _websiteManager.UrlExists(url);
+            if (url.Contains("/api/Blog"))
+            {
+                return _repoManager.UrlExists(url);
+            }
+            else
+            {
+                return _websiteManager.UrlExists(url);
+            }
         }
 
         public long UrlSize(string url)

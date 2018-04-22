@@ -46,7 +46,7 @@ namespace DocFunctions.Lib.Unit.Actions
         {
             // Arrange
             var builder = new NewBlogActionBuilder(new Models.Github.Added { FullFilename = "/test folder/blog.md", CommitShaForRead = "commit-sha-xxxx" });
-            builder.SetFtpsClient(null);
+            builder.SetBlobClient(null);
             Assert.Throws<ArgumentNullException>(() => builder.Build());
         }
 
@@ -107,7 +107,7 @@ namespace DocFunctions.Lib.Unit.Actions
             sut.Execute();
 
             // Assert
-            builder.MockFtpsClient.Verify(m => m.Upload(It.Is<string>(x => x == "/site/contentroot/testblog.html"), It.Is<string>(x => x == "<h2>Hello World</h2>")));
+            builder.MockBlobClient.Verify(m => m.Upload(It.Is<string>(x => x == "/blog/testblog/testblog.html"), It.Is<string>(x => x == "<h2>Hello World</h2>")));
         }
 
         [Fact]

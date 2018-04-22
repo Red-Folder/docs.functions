@@ -16,7 +16,7 @@ namespace DocFunctions.Integration.Models
             _blogname = blogname;
         }
 
-        public string RepoUrl
+        public string MetaUrl
         {
             get
             {
@@ -24,11 +24,19 @@ namespace DocFunctions.Integration.Models
             }
         }
 
+        public string ContentUrl
+        {
+            get
+            {
+                return $"https://rfcdocs.blob.core.windows.net/rfcdocs/blog/{BlogName}/{BlogName}.html";
+            }
+        }
+
         public string ImageUrl
         {
             get
             {
-                return $"https://rfcdocs.blob.core.windows.net/rfcdocs-media/media/blog/{BlogName}/image.png";
+                return $"https://rfcdocs.blob.core.windows.net/rfcdocs/blog/{BlogName}/image.png";
             }
         }
 

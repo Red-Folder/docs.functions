@@ -42,7 +42,7 @@ namespace DocFunctions.Integration
         [Then(@"I would expect the blog to not be available via the Blog API")]
         public void ThenIWouldExpectTheBlogToNotBeAvailableViaTheBlogAPI()
         {
-            Assert.True(_websiteClient.UrlNotFound(_config.RepoUrl));
+            Assert.True(_websiteClient.UrlNotFound(_config.MetaUrl));
         }
 
         [Then(@"I allow (.*) seconds")]
@@ -57,8 +57,21 @@ namespace DocFunctions.Integration
         [Then(@"I would expect the blog to be available via the Blog API")]
         public void ThenIWouldExpectTheBlogToBeAvailableViaTheBlogAPI()
         {
-            Assert.True(_websiteClient.UrlExists(_config.RepoUrl));
+            Assert.True(_websiteClient.UrlExists(_config.MetaUrl));
         }
+
+        [Then(@"I would expect the blog content to be available via the website")]
+        public void ThenIWouldExpectTheBlogContentToBeAvailableViaTheWebsite()
+        {
+            Assert.True(_websiteClient.UrlExists(_config.ContentUrl));
+        }
+
+        [Then(@"I would expect the blog content to not be available via the website")]
+        public void ThenIWouldExpectTheBlogContentToNotBeAvailableViaTheWebsite()
+        {
+            Assert.True(_websiteClient.UrlNotFound(_config.ContentUrl));
+        }
+
 
         [Then(@"I would expect the image to be available via the website")]
         public void ThenIWouldExpectTheImageToBeAvailableViaTheWebsite()
@@ -81,8 +94,15 @@ namespace DocFunctions.Integration
         [Then(@"I would expect the new blog meta to be available via the website")]
         public void ThenIWouldExpectTheNewBlogTextToBeAvailableViaTheWebsite()
         {
-            Assert.Contains("UPDATED", _websiteClient.GetContent(_config.RepoUrl));
+            Assert.Contains("UPDATED", _websiteClient.GetContent(_config.MetaUrl));
         }
+
+        [Then(@"I would expect the new blog content to be available via the website")]
+        public void ThenIWouldExpectTheNewBlogContentToBeAvailableViaTheWebsite()
+        {
+            Assert.Contains("This version has sooooo much more text", _websiteClient.GetContent(_config.ContentUrl));
+        }
+
 
         [Given(@"I start a new commit")]
         [When(@"I start a new commit")]

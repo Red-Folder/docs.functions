@@ -21,6 +21,15 @@ namespace DocFunctions.Integration.Clients.Fakes
             _repo.RemoveAll(x => x.Url == blogUrl);
         }
 
+        public bool UrlExists(string fullUrl)
+        {
+            Regex regex = new Regex(@"/api/Blog/(.*)\?");
+
+            var blogUrl = regex.Match(fullUrl).Groups[1].Value;
+
+            return _repo.Any(x => x.Url == blogUrl);
+        }
+
         public string UrlContent(string fullUrl)
         {
             Regex regex = new Regex(@"/api/Blog/(.*)\?");

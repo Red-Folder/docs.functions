@@ -86,7 +86,7 @@ namespace DocFunctions.Lib.Actions
 
         private void DeleteBlogMarkup(Blog blogMeta)
         {
-            var filename = "/site/contentroot/" + blogMeta.Url + ".html";
+            var filename = $"blog/{blogMeta.Url}/{blogMeta.Url}.html";
             Log.Information("Using Ftps to delete: {filename}", filename);
             _ftpsClient.Delete(filename);
         }

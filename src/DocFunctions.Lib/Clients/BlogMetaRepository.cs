@@ -17,7 +17,7 @@ namespace DocFunctions.Lib.Clients
     [ExcludeFromCodeCoverage]
     public class BlogMetaRepository : IBlogMetaRepository
     {
-        private const string BLOGMETAFILENAME = "BlogMeta.json";
+        private const string BLOGMETAFILENAME = "/blog/BlogMeta.json";
 
         private List<Blog> _blogs;
 

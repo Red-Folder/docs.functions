@@ -39,7 +39,7 @@ namespace DocFunctions.Lib.Unit.Actions
             sut.Execute();
 
             // Assert
-            builder.MockFtpsClient.Verify(m => m.Delete(It.Is<string>(x => x == "/site/mediaroot/blog/test folder/image.png")));
+            builder.MockFtpsClient.Verify(m => m.Delete(It.Is<string>(x => x == "/test folder/image.png")));
         }
     }
 }

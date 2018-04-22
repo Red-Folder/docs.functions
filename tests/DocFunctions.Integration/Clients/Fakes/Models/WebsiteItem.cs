@@ -17,19 +17,8 @@ namespace DocFunctions.Integration.Clients.Fakes.Models
         {
             get
             {
-                if (IsImage)
-                {
-                    var url = $"https://rfcdocs.blob.core.windows.net/rfcdocs-media/media/blog/{_physicalFilename.Replace("/site/mediaroot/blog/", "")}";
-                    return url.ToLower();
-                }
-                else
-                {
-                    var urlSuffix = _physicalFilename
-                                        .Replace("/site/contentroot/", "")
-                                        .Replace(".html", "");
-                    var url = $"https://rfc-doc-functions-staging.azurewebsites.net/api/Blog/{urlSuffix}";
-                    return url.ToLower();
-                }
+                var url = $"https://rfcdocs.blob.core.windows.net/rfcdocs/{_physicalFilename}";
+                return url.ToLower();
             }
         }
 

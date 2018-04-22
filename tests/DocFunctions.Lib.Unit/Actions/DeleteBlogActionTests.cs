@@ -35,7 +35,7 @@ namespace DocFunctions.Lib.Unit.Actions
         {
             // Arrange
             var builder = new DeleteBlogActionBuilder(new Models.Github.Removed { FullFilename = "/test folder/blog.md", CommitShaForRead = "commit-sha-xxxx" });
-            builder.SetFtpsClient(null);
+            builder.SetBlogClient(null);
             Assert.Throws<ArgumentNullException>(() => builder.Build());
         }
 
@@ -68,7 +68,7 @@ namespace DocFunctions.Lib.Unit.Actions
             sut.Execute();
 
             // Assert
-            builder.MockFtpsClient.Verify(m => m.Delete(It.Is<string>(x => x == "/site/contentroot/testblog.html")));
+            builder.MockBlobClient.Verify(m => m.Delete(It.Is<string>(x => x == "/blog/testblog/testblog.html")));
         }
 
         [Fact]
