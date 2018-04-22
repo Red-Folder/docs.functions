@@ -19,7 +19,7 @@ namespace DocFunctions.Integration.Clients.Fakes.Models
             {
                 if (IsImage)
                 {
-                    var url = $"http://rfc-website-staging.azurewebsites.net/media/blog/{_physicalFilename.Replace("/site/mediaroot/blog/", "")}";
+                    var url = $"https://rfcdocs.blob.core.windows.net/rfcdocs-media/media/blog/{_physicalFilename.Replace("/site/mediaroot/blog/", "")}";
                     return url.ToLower();
                 }
                 else

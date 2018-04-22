@@ -28,7 +28,7 @@ namespace DocFunctions.Integration.Models
         {
             get
             {
-                return $"http://rfc-website-staging.azurewebsites.net/media/blog/{BlogName}/image.png";
+                return $"https://rfcdocs.blob.core.windows.net/rfcdocs-media/media/blog/{BlogName}/image.png";
             }
         }
 
