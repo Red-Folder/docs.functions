@@ -2,7 +2,7 @@
 
 namespace DocFunctions.Integration.Clients.Fakes
 {
-    public class LocalFakeFtpsClient : IFtpsClient
+    public class LocalFakeFtpsClient : IBlobClient
     {
         private LocalFakeDataManager _dataManager;
 

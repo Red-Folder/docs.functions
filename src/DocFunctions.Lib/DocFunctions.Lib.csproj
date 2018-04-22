@@ -107,10 +107,11 @@
     <Compile Include="Builders\ActionBuilder.cs" />
     <Compile Include="Builders\IActionBuilder.cs" />
     <Compile Include="Clients\AllCachesClient.cs" />
+    <Compile Include="Clients\AzureBlobClient.cs" />
     <Compile Include="Clients\BlogMetaRepository.cs" />
     <Compile Include="Clients\CloudFlareCache.cs" />
     <Compile Include="Clients\EmailClient.cs" />
-    <Compile Include="Clients\FtpsClient.cs" />
+    <Compile Include="Clients\FtpsBlobClient.cs" />
     <Compile Include="Clients\GithubClient.cs" />
     <Compile Include="Clients\WebsiteCacheClient.cs" />
     <Compile Include="Models\Audit\AuditAsHtml.cs" />
@@ -142,7 +143,7 @@
     <Compile Include="Wappers\IBlogMetaProcessor.cs" />
     <Compile Include="Wappers\IBlogMetaRepository.cs" />
     <Compile Include="Wappers\IEmailClient.cs" />
-    <Compile Include="Wappers\IFtpsClient.cs" />
+    <Compile Include="Wappers\IBlobClient.cs" />
     <Compile Include="Wappers\IGithubReader.cs" />
     <Compile Include="Wappers\IMarkdownProcessor.cs" />
     <Compile Include="Wappers\IWebCache.cs" />

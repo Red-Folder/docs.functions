@@ -17,7 +17,7 @@ namespace DocFunctions.Lib.Unit.Builders
 
         private Mock<IGithubReader> _mockGithubReader;
         private Mock<IMarkdownProcessor> _mockMarkdownProcessor;
-        private Mock<IFtpsClient> _mockFtpsClient;
+        private Mock<IBlobClient> _mockFtpsClient;
         private Mock<IBlogMetaProcessor> _mockBlogMetaReader;
         private Mock<IBlogMetaRepository> _mockBlogMetaRepository;
         private Mock<IWebCache> _mockCache;
@@ -27,7 +27,7 @@ namespace DocFunctions.Lib.Unit.Builders
         private bool _markdownProcessorSet = false;
         private IMarkdownProcessor _markdownProcessor;
         private bool _ftpsClientSet = false;
-        private IFtpsClient _ftpsClient;
+        private IBlobClient _ftpsClient;
         private bool _blogMetaReaderSet = false;
         private IBlogMetaProcessor _blogMetaReader;
         private bool _blogMetaRepositorySet = false;
@@ -44,7 +44,7 @@ namespace DocFunctions.Lib.Unit.Builders
             _mockMarkdownProcessor = new Mock<IMarkdownProcessor>();
             _mockMarkdownProcessor.Setup(m => m.Process(It.IsAny<string>())).Returns("<h2>Hello World</h2>");
 
-            _mockFtpsClient = new Mock<IFtpsClient>();
+            _mockFtpsClient = new Mock<IBlobClient>();
 
             _mockBlogMetaReader = new Mock<IBlogMetaProcessor>();
             _mockBlogMetaReader.Setup(m => m.Transform(It.IsAny<string>())).Returns(new Blog { Url = "testblog" });
@@ -70,7 +70,7 @@ namespace DocFunctions.Lib.Unit.Builders
             }
         }
 
-        public Mock<IFtpsClient> MockFtpsClient
+        public Mock<IBlobClient> MockFtpsClient
         {
             get
             {
@@ -108,7 +108,7 @@ namespace DocFunctions.Lib.Unit.Builders
             return this;
         }
 
-        public NewBlogActionBuilder SetFtpsClient(IFtpsClient ftpsclient)
+        public NewBlogActionBuilder SetFtpsClient(IBlobClient ftpsclient)
         {
             _ftpsClientSet = true;
             _ftpsClient = ftpsclient;

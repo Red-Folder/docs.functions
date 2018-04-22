@@ -15,14 +15,14 @@ namespace DocFunctions.Lib.Actions
     {
         private Removed _data;
         private IGithubReader _githubReader;
-        private IFtpsClient _ftpsClient;
+        private IBlobClient _ftpsClient;
         private IBlogMetaProcessor _blogMetaReader;
         private IBlogMetaRepository _blogMetaRepository;
         private IWebCache _cache;
 
         public DeleteBlogAction(Removed data,
                                 IGithubReader githubReader,
-                                IFtpsClient ftpsClient,
+                                IBlobClient ftpsClient,
                                 IBlogMetaProcessor blogMetaReader,
                                 IBlogMetaRepository blogMetaRepository,
                                 IWebCache cache)

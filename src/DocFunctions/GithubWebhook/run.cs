@@ -57,7 +57,7 @@ namespace DocFunctions.Functions
                 {
                     var githubReader = new GithubClient(gitUsername, gitKey, gitRepo);
                     var markdownProcessor = new MarkdownProcessor();
-                    var ftpsClient = new FtpsClient(ftpsHost, ftpsUsername, ftpsPassword);
+                    var ftpsClient = new FtpsBlobClient(ftpsHost, ftpsUsername, ftpsPassword);
                     var blogMetaProcessor = new BlogMetaProcessor();
                     var blogMetaRepository = new BlogMetaRepository(blogMetaConnectionString, blogMetaContainerName);
                     var cache = new AllCachesClient(null);

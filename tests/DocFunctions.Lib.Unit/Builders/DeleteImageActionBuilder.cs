@@ -13,21 +13,21 @@ namespace DocFunctions.Lib.Unit.Builders
     public class DeleteImageActionBuilder
     {
         private Removed _removed;
-        private Mock<IFtpsClient> _mockFtpsClient;
+        private Mock<IBlobClient> _mockFtpsClient;
         private Mock<IWebCache> _mockCache;
 
         private bool _ftpsClientSet = false;
-        private IFtpsClient _ftpsClient;
+        private IBlobClient _ftpsClient;
 
         public DeleteImageActionBuilder(Removed removed)
         {
             _removed = removed;
 
-            _mockFtpsClient = new Mock<IFtpsClient>();
+            _mockFtpsClient = new Mock<IBlobClient>();
             _mockCache = new Mock<IWebCache>();
         }
 
-        public Mock<IFtpsClient> MockFtpsClient
+        public Mock<IBlobClient> MockFtpsClient
         {
             get
             {
@@ -35,7 +35,7 @@ namespace DocFunctions.Lib.Unit.Builders
             }
         }
 
-        public DeleteImageActionBuilder SetFtpsClient(IFtpsClient ftpsclient)
+        public DeleteImageActionBuilder SetFtpsClient(IBlobClient ftpsclient)
         {
             _ftpsClientSet = true;
             _ftpsClient = ftpsclient;

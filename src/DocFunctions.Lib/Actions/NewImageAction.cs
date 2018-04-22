@@ -15,13 +15,13 @@ namespace DocFunctions.Lib.Actions
     {
         private Added _data;
         private IGithubReader _githubReader;
-        private IFtpsClient _ftpsClient;
+        private IBlobClient _ftpsClient;
         private IBlogMetaProcessor _blogMetaReader;
         private IWebCache _cache;
 
         public NewImageAction(Added data,
                                 IGithubReader githubReader,
-                                IFtpsClient ftpsClient,
+                                IBlobClient ftpsClient,
                                 IBlogMetaProcessor blogMetaReader,
                                 IWebCache cache)
         {

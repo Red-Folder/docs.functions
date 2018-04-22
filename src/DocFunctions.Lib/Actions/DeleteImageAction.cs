@@ -13,11 +13,11 @@ namespace DocFunctions.Lib.Actions
     public class DeleteImageAction : IAction
     {
         private Removed _data;
-        private IFtpsClient _ftpsClient;
+        private IBlobClient _ftpsClient;
         private IWebCache _cache;
 
         public DeleteImageAction(Removed data,
-                                IFtpsClient ftpsClient,
+                                IBlobClient ftpsClient,
                                 IWebCache cache)
         {
             if (data == null) throw new ArgumentNullException("data");

@@ -26,7 +26,7 @@ namespace DocFunctions.Lib.Integration
             var ftpsHost = ConfigurationManager.AppSettings["ftps-host"];
             var ftpsUsername = ConfigurationManager.AppSettings["ftps-username"];
             var ftpsPassword = ConfigurationManager.AppSettings["ftps-password"];
-            var ftpsClient = new FtpsClient(ftpsHost, ftpsUsername, ftpsPassword);
+            var ftpsClient = new FtpsBlobClient(ftpsHost, ftpsUsername, ftpsPassword);
 
             var blogMetaProcessor = new BlogMetaProcessor();
 

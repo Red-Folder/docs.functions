@@ -18,7 +18,7 @@ namespace DocFunctions.Lib.Unit
         {
             Assert.Throws<ArgumentNullException>(() => new ActionBuilder(null,
                                                                             new Mock<IMarkdownProcessor>().Object,
-                                                                            new Mock<IFtpsClient>().Object,
+                                                                            new Mock<IBlobClient>().Object,
                                                                             new Mock<IBlogMetaProcessor>().Object,
                                                                             new Mock<IBlogMetaRepository>().Object,
                                                                             new Mock<IWebCache>().Object));
@@ -29,7 +29,7 @@ namespace DocFunctions.Lib.Unit
         {
             Assert.Throws<ArgumentNullException>(() => new ActionBuilder(new Mock<IGithubReader>().Object,
                                                                             null,
-                                                                            new Mock<IFtpsClient>().Object,
+                                                                            new Mock<IBlobClient>().Object,
                                                                             new Mock<IBlogMetaProcessor>().Object,
                                                                             new Mock<IBlogMetaRepository>().Object,
                                                                             new Mock<IWebCache>().Object));
@@ -51,7 +51,7 @@ namespace DocFunctions.Lib.Unit
         {
             Assert.Throws<ArgumentNullException>(() => new ActionBuilder(new Mock<IGithubReader>().Object,
                                                                             new Mock<IMarkdownProcessor>().Object,
-                                                                            new Mock<IFtpsClient>().Object,
+                                                                            new Mock<IBlobClient>().Object,
                                                                             null,
                                                                             new Mock<IBlogMetaRepository>().Object,
                                                                             new Mock<IWebCache>().Object));
@@ -62,7 +62,7 @@ namespace DocFunctions.Lib.Unit
         {
             Assert.Throws<ArgumentNullException>(() => new ActionBuilder(new Mock<IGithubReader>().Object,
                                                                             new Mock<IMarkdownProcessor>().Object,
-                                                                            new Mock<IFtpsClient>().Object,
+                                                                            new Mock<IBlobClient>().Object,
                                                                             new Mock<IBlogMetaProcessor>().Object,
                                                                             null,
                                                                             new Mock<IWebCache>().Object));
@@ -75,7 +75,7 @@ namespace DocFunctions.Lib.Unit
             // Arrange
             var sut = new ActionBuilder(new Mock<IGithubReader>().Object,
                                         new Mock<IMarkdownProcessor>().Object,
-                                        new Mock<IFtpsClient>().Object,
+                                        new Mock<IBlobClient>().Object,
                                         new Mock<IBlogMetaProcessor>().Object,
                                         new Mock<IBlogMetaRepository>().Object,
                                         new Mock<IWebCache>().Object);
@@ -95,7 +95,7 @@ namespace DocFunctions.Lib.Unit
             // Arrange
             var sut = new ActionBuilder(new Mock<IGithubReader>().Object,
                                         new Mock<IMarkdownProcessor>().Object,
-                                        new Mock<IFtpsClient>().Object,
+                                        new Mock<IBlobClient>().Object,
                                         new Mock<IBlogMetaProcessor>().Object,
                                         new Mock<IBlogMetaRepository>().Object,
                                         new Mock<IWebCache>().Object);
@@ -115,7 +115,7 @@ namespace DocFunctions.Lib.Unit
             // Arrange
             var sut = new ActionBuilder(new Mock<IGithubReader>().Object,
                                         new Mock<IMarkdownProcessor>().Object,
-                                        new Mock<IFtpsClient>().Object,
+                                        new Mock<IBlobClient>().Object,
                                         new Mock<IBlogMetaProcessor>().Object,
                                         new Mock<IBlogMetaRepository>().Object,
                                         new Mock<IWebCache>().Object);
@@ -135,7 +135,7 @@ namespace DocFunctions.Lib.Unit
             // Arrange
             var sut = new ActionBuilder(new Mock<IGithubReader>().Object,
                                         new Mock<IMarkdownProcessor>().Object,
-                                        new Mock<IFtpsClient>().Object,
+                                        new Mock<IBlobClient>().Object,
                                         new Mock<IBlogMetaProcessor>().Object,
                                         new Mock<IBlogMetaRepository>().Object,
                                         new Mock<IWebCache>().Object);
@@ -155,7 +155,7 @@ namespace DocFunctions.Lib.Unit
             // Arrange
             var sut = new ActionBuilder(new Mock<IGithubReader>().Object,
                                         new Mock<IMarkdownProcessor>().Object,
-                                        new Mock<IFtpsClient>().Object,
+                                        new Mock<IBlobClient>().Object,
                                         new Mock<IBlogMetaProcessor>().Object,
                                         new Mock<IBlogMetaRepository>().Object,
                                         new Mock<IWebCache>().Object);
@@ -176,7 +176,7 @@ namespace DocFunctions.Lib.Unit
             // Arrange
             var sut = new ActionBuilder(new Mock<IGithubReader>().Object,
                                         new Mock<IMarkdownProcessor>().Object,
-                                        new Mock<IFtpsClient>().Object,
+                                        new Mock<IBlobClient>().Object,
                                         new Mock<IBlogMetaProcessor>().Object,
                                         new Mock<IBlogMetaRepository>().Object,
                                         new Mock<IWebCache>().Object);
