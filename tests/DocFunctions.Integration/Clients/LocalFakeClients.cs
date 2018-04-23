@@ -68,13 +68,13 @@ namespace DocFunctions.Integration.Clients
         {
             var fakeGithubReader = new LocalFakeGithubClient(_dataManager);
             var markdownProcessor = new MarkdownProcessor();
-            var fakeFtpsClient = new LocalFakeBlogClient(_dataManager);
+            var fakeBlobClient = new LocalFakeBlobClient(_dataManager);
             var blogMetaProcessor = new BlogMetaProcessor();
             var fakeBlogMetaRepository = new LocalFakeBlogMetaRepository(_dataManager);
             var cache = new AllCachesClient(null);
             var actionBuilder = new ActionBuilder(fakeGithubReader, 
                                                     markdownProcessor, 
-                                                    fakeFtpsClient, 
+                                                    fakeBlobClient, 
                                                     blogMetaProcessor, 
                                                     fakeBlogMetaRepository,
                                                     cache);

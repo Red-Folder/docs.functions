@@ -100,7 +100,7 @@
   <ItemGroup>
     <Compile Include="Clients\Fakes\LocalFakeBlogMetaRepository.cs" />
     <Compile Include="Clients\Fakes\LocalFakeDataManager.cs" />
-    <Compile Include="Clients\Fakes\LocalFakeBlogClient.cs" />
+    <Compile Include="Clients\Fakes\LocalFakeBlobClient.cs" />
     <Compile Include="Clients\Fakes\LocalFakeGithubClient.cs" />
     <Compile Include="Clients\Fakes\LocalFakeGithubDataManager.cs" />
     <Compile Include="Clients\Fakes\LocalFakeRepoDataManager.cs" />

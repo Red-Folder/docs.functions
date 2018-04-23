@@ -36,7 +36,7 @@ namespace DocFunctions.Lib.Unit
         }
 
         [Fact]
-        public void ConstructorThrowsErrorOnNullFtpsClient()
+        public void ConstructorThrowsErrorOnNullBlobClient()
         {
             Assert.Throws<ArgumentNullException>(() => new ActionBuilder(new Mock<IGithubReader>().Object,
                                                                             new Mock<IMarkdownProcessor>().Object,

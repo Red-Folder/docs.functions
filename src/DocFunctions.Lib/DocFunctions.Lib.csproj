@@ -110,7 +110,6 @@
     <Compile Include="Clients\BlogMetaRepository.cs" />
     <Compile Include="Clients\CloudFlareCache.cs" />
     <Compile Include="Clients\EmailClient.cs" />
-    <Compile Include="Clients\FtpsBlobClient.cs" />
     <Compile Include="Clients\GithubClient.cs" />
     <Compile Include="Clients\WebsiteCacheClient.cs" />
     <Compile Include="Models\Audit\AuditAsHtml.cs" />

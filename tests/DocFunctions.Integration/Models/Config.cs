@@ -36,7 +36,7 @@ namespace DocFunctions.Integration.Models
         {
             get
             {
-                return $"https://rfcdocs.blob.core.windows.net/blog/{BlogName}/image.png";
+                return $"https://rfcdocs.blob.core.windows.net/blog/{BlogName}/Image.png";
             }
         }
 

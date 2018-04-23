@@ -2,11 +2,11 @@
 
 namespace DocFunctions.Integration.Clients.Fakes
 {
-    public class LocalFakeBlogClient : IBlobClient
+    public class LocalFakeBlobClient : IBlobClient
     {
         private LocalFakeDataManager _dataManager;
 
-        public LocalFakeBlogClient(LocalFakeDataManager dataManager)
+        public LocalFakeBlobClient(LocalFakeDataManager dataManager)
         {
             _dataManager = dataManager;
         }
