@@ -20,16 +20,16 @@ namespace DocFunctions.Lib.Unit.Actions
         }
 
         [Fact]
-        public void ConstructorThrowsErrorOnNullFtpsClient()
+        public void ConstructorThrowsErrorOnNullBlobClient()
         {
             // Arrange
             var builder = new DeleteImageActionBuilder(new Models.Github.Removed());
-            builder.SetFtpsClient(null);
+            builder.SetBlobClient(null);
             Assert.Throws<ArgumentNullException>(() => builder.Build());
         }
 
         [Fact]
-        public void ExecutesFtpDeleteForImages()
+        public void ExecutesBlobDeleteForImages()
         {
             // Arrange
             var builder = new DeleteImageActionBuilder(new Models.Github.Removed { FullFilename = @"test folder/image.png" });
@@ -39,7 +39,7 @@ namespace DocFunctions.Lib.Unit.Actions
             sut.Execute();
 
             // Assert
-            builder.MockFtpsClient.Verify(m => m.Delete(It.Is<string>(x => x == "test folder/image.png")));
+            builder.MockBlobClient.Verify(m => m.Delete(It.Is<string>(x => x == "test folder/image.png")));
         }
     }
 }

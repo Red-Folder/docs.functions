@@ -13,19 +13,19 @@ namespace DocFunctions.Lib.Actions
     public class DeleteImageAction : IAction
     {
         private Removed _data;
-        private IBlobClient _ftpsClient;
+        private IBlobClient _blobClient;
         private IWebCache _cache;
 
         public DeleteImageAction(Removed data,
-                                IBlobClient ftpsClient,
+                                IBlobClient blobClient,
                                 IWebCache cache)
         {
             if (data == null) throw new ArgumentNullException("data");
-            if (ftpsClient == null) throw new ArgumentNullException("ftpsClient");
+            if (blobClient == null) throw new ArgumentNullException("blobClient");
             if (cache == null) throw new ArgumentNullException("cache");
 
             _data = data;
-            _ftpsClient = ftpsClient;
+            _blobClient = blobClient;
         }
 
         public void Execute()
@@ -34,9 +34,9 @@ namespace DocFunctions.Lib.Actions
             try
             {
                 var filename = $"{_data.FullFilename}";
-                Log.Information("Using Ftps to delete: {filename}", filename);
+                Log.Information("Deleting: {filename}", filename);
                 AuditTree.Instance.Add("Deleting Image from the server");
-                _ftpsClient.Delete(filename);
+                _blobClient.Delete(filename);
 
                 AuditTree.Instance.Add($"Removing cache for TODO - need image url");
                 _cache.RemoveCachedInstances("TODO - need image url");

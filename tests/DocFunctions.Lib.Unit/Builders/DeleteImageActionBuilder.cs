@@ -13,39 +13,39 @@ namespace DocFunctions.Lib.Unit.Builders
     public class DeleteImageActionBuilder
     {
         private Removed _removed;
-        private Mock<IBlobClient> _mockFtpsClient;
+        private Mock<IBlobClient> _mockBlobClient;
         private Mock<IWebCache> _mockCache;
 
-        private bool _ftpsClientSet = false;
-        private IBlobClient _ftpsClient;
+        private bool _blobClientSet = false;
+        private IBlobClient _blobClient;
 
         public DeleteImageActionBuilder(Removed removed)
         {
             _removed = removed;
 
-            _mockFtpsClient = new Mock<IBlobClient>();
+            _mockBlobClient = new Mock<IBlobClient>();
             _mockCache = new Mock<IWebCache>();
         }
 
-        public Mock<IBlobClient> MockFtpsClient
+        public Mock<IBlobClient> MockBlobClient
         {
             get
             {
-                return _mockFtpsClient;
+                return _mockBlobClient;
             }
         }
 
-        public DeleteImageActionBuilder SetFtpsClient(IBlobClient ftpsclient)
+        public DeleteImageActionBuilder SetBlobClient(IBlobClient blobClient)
         {
-            _ftpsClientSet = true;
-            _ftpsClient = ftpsclient;
+            _blobClientSet = true;
+            _blobClient = blobClient;
             return this;
         }
 
         public DeleteImageAction Build()
         {
             return new DeleteImageAction(_removed,
-                                        _ftpsClientSet ? _ftpsClient : _mockFtpsClient.Object,
+                                        _blobClientSet ? _blobClient : _mockBlobClient.Object,
                                         _mockCache.Object
                                      );
         }

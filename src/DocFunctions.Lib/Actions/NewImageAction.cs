@@ -15,25 +15,25 @@ namespace DocFunctions.Lib.Actions
     {
         private Added _data;
         private IGithubReader _githubReader;
-        private IBlobClient _ftpsClient;
+        private IBlobClient _blobClient;
         private IBlogMetaProcessor _blogMetaReader;
         private IWebCache _cache;
 
         public NewImageAction(Added data,
                                 IGithubReader githubReader,
-                                IBlobClient ftpsClient,
+                                IBlobClient blobClient,
                                 IBlogMetaProcessor blogMetaReader,
                                 IWebCache cache)
         {
             if (data == null) throw new ArgumentNullException("data");
             if (githubReader == null) throw new ArgumentNullException("githubReader");
-            if (ftpsClient == null) throw new ArgumentNullException("ftpsClient");
+            if (blobClient == null) throw new ArgumentNullException("blobClient");
             if (blogMetaReader == null) throw new ArgumentNullException("blogMetaReader");
             if (cache == null) throw new ArgumentNullException("cache");
 
             _data = data;
             _githubReader = githubReader;
-            _ftpsClient = ftpsClient;
+            _blobClient = blobClient;
             _blogMetaReader = blogMetaReader;
             _cache = cache;
         }
@@ -81,8 +81,8 @@ namespace DocFunctions.Lib.Actions
         private void UploadImage(Blog blogMeta, byte[] image)
         {
             var filename = $"{blogMeta.Url}/{_data.Filename}";
-            Log.Information("Using Ftps to upload: {filename}", filename);
-            _ftpsClient.Upload(filename, image);
+            Log.Information("Uploading: {filename}", filename);
+            _blobClient.Upload(filename, image);
         }
     }
 }

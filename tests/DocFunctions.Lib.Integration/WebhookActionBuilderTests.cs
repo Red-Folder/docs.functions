@@ -23,10 +23,9 @@ namespace DocFunctions.Lib.Integration
 
             var markdownProcessor = new MarkdownProcessor();
 
-            var ftpsHost = ConfigurationManager.AppSettings["ftps-host"];
-            var ftpsUsername = ConfigurationManager.AppSettings["ftps-username"];
-            var ftpsPassword = ConfigurationManager.AppSettings["ftps-password"];
-            var ftpsClient = new FtpsBlobClient(ftpsHost, ftpsUsername, ftpsPassword);
+            var blobConnectionString = ConfigurationManager.ConnectionStrings["BlobStorage"].ConnectionString;
+            var blobContainerName = ConfigurationManager.AppSettings["BlobStorageContainerName"];
+            var blobClient = new AzureBlobClient(blobConnectionString, blobContainerName);
 
             var blogMetaProcessor = new BlogMetaProcessor();
 
@@ -36,7 +35,7 @@ namespace DocFunctions.Lib.Integration
 
             var cache = new AllCachesClient(null);
 
-            var actionBuilder = new ActionBuilder(githubReader, markdownProcessor, ftpsClient, blogMetaProcessor, blogMetaRepository, cache);
+            var actionBuilder = new ActionBuilder(githubReader, markdownProcessor, blobClient, blogMetaProcessor, blogMetaRepository, cache);
 
             var sut = new WebhookActionBuilder(actionBuilder, null);
             var webhookData = new WebhookData

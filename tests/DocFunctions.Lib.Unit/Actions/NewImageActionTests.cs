@@ -25,11 +25,11 @@ namespace DocFunctions.Lib.Unit.Actions
         }
 
         [Fact]
-        public void ConstructorThrowsErrorOnNullFtpsClient()
+        public void ConstructorThrowsErrorOnNullBlobClient()
         {
             // Arrange
             var builder = new NewImageActionBuilder(new Models.Github.Added());
-            builder.SetFtpsClient(null);
+            builder.SetBlobClient(null);
             Assert.Throws<ArgumentNullException>(() => builder.Build());
         }
 

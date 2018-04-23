@@ -15,28 +15,28 @@ namespace DocFunctions.Lib.Actions
     {
         private Removed _data;
         private IGithubReader _githubReader;
-        private IBlobClient _ftpsClient;
+        private IBlobClient _blobClient;
         private IBlogMetaProcessor _blogMetaReader;
         private IBlogMetaRepository _blogMetaRepository;
         private IWebCache _cache;
 
         public DeleteBlogAction(Removed data,
                                 IGithubReader githubReader,
-                                IBlobClient ftpsClient,
+                                IBlobClient blobClient,
                                 IBlogMetaProcessor blogMetaReader,
                                 IBlogMetaRepository blogMetaRepository,
                                 IWebCache cache)
         {
             if (data == null) throw new ArgumentNullException("data");
             if (githubReader == null) throw new ArgumentNullException("githubReader");
-            if (ftpsClient == null) throw new ArgumentNullException("ftpsClient");
+            if (blobClient == null) throw new ArgumentNullException("blobClient");
             if (blogMetaReader == null) throw new ArgumentNullException("blogMetaReader");
             if (blogMetaRepository == null) throw new ArgumentNullException("blogMetaRepository");
             if (cache == null) throw new ArgumentNullException("cache");
 
             _data = data;
             _githubReader = githubReader;
-            _ftpsClient = ftpsClient;
+            _blobClient = blobClient;
             _blogMetaReader = blogMetaReader;
             _blogMetaRepository = blogMetaRepository;
             _cache = cache;
@@ -87,8 +87,8 @@ namespace DocFunctions.Lib.Actions
         private void DeleteBlogMarkup(Blog blogMeta)
         {
             var filename = $"{blogMeta.Url}/{blogMeta.Url}.html";
-            Log.Information("Using Ftps to delete: {filename}", filename);
-            _ftpsClient.Delete(filename);
+            Log.Information("Deleting: {filename}", filename);
+            _blobClient.Delete(filename);
         }
     }
 }

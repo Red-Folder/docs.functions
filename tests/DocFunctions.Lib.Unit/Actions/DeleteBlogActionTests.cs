@@ -31,7 +31,7 @@ namespace DocFunctions.Lib.Unit.Actions
         }
 
         [Fact]
-        public void ConstructorThrowsErrorOnNullFtpsClient()
+        public void ConstructorThrowsErrorOnNullBlogClient()
         {
             // Arrange
             var builder = new DeleteBlogActionBuilder(new Models.Github.Removed { FullFilename = "/test folder/blog.md", CommitShaForRead = "commit-sha-xxxx" });

@@ -15,14 +15,14 @@ namespace DocFunctions.Lib.Unit.Builders
     {
         private Added _added;
         private Mock<IGithubReader> _mockGithubReader;
-        private Mock<IBlobClient> _mockFtpsClient;
+        private Mock<IBlobClient> _mockBlobClient;
         private Mock<IBlogMetaProcessor> _mockBlogMetaReader;
         private Mock<IWebCache> _mockCache;
 
         private bool _githubReaderSet = false;
         private IGithubReader _githubReader;
-        private bool _ftpsClientSet = false;
-        private IBlobClient _ftpsClient;
+        private bool _blobClientSet = false;
+        private IBlobClient _blobClient;
         private bool _blogMetaReaderSet = false;
         private IBlogMetaProcessor _blogMetaReader;
 
@@ -33,7 +33,7 @@ namespace DocFunctions.Lib.Unit.Builders
             _mockGithubReader = new Mock<IGithubReader>();
             _mockGithubReader.Setup(m => m.GetRawFile(It.Is<string>(x => x == "/test folder/blog.json"), It.Is<string>(x => x == "commit-sha-xxxx"))).Returns("{}");
 
-            _mockFtpsClient = new Mock<IBlobClient>();
+            _mockBlobClient = new Mock<IBlobClient>();
 
             _mockBlogMetaReader = new Mock<IBlogMetaProcessor>();
             _mockBlogMetaReader.Setup(m => m.Transform(It.IsAny<string>())).Returns(new Blog { Url = "testblog" });
@@ -49,11 +49,11 @@ namespace DocFunctions.Lib.Unit.Builders
             }
         }
 
-        public Mock<IBlobClient> MockFtpsClient
+        public Mock<IBlobClient> MockBlobClient
         {
             get
             {
-                return _mockFtpsClient;
+                return _mockBlobClient;
             }
         }
 
@@ -72,10 +72,10 @@ namespace DocFunctions.Lib.Unit.Builders
             return this;
         }
 
-        public NewImageActionBuilder SetFtpsClient(IBlobClient ftpsclient)
+        public NewImageActionBuilder SetBlobClient(IBlobClient blobClient)
         {
-            _ftpsClientSet = true;
-            _ftpsClient = ftpsclient;
+            _blobClientSet = true;
+            _blobClient = blobClient;
             return this;
         }
 
@@ -90,7 +90,7 @@ namespace DocFunctions.Lib.Unit.Builders
         {
             return new NewImageAction(_added,
                                         _githubReaderSet ? _githubReader : _mockGithubReader.Object,
-                                        _ftpsClientSet ? _ftpsClient : _mockFtpsClient.Object,
+                                        _blobClientSet ? _blobClient : _mockBlobClient.Object,
                                         _blogMetaReaderSet ? _blogMetaReader : _mockBlogMetaReader.Object,
                                         _mockCache.Object
                                      );

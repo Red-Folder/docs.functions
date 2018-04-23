@@ -13,7 +13,7 @@ namespace DocFunctions.Lib.Builders
     {
         private IGithubReader _githubReader;
         private IMarkdownProcessor _markdownProcessor;
-        private IBlobClient _ftpsClient;
+        private IBlobClient _blobClient;
         private IBlogMetaProcessor _blogMetaReader;
         private IBlogMetaRepository _blogMetaRepository;
         private IWebCache _cache;
@@ -22,21 +22,21 @@ namespace DocFunctions.Lib.Builders
 
         public ActionBuilder(IGithubReader githubReader,
                              IMarkdownProcessor markdownProcessor,
-                             IBlobClient ftpsClient,
+                             IBlobClient blobClient,
                              IBlogMetaProcessor blogMetaReader,
                              IBlogMetaRepository blogMetaRepository,
                              IWebCache cache)
         {
             if (githubReader == null) throw new ArgumentNullException("githubReader");
             if (markdownProcessor == null) throw new ArgumentNullException("markdownProcessor");
-            if (ftpsClient == null) throw new ArgumentNullException("ftpsClient");
+            if (blobClient == null) throw new ArgumentNullException("blobClient");
             if (blogMetaReader == null) throw new ArgumentNullException("blogMetaReader");
             if (blogMetaRepository == null) throw new ArgumentNullException("blogMetaRepository");
             if (cache == null) throw new ArgumentNullException("cache");
 
             _githubReader = githubReader;
             _markdownProcessor = markdownProcessor;
-            _ftpsClient = ftpsClient;
+            _blobClient = blobClient;
             _blogMetaReader = blogMetaReader;
             _blogMetaRepository = blogMetaRepository;
             _cache = cache;
@@ -52,7 +52,7 @@ namespace DocFunctions.Lib.Builders
             _actions.Add(new NewBlogAction(added,
                                             _githubReader,
                                             _markdownProcessor,
-                                            _ftpsClient,
+                                            _blobClient,
                                             _blogMetaReader,
                                             _blogMetaRepository,
                                             _cache));
@@ -64,7 +64,7 @@ namespace DocFunctions.Lib.Builders
         {
             _actions.Add(new NewImageAction(added,
                                                 _githubReader,
-                                                _ftpsClient,
+                                                _blobClient,
                                                 _blogMetaReader,
                                                 _cache));
             return this;
@@ -81,7 +81,7 @@ namespace DocFunctions.Lib.Builders
         {
             _actions.Add(new DeleteBlogAction(removed,
                                             _githubReader,
-                                            _ftpsClient,
+                                            _blobClient,
                                             _blogMetaReader,
                                             _blogMetaRepository,
                                             _cache));
@@ -92,7 +92,7 @@ namespace DocFunctions.Lib.Builders
         public IActionBuilder DeleteImage(Removed removed)
         {
             _actions.Add(new DeleteImageAction(removed,
-                                            _ftpsClient,
+                                            _blobClient,
                                             _cache));
 
             return this;

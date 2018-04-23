@@ -42,7 +42,7 @@ namespace DocFunctions.Lib.Unit.Actions
         }
 
         [Fact]
-        public void ConstructorThrowsErrorOnNullFtpsClient()
+        public void ConstructorThrowsErrorOnNullBlobClient()
         {
             // Arrange
             var builder = new NewBlogActionBuilder(new Models.Github.Added { FullFilename = "/test folder/blog.md", CommitShaForRead = "commit-sha-xxxx" });

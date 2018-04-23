@@ -16,7 +16,7 @@ namespace DocFunctions.Lib.Actions
         private Added _data;
         private IGithubReader _githubReader;
         private IMarkdownProcessor _markdownProcessor;
-        private IBlobClient _ftpsClient;
+        private IBlobClient _blobClient;
         private IBlogMetaProcessor _blogMetaReader;
         private IBlogMetaRepository _blogMetaRepository;
         private IWebCache _cache;
@@ -24,7 +24,7 @@ namespace DocFunctions.Lib.Actions
         public NewBlogAction(Added data,
                                 IGithubReader githubReader,
                                 IMarkdownProcessor markdownProcessor,
-                                IBlobClient ftpsClient,
+                                IBlobClient blobClient,
                                 IBlogMetaProcessor blogMetaReader,
                                 IBlogMetaRepository blogMetaRepository,
                                 IWebCache cache)
@@ -32,7 +32,7 @@ namespace DocFunctions.Lib.Actions
             if (data == null) throw new ArgumentNullException("data");
             if (githubReader == null) throw new ArgumentNullException("githubReader");
             if (markdownProcessor == null) throw new ArgumentNullException("markdownProcessor");
-            if (ftpsClient == null) throw new ArgumentNullException("ftpsClient");
+            if (blobClient == null) throw new ArgumentNullException("blobClient");
             if (blogMetaReader == null) throw new ArgumentNullException("blogMetaReader");
             if (blogMetaRepository == null) throw new ArgumentNullException("blogMetaRepository");
             if (cache == null) throw new ArgumentNullException("cache");
@@ -40,7 +40,7 @@ namespace DocFunctions.Lib.Actions
             _data = data;
             _githubReader = githubReader;
             _markdownProcessor = markdownProcessor;
-            _ftpsClient = ftpsClient;
+            _blobClient = blobClient;
             _blogMetaReader = blogMetaReader;
             _blogMetaRepository = blogMetaRepository;
             _cache = cache;
@@ -105,8 +105,8 @@ namespace DocFunctions.Lib.Actions
         private void UploadBlogMarkup(Blog blogMeta, string markup)
         {
             var filename = $"{blogMeta.Url}/{blogMeta.Url}.html";
-            Log.Information("Using Ftps to upload: {filename}", filename);
-            _ftpsClient.Upload(filename, markup);
+            Log.Information("Uploading: {filename}", filename);
+            _blobClient.Upload(filename, markup);
         }
     }
 }
