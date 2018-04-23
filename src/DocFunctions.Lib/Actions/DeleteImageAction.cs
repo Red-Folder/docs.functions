@@ -33,7 +33,7 @@ namespace DocFunctions.Lib.Actions
             AuditTree.Instance.StartOperation($"Executing Delete Image Action for {_data.Filename}");
             try
             {
-                var filename = $"/{_data.FullFilename}";
+                var filename = $"{_data.FullFilename}";
                 Log.Information("Using Ftps to delete: {filename}", filename);
                 AuditTree.Instance.Add("Deleting Image from the server");
                 _ftpsClient.Delete(filename);

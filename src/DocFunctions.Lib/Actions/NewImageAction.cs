@@ -80,7 +80,7 @@ namespace DocFunctions.Lib.Actions
 
         private void UploadImage(Blog blogMeta, byte[] image)
         {
-            var filename = $"blog/{blogMeta.Url}/{_data.Filename}";
+            var filename = $"{blogMeta.Url}/{_data.Filename}";
             Log.Information("Using Ftps to upload: {filename}", filename);
             _ftpsClient.Upload(filename, image);
         }

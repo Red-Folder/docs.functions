@@ -28,7 +28,7 @@ namespace DocFunctions.Integration.Models
         {
             get
             {
-                return $"https://rfcdocs.blob.core.windows.net/rfcdocs/blog/{BlogName}/{BlogName}.html";
+                return $"https://rfcdocs.blob.core.windows.net/blog/{BlogName}/{BlogName}.html";
             }
         }
 
@@ -36,7 +36,7 @@ namespace DocFunctions.Integration.Models
         {
             get
             {
-                return $"https://rfcdocs.blob.core.windows.net/rfcdocs/blog/{BlogName}/image.png";
+                return $"https://rfcdocs.blob.core.windows.net/blog/{BlogName}/image.png";
             }
         }
 

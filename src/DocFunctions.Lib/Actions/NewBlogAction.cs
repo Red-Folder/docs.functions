@@ -104,7 +104,7 @@ namespace DocFunctions.Lib.Actions
 
         private void UploadBlogMarkup(Blog blogMeta, string markup)
         {
-            var filename = $"blog/{blogMeta.Url}/{blogMeta.Url}.html";
+            var filename = $"{blogMeta.Url}/{blogMeta.Url}.html";
             Log.Information("Using Ftps to upload: {filename}", filename);
             _ftpsClient.Upload(filename, markup);
         }

@@ -107,7 +107,7 @@ namespace DocFunctions.Lib.Unit.Actions
             sut.Execute();
 
             // Assert
-            builder.MockBlobClient.Verify(m => m.Upload(It.Is<string>(x => x == "/blog/testblog/testblog.html"), It.Is<string>(x => x == "<h2>Hello World</h2>")));
+            builder.MockBlobClient.Verify(m => m.Upload(It.Is<string>(x => x == "testblog/testblog.html"), It.Is<string>(x => x == "<h2>Hello World</h2>")));
         }
 
         [Fact]

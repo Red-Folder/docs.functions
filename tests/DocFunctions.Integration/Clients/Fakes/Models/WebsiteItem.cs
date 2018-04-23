@@ -17,7 +17,7 @@ namespace DocFunctions.Integration.Clients.Fakes.Models
         {
             get
             {
-                var url = $"https://rfcdocs.blob.core.windows.net/rfcdocs/{_physicalFilename}";
+                var url = $"https://rfcdocs.blob.core.windows.net/blog/{_physicalFilename}";
                 return url.ToLower();
             }
         }

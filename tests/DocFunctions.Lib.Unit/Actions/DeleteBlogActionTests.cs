@@ -68,7 +68,7 @@ namespace DocFunctions.Lib.Unit.Actions
             sut.Execute();
 
             // Assert
-            builder.MockBlobClient.Verify(m => m.Delete(It.Is<string>(x => x == "/blog/testblog/testblog.html")));
+            builder.MockBlobClient.Verify(m => m.Delete(It.Is<string>(x => x == "testblog/testblog.html")));
         }
 
         [Fact]
