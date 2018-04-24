@@ -26,11 +26,9 @@ namespace DocFunctions.Lib
 
         public void Process(WebhookData data)
         {
-            _audit.StartOperation("Processing data received from Github Webhook function");
-
             foreach (var commit in data.Commits)
             {
-                _audit.StartOperation($"Processing actions for commit: {commit.Sha}");
+                _audit.StartOperation($"Processing actions for: {commit.Message}");
                 _actionBuilder.Clear();
 
                 GetNewBlogs(commit).ForEach(x => _actionBuilder.NewBlog(x));
@@ -45,8 +43,6 @@ namespace DocFunctions.Lib
                 Execute(actions);
                 _audit.EndOperation();
             }
-
-            _audit.EndOperation();
         }
 
         private List<Added> GetNewBlogs(Commit commit)

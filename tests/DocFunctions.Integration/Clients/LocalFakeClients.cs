@@ -72,7 +72,7 @@ namespace DocFunctions.Integration.Clients
             var blogMetaProcessor = new BlogMetaProcessor();
             var fakeBlogMetaRepository = new LocalFakeBlogMetaRepository(_dataManager);
             var cache = new AllCachesClient(null);
-            var audit = new AuditTree("");
+            var audit = new AuditTree();
             var actionBuilder = new ActionBuilder(fakeGithubReader, 
                                                     markdownProcessor, 
                                                     fakeBlobClient, 

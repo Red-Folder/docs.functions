@@ -9,6 +9,7 @@ namespace DocFunctions.Lib.Models.Github.Raw
     public class Commit
     {
         public string Id;
+        public string Message;
         public DateTime Timestamp;
         public string[] Added;
         public string[] Removed;

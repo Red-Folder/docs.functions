@@ -23,7 +23,7 @@ namespace DocFunctions.Lib.Unit
                                                                             new Mock<IBlogMetaProcessor>().Object,
                                                                             new Mock<IBlogMetaRepository>().Object,
                                                                             new Mock<IWebCache>().Object,
-                                                                            new AuditTree("")));
+                                                                            new AuditTree()));
         }
 
         [Fact]
@@ -35,7 +35,7 @@ namespace DocFunctions.Lib.Unit
                                                                             new Mock<IBlogMetaProcessor>().Object,
                                                                             new Mock<IBlogMetaRepository>().Object,
                                                                             new Mock<IWebCache>().Object,
-                                                                            new AuditTree("")));
+                                                                            new AuditTree()));
         }
 
         [Fact]
@@ -47,7 +47,7 @@ namespace DocFunctions.Lib.Unit
                                                                             new Mock<IBlogMetaProcessor>().Object,
                                                                             new Mock<IBlogMetaRepository>().Object,
                                                                             new Mock<IWebCache>().Object,
-                                                                            new AuditTree("")));
+                                                                            new AuditTree()));
         }
 
         [Fact]
@@ -59,7 +59,7 @@ namespace DocFunctions.Lib.Unit
                                                                             null,
                                                                             new Mock<IBlogMetaRepository>().Object,
                                                                             new Mock<IWebCache>().Object,
-                                                                            new AuditTree("")));
+                                                                            new AuditTree()));
         }
 
         [Fact]
@@ -71,7 +71,7 @@ namespace DocFunctions.Lib.Unit
                                                                             new Mock<IBlogMetaProcessor>().Object,
                                                                             null,
                                                                             new Mock<IWebCache>().Object,
-                                                                            new AuditTree("")));
+                                                                            new AuditTree()));
         }
 
         [Fact]
@@ -83,7 +83,7 @@ namespace DocFunctions.Lib.Unit
                                                                             new Mock<IBlogMetaProcessor>().Object,
                                                                             new Mock<IBlogMetaRepository>().Object,
                                                                             null,
-                                                                            new AuditTree("")));
+                                                                            new AuditTree()));
         }
 
         [Fact]
@@ -109,7 +109,7 @@ namespace DocFunctions.Lib.Unit
                                         new Mock<IBlogMetaProcessor>().Object,
                                         new Mock<IBlogMetaRepository>().Object,
                                         new Mock<IWebCache>().Object,
-                                        new AuditTree(""));
+                                        new AuditTree());
 
             // Act
             sut.NewBlog(new Models.Github.Added { FullFilename = @"Path/NewBlog.md" });
@@ -130,7 +130,7 @@ namespace DocFunctions.Lib.Unit
                                         new Mock<IBlogMetaProcessor>().Object,
                                         new Mock<IBlogMetaRepository>().Object,
                                         new Mock<IWebCache>().Object,
-                                        new AuditTree(""));
+                                        new AuditTree());
 
             // Act
             sut.NewImage(new Models.Github.Added { FullFilename = @"Path/NewImage.png" });
@@ -151,7 +151,7 @@ namespace DocFunctions.Lib.Unit
                                         new Mock<IBlogMetaProcessor>().Object,
                                         new Mock<IBlogMetaRepository>().Object,
                                         new Mock<IWebCache>().Object,
-                                        new AuditTree(""));
+                                        new AuditTree());
 
             // Act
             sut.DeleteBlog(new Models.Github.Removed { FullFilename = @"Path/DeletedBlog.md" } );
@@ -172,7 +172,7 @@ namespace DocFunctions.Lib.Unit
                                         new Mock<IBlogMetaProcessor>().Object,
                                         new Mock<IBlogMetaRepository>().Object,
                                         new Mock<IWebCache>().Object,
-                                        new AuditTree(""));
+                                        new AuditTree());
 
             // Act
             sut.DeleteImage(new Models.Github.Removed { FullFilename = @"Path/DeletedImage.png" } );
@@ -193,7 +193,7 @@ namespace DocFunctions.Lib.Unit
                                         new Mock<IBlogMetaProcessor>().Object,
                                         new Mock<IBlogMetaRepository>().Object,
                                         new Mock<IWebCache>().Object,
-                                        new AuditTree(""));
+                                        new AuditTree());
 
             // Act
             sut.ModifyBlog(new Models.Github.Modified { FullFilename = @"Path/DeletedBlog.md" });
@@ -215,7 +215,7 @@ namespace DocFunctions.Lib.Unit
                                         new Mock<IBlogMetaProcessor>().Object,
                                         new Mock<IBlogMetaRepository>().Object,
                                         new Mock<IWebCache>().Object,
-                                        new AuditTree(""));
+                                        new AuditTree());
 
             // Act
             sut.ModifyImage(new Models.Github.Modified { FullFilename = @"Path/DeletedImage.png" });

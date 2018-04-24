@@ -94,7 +94,7 @@ namespace DocFunctions.Lib.Unit.Builders
                                         _blobClientSet ? _blobClient : _mockBlobClient.Object,
                                         _blogMetaReaderSet ? _blogMetaReader : _mockBlogMetaReader.Object,
                                         _mockCache.Object,
-                                        new AuditTree("")
+                                        new AuditTree()
                                      );
         }
     }

@@ -19,7 +19,7 @@ namespace DocFunctions.Lib.Unit
         {
             // Arrange
             var actionBuilder = new Mock<IActionBuilder>();
-            var sut = new WebhookActionBuilder(actionBuilder.Object, new AuditTree(""));
+            var sut = new WebhookActionBuilder(actionBuilder.Object, new AuditTree());
             var webhookData = new WebhookDataBuilder().Build();
 
             // Act
@@ -35,7 +35,7 @@ namespace DocFunctions.Lib.Unit
         {
             // Arrange
             var actionBuilder = new Mock<IActionBuilder>();
-            var sut = new WebhookActionBuilder(actionBuilder.Object, new AuditTree(""));
+            var sut = new WebhookActionBuilder(actionBuilder.Object, new AuditTree());
             var webhookData = new WebhookDataBuilder().Build();
 
             // Act
@@ -51,7 +51,7 @@ namespace DocFunctions.Lib.Unit
         {
             // Arrange
             var actionBuilder = new Mock<IActionBuilder>();
-            var sut = new WebhookActionBuilder(actionBuilder.Object, new AuditTree(""));
+            var sut = new WebhookActionBuilder(actionBuilder.Object, new AuditTree());
             var webhookData = new WebhookDataBuilder().Build();
 
             // Act
@@ -67,7 +67,7 @@ namespace DocFunctions.Lib.Unit
         {
             // Arrange
             var actionBuilder = new Mock<IActionBuilder>();
-            var sut = new WebhookActionBuilder(actionBuilder.Object, new AuditTree(""));
+            var sut = new WebhookActionBuilder(actionBuilder.Object, new AuditTree());
             var webhookData = new WebhookDataBuilder().Build();
 
             // Act
@@ -83,7 +83,7 @@ namespace DocFunctions.Lib.Unit
         {
             // Arrange
             var actionBuilder = new Mock<IActionBuilder>();
-            var sut = new WebhookActionBuilder(actionBuilder.Object, new AuditTree(""));
+            var sut = new WebhookActionBuilder(actionBuilder.Object, new AuditTree());
             var webhookData = new WebhookDataBuilder().Build();
 
             // Act
@@ -99,7 +99,7 @@ namespace DocFunctions.Lib.Unit
         {
             // Arrange
             var actionBuilder = new Mock<IActionBuilder>();
-            var sut = new WebhookActionBuilder(actionBuilder.Object, new AuditTree(""));
+            var sut = new WebhookActionBuilder(actionBuilder.Object, new AuditTree());
             var webhookData = new WebhookDataBuilder().Build();
 
             // Act

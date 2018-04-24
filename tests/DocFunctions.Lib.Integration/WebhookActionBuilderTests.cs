@@ -36,7 +36,7 @@ namespace DocFunctions.Lib.Integration
 
             var cache = new AllCachesClient(null);
 
-            var audit = new AuditTree("");
+            var audit = new AuditTree();
 
             var actionBuilder = new ActionBuilder(githubReader, markdownProcessor, blobClient, blogMetaProcessor, blogMetaRepository, cache, audit);
 

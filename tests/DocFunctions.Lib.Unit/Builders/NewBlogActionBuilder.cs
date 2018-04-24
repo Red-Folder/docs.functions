@@ -139,7 +139,7 @@ namespace DocFunctions.Lib.Unit.Builders
                                         _blogMetaReaderSet ? _blogMetaReader : _mockBlogMetaReader.Object,
                                         _blogMetaRepositorySet ? _blogMetaRepository : _mockBlogMetaRepository.Object,
                                         _mockCache.Object,
-                                        new AuditTree("")
+                                        new AuditTree()
                                      );
         }
     }

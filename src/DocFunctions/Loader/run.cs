@@ -17,6 +17,7 @@ using Serilog.Sinks.AzureWebJobsTraceWriter;
 using DocFunctions.Lib.Wappers;
 using SendGrid.Helpers.Mail;
 using DocFunctions.Lib.Models.Audit;
+using System.Linq;
 
 namespace DocFunctions.Functions
 {
@@ -64,8 +65,9 @@ namespace DocFunctions.Functions
                 if (emailTo == null || emailTo.Length == 0) throw new InvalidOperationException("EmailTo not set");
 
                 var messageText = "";
+                var requestId = Guid.NewGuid();
 
-                using (LogContext.PushProperty("RequestID", Guid.NewGuid()))
+                using (LogContext.PushProperty("RequestID", requestId))
                 {
                     var githubReader = new GithubClient(gitUsername, gitKey, gitRepo);
                     var markdownProcessor = new MarkdownProcessor();
@@ -73,7 +75,7 @@ namespace DocFunctions.Functions
                     var blogMetaProcessor = new BlogMetaProcessor();
                     var blogMetaRepository = new BlogMetaRepository(blogMetaConnectionString, blogMetaContainerName);
                     var cache = new AllCachesClient(null);
-                    var audit = new AuditTree("");
+                    var audit = new AuditTree();
                     var actionBuilder = new ActionBuilder(githubReader, markdownProcessor, blobClient, blogMetaProcessor, blogMetaRepository, cache, audit);
 
                     var webhookAction = new WebhookActionBuilder(actionBuilder, audit);
@@ -90,7 +92,7 @@ namespace DocFunctions.Functions
                 // Send email
                 message = new Mail
                 {
-                    Subject = $"RFC Docs result for {data.Commits[0].Sha}",
+                    Subject = $"RFC Docs result for {requestId}",
                     From = new Email(emailFrom)
                 };
 
@@ -100,7 +102,7 @@ namespace DocFunctions.Functions
                 Content content = new Content
                 {
                     Type = "text/html",
-                    Value = $"<html><body>{messageText}</body></html>"
+                    Value = $"<html><body><h1>{requestId}</h1>{messageText}</body></html>"
                 };
                 message.AddContent(content);
                 message.AddPersonalization(personalization);

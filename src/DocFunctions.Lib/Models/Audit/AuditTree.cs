@@ -12,9 +12,9 @@ namespace DocFunctions.Lib.Models.Audit
         private AuditNode _currentNode;
         private bool _hasFailed = false;
 
-        public AuditTree(string message)
+        public AuditTree()
         {
-            _baseNode = new AuditNode(message);
+            _baseNode = new AuditNode();
             _currentNode = _baseNode;
         }
 

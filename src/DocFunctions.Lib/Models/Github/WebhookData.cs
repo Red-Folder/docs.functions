@@ -19,6 +19,8 @@ namespace DocFunctions.Lib.Models.Github
             foreach(var rawCommit in raw.Commits)
             {
                 var commit = new Commit();
+                commit.Sha = rawCommit.Id;
+                commit.Message = rawCommit.Message;
 
                 commit.Added = new List<Added>();
                 commit.Removed = new List<Removed>();

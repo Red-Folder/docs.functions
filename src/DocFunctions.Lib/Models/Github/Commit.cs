@@ -10,6 +10,7 @@ namespace DocFunctions.Lib.Models.Github
     public class Commit
     {
         public string Sha;
+        public string Message;
 
         public List<Added> Added;
 

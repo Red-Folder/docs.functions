@@ -11,7 +11,7 @@ namespace DocFunctions.Lib.Models.Audit
         //private WeakReference _temporaryParentReference;
         private AuditNode _temporaryParentReference;
 
-        public AuditNode(string message)
+        public AuditNode(string message = null)
         {
             _message = message;
         }
