@@ -78,7 +78,8 @@ namespace DocFunctions.Functions
                 // Send email
                 message = new Mail
                 {
-                    Subject = "Test email"
+                    Subject = "Test email",
+                    From = new Email("markbyantaylor@yahoo.co.uk")
                 };
 
                 var personalization = new Personalization();
