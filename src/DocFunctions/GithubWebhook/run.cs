@@ -53,7 +53,7 @@ namespace DocFunctions.Functions
                 //if (blobContainerName == null || blobContainerName.Length == 0) throw new InvalidOperationException("BlobStorageContainerName not set");
                 //if (blobConnectionString == null || blobConnectionString.Length == 0) throw new InvalidOperationException("BlobStorage Connection String not set");
 
-                var queueName = "toProcess";
+                var queueName = "toprocess";
                 var connectionString = ConfigurationManager.ConnectionStrings["BlobStorage"].ConnectionString;
 
                 using (LogContext.PushProperty("RequestID", Guid.NewGuid()))
