@@ -16,20 +16,21 @@ namespace DocFunctions.Lib
     {
         private IActionBuilder _actionBuilder;
         private IEmailClient _emailClient;
+        private AuditTree _audit;
 
-        public WebhookActionBuilder(IActionBuilder actionBuilder, IEmailClient emailClient)
+        public WebhookActionBuilder(IActionBuilder actionBuilder, AuditTree audit)
         {
             _actionBuilder = actionBuilder;
-            _emailClient = emailClient;
+            _audit = audit;
         }
 
         public void Process(WebhookData data)
         {
-            AuditTree.Instance.StartOperation("Processing data received from Github Webhook function");
+            _audit.StartOperation("Processing data received from Github Webhook function");
 
             foreach (var commit in data.Commits)
             {
-                AuditTree.Instance.StartOperation($"Processing actions for commit: {commit.Sha}");
+                _audit.StartOperation($"Processing actions for commit: {commit.Sha}");
                 _actionBuilder.Clear();
 
                 GetNewBlogs(commit).ForEach(x => _actionBuilder.NewBlog(x));
@@ -42,16 +43,10 @@ namespace DocFunctions.Lib
 
                 var actions = _actionBuilder.Build();
                 Execute(actions);
-                AuditTree.Instance.EndOperation();
+                _audit.EndOperation();
             }
 
-            AuditTree.Instance.EndOperation();
-
-            if (_emailClient != null)
-            {
-                var auditHtml = new AuditAsHtml(AuditTree.Instance).ToString();
-                _emailClient.Send(auditHtml);
-            }
+            _audit.EndOperation();
         }
 
         private List<Added> GetNewBlogs(Commit commit)

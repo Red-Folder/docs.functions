@@ -1,4 +1,5 @@
 ﻿using DocFunctions.Lib.Actions;
+using DocFunctions.Lib.Models.Audit;
 using DocFunctions.Lib.Models.Github;
 using DocFunctions.Lib.Wappers;
 using System;
@@ -17,6 +18,7 @@ namespace DocFunctions.Lib.Builders
         private IBlogMetaProcessor _blogMetaReader;
         private IBlogMetaRepository _blogMetaRepository;
         private IWebCache _cache;
+        private AuditTree _audit;
 
         private List<IAction> _actions = new List<IAction>();
 
@@ -25,7 +27,8 @@ namespace DocFunctions.Lib.Builders
                              IBlobClient blobClient,
                              IBlogMetaProcessor blogMetaReader,
                              IBlogMetaRepository blogMetaRepository,
-                             IWebCache cache)
+                             IWebCache cache,
+                             AuditTree audit)
         {
             if (githubReader == null) throw new ArgumentNullException("githubReader");
             if (markdownProcessor == null) throw new ArgumentNullException("markdownProcessor");
@@ -33,6 +36,7 @@ namespace DocFunctions.Lib.Builders
             if (blogMetaReader == null) throw new ArgumentNullException("blogMetaReader");
             if (blogMetaRepository == null) throw new ArgumentNullException("blogMetaRepository");
             if (cache == null) throw new ArgumentNullException("cache");
+            if (audit == null) throw new ArgumentNullException("audit");
 
             _githubReader = githubReader;
             _markdownProcessor = markdownProcessor;
@@ -40,6 +44,7 @@ namespace DocFunctions.Lib.Builders
             _blogMetaReader = blogMetaReader;
             _blogMetaRepository = blogMetaRepository;
             _cache = cache;
+            _audit = audit;
         }
 
         public IAction[] Build()
@@ -55,7 +60,8 @@ namespace DocFunctions.Lib.Builders
                                             _blobClient,
                                             _blogMetaReader,
                                             _blogMetaRepository,
-                                            _cache));
+                                            _cache,
+                                            _audit));
 
             return this;
         }
@@ -66,7 +72,8 @@ namespace DocFunctions.Lib.Builders
                                                 _githubReader,
                                                 _blobClient,
                                                 _blogMetaReader,
-                                                _cache));
+                                                _cache,
+                                                _audit));
             return this;
         }
 
@@ -84,7 +91,8 @@ namespace DocFunctions.Lib.Builders
                                             _blobClient,
                                             _blogMetaReader,
                                             _blogMetaRepository,
-                                            _cache));
+                                            _cache,
+                                            _audit));
 
             return this;
         }
@@ -93,7 +101,8 @@ namespace DocFunctions.Lib.Builders
         {
             _actions.Add(new DeleteImageAction(removed,
                                             _blobClient,
-                                            _cache));
+                                            _cache,
+                                            _audit));
 
             return this;
         }

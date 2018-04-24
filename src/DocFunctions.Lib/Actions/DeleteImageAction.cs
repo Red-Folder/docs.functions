@@ -15,37 +15,42 @@ namespace DocFunctions.Lib.Actions
         private Removed _data;
         private IBlobClient _blobClient;
         private IWebCache _cache;
+        private AuditTree _audit;
 
         public DeleteImageAction(Removed data,
                                 IBlobClient blobClient,
-                                IWebCache cache)
+                                IWebCache cache,
+                                AuditTree audit)
         {
             if (data == null) throw new ArgumentNullException("data");
             if (blobClient == null) throw new ArgumentNullException("blobClient");
             if (cache == null) throw new ArgumentNullException("cache");
+            if (audit == null) throw new ArgumentNullException("audit");
 
             _data = data;
             _blobClient = blobClient;
+            _cache = cache;
+            _audit = audit;
         }
 
         public void Execute()
         {
-            AuditTree.Instance.StartOperation($"Executing Delete Image Action for {_data.Filename}");
+            _audit.StartOperation($"Executing Delete Image Action for {_data.Filename}");
             try
             {
                 var filename = $"{_data.FullFilename}";
                 Log.Information("Deleting: {filename}", filename);
-                AuditTree.Instance.Add("Deleting Image from the server");
+                _audit.Add("Deleting Image from the server");
                 _blobClient.Delete(filename);
 
-                AuditTree.Instance.Add($"Removing cache for TODO - need image url");
+                _audit.Add($"Removing cache for TODO - need image url");
                 _cache.RemoveCachedInstances("TODO - need image url");
             }
             catch (Exception ex)
             {
-                AuditTree.Instance.AddFailure($"Failed due to exception: {ex.Message}");
+                _audit.AddFailure($"Failed due to exception: {ex.Message}");
             }
-            AuditTree.Instance.EndOperation();
+            _audit.EndOperation();
         }
     }
 }

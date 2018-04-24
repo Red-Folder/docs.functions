@@ -1,4 +1,5 @@
 ﻿using DocFunctions.Lib.Actions;
+using DocFunctions.Lib.Models.Audit;
 using DocFunctions.Lib.Models.Github;
 using DocFunctions.Lib.Wappers;
 using Moq;
@@ -46,7 +47,8 @@ namespace DocFunctions.Lib.Unit.Builders
         {
             return new DeleteImageAction(_removed,
                                         _blobClientSet ? _blobClient : _mockBlobClient.Object,
-                                        _mockCache.Object
+                                        _mockCache.Object,
+                                        new AuditTree("")
                                      );
         }
 

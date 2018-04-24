@@ -72,15 +72,16 @@ namespace DocFunctions.Integration.Clients
             var blogMetaProcessor = new BlogMetaProcessor();
             var fakeBlogMetaRepository = new LocalFakeBlogMetaRepository(_dataManager);
             var cache = new AllCachesClient(null);
+            var audit = new AuditTree("");
             var actionBuilder = new ActionBuilder(fakeGithubReader, 
                                                     markdownProcessor, 
                                                     fakeBlobClient, 
                                                     blogMetaProcessor, 
                                                     fakeBlogMetaRepository,
-                                                    cache);
-            IEmailClient emailClient = null;
+                                                    cache,
+                                                    audit);
 
-            var webhookAction = new WebhookActionBuilder(actionBuilder, emailClient);
+            var webhookAction = new WebhookActionBuilder(actionBuilder, audit);
 
             var githubWebhookData = _dataManager.GetGithubWebhookData(_toBeCommitted);
 

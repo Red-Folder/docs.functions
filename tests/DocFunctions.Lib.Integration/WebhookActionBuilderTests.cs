@@ -1,5 +1,6 @@
 ﻿using DocFunctions.Lib.Builders;
 using DocFunctions.Lib.Clients;
+using DocFunctions.Lib.Models.Audit;
 using DocFunctions.Lib.Models.Github;
 using DocFunctions.Lib.Processors;
 using System.Collections.Generic;
@@ -35,7 +36,9 @@ namespace DocFunctions.Lib.Integration
 
             var cache = new AllCachesClient(null);
 
-            var actionBuilder = new ActionBuilder(githubReader, markdownProcessor, blobClient, blogMetaProcessor, blogMetaRepository, cache);
+            var audit = new AuditTree("");
+
+            var actionBuilder = new ActionBuilder(githubReader, markdownProcessor, blobClient, blogMetaProcessor, blogMetaRepository, cache, audit);
 
             var sut = new WebhookActionBuilder(actionBuilder, null);
             var webhookData = new WebhookData

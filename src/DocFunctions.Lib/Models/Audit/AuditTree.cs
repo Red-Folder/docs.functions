@@ -12,21 +12,7 @@ namespace DocFunctions.Lib.Models.Audit
         private AuditNode _currentNode;
         private bool _hasFailed = false;
 
-        private static AuditTree _instance;
-
-        public static AuditTree Instance
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    _instance = new AuditTree(null);
-                }
-                return _instance;
-            }
-        }
-
-        private AuditTree(string message)
+        public AuditTree(string message)
         {
             _baseNode = new AuditNode(message);
             _currentNode = _baseNode;

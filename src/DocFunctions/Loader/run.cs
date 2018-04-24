@@ -16,6 +16,7 @@ using Serilog.Context;
 using Serilog.Sinks.AzureWebJobsTraceWriter;
 using DocFunctions.Lib.Wappers;
 using SendGrid.Helpers.Mail;
+using DocFunctions.Lib.Models.Audit;
 
 namespace DocFunctions.Functions
 {
@@ -60,7 +61,9 @@ namespace DocFunctions.Functions
                 if (blobConnectionString == null || blobConnectionString.Length == 0) throw new InvalidOperationException("BlobStorage Connection String not set");
 
                 if (emailFrom == null || emailFrom.Length == 0) throw new InvalidOperationException("EmailFrom not set");
-                if (emailTo == null || emailFrom.Length == 0) throw new InvalidOperationException("EmailTo not set");
+                if (emailTo == null || emailTo.Length == 0) throw new InvalidOperationException("EmailTo not set");
+
+                var messageText = "";
 
                 using (LogContext.PushProperty("RequestID", Guid.NewGuid()))
                 {
@@ -70,21 +73,24 @@ namespace DocFunctions.Functions
                     var blogMetaProcessor = new BlogMetaProcessor();
                     var blogMetaRepository = new BlogMetaRepository(blogMetaConnectionString, blogMetaContainerName);
                     var cache = new AllCachesClient(null);
-                    var actionBuilder = new ActionBuilder(githubReader, markdownProcessor, blobClient, blogMetaProcessor, blogMetaRepository, cache);
-                    IEmailClient emailClient = null;
+                    var audit = new AuditTree("");
+                    var actionBuilder = new ActionBuilder(githubReader, markdownProcessor, blobClient, blogMetaProcessor, blogMetaRepository, cache, audit);
 
-                    var webhookAction = new WebhookActionBuilder(actionBuilder, emailClient);
+                    var webhookAction = new WebhookActionBuilder(actionBuilder, audit);
 
                     //// Act
                     Log.Information("Processing the data");
                     webhookAction.Process(data);
                     Log.Information("Processing complete");
+
+                    // Generate audit report
+                    messageText = new AuditAsHtml(audit).ToString();
                 }
 
                 // Send email
                 message = new Mail
                 {
-                    Subject = "Test email",
+                    Subject = $"RFC Docs result for {data.Commits[0].Sha}",
                     From = new Email(emailFrom)
                 };
 
@@ -93,8 +99,8 @@ namespace DocFunctions.Functions
 
                 Content content = new Content
                 {
-                    Type = "text/plain",
-                    Value = "Hello World"
+                    Type = "text/html",
+                    Value = $"<html><body>{messageText}</body></html>"
                 };
                 message.AddContent(content);
                 message.AddPersonalization(personalization);

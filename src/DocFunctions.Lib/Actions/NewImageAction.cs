@@ -18,49 +18,53 @@ namespace DocFunctions.Lib.Actions
         private IBlobClient _blobClient;
         private IBlogMetaProcessor _blogMetaReader;
         private IWebCache _cache;
+        private AuditTree _audit;
 
         public NewImageAction(Added data,
                                 IGithubReader githubReader,
                                 IBlobClient blobClient,
                                 IBlogMetaProcessor blogMetaReader,
-                                IWebCache cache)
+                                IWebCache cache,
+                                AuditTree audit)
         {
             if (data == null) throw new ArgumentNullException("data");
             if (githubReader == null) throw new ArgumentNullException("githubReader");
             if (blobClient == null) throw new ArgumentNullException("blobClient");
             if (blogMetaReader == null) throw new ArgumentNullException("blogMetaReader");
             if (cache == null) throw new ArgumentNullException("cache");
+            if (audit == null) throw new ArgumentNullException("audit");
 
             _data = data;
             _githubReader = githubReader;
             _blobClient = blobClient;
             _blogMetaReader = blogMetaReader;
             _cache = cache;
+            _audit = audit;
         }
 
         public void Execute()
         {
-            AuditTree.Instance.StartOperation($"Executing New Image Action for {_data.Filename}");
+            _audit.StartOperation($"Executing New Image Action for {_data.Filename}");
             try
             {
-                AuditTree.Instance.Add("Getting Json from Github");
+                _audit.Add("Getting Json from Github");
                 var blogMetaJson = GetMetaJsonFromGithub();
-                AuditTree.Instance.Add("Converting the Json to Blog Meta data");
+                _audit.Add("Converting the Json to Blog Meta data");
                 var blogMeta = GetMetaFromMetaJson(blogMetaJson);
 
-                AuditTree.Instance.Add("Getting Image from Github");
+                _audit.Add("Getting Image from Github");
                 var blogImage = GetImageFromGithub();
-                AuditTree.Instance.Add("Uploading Image to the server");
+                _audit.Add("Uploading Image to the server");
                 UploadImage(blogMeta, blogImage);
 
-                AuditTree.Instance.Add($"Removing cache for TODO - need image url");
+                _audit.Add($"Removing cache for TODO - need image url");
                 _cache.RemoveCachedInstances("TODO - need image url");
             }
             catch (Exception ex)
             {
-                AuditTree.Instance.AddFailure($"Failed due to exception: {ex.Message}");
+                _audit.AddFailure($"Failed due to exception: {ex.Message}");
             }
-            AuditTree.Instance.EndOperation();
+            _audit.EndOperation();
         }
 
         private string GetMetaJsonFromGithub()

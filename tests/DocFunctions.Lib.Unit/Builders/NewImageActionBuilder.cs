@@ -1,4 +1,5 @@
 ﻿using DocFunctions.Lib.Actions;
+using DocFunctions.Lib.Models.Audit;
 using DocFunctions.Lib.Models.Github;
 using DocFunctions.Lib.Wappers;
 using docsFunctions.Shared.Models;
@@ -92,7 +93,8 @@ namespace DocFunctions.Lib.Unit.Builders
                                         _githubReaderSet ? _githubReader : _mockGithubReader.Object,
                                         _blobClientSet ? _blobClient : _mockBlobClient.Object,
                                         _blogMetaReaderSet ? _blogMetaReader : _mockBlogMetaReader.Object,
-                                        _mockCache.Object
+                                        _mockCache.Object,
+                                        new AuditTree("")
                                      );
         }
     }
