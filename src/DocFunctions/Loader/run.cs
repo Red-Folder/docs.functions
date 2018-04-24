@@ -46,6 +46,9 @@ namespace DocFunctions.Functions
                 var blobContainerName = ConfigurationManager.AppSettings["BlobStorageContainerName"];
                 var blobConnectionString = ConfigurationManager.ConnectionStrings["BlobStorage"].ConnectionString;
 
+                var emailFrom = ConfigurationManager.AppSettings["EmailFrom"];
+                var emailTo = ConfigurationManager.AppSettings["EmailTo"];
+
                 if (gitUsername == null || gitUsername.Length == 0) throw new InvalidOperationException("github-username not set");
                 if (gitKey == null || gitKey.Length == 0) throw new InvalidOperationException("github-key not set");
                 if (gitRepo == null || gitRepo.Length == 0) throw new InvalidOperationException("github-repo not set");
@@ -55,6 +58,9 @@ namespace DocFunctions.Functions
 
                 if (blobContainerName == null || blobContainerName.Length == 0) throw new InvalidOperationException("BlobStorageContainerName not set");
                 if (blobConnectionString == null || blobConnectionString.Length == 0) throw new InvalidOperationException("BlobStorage Connection String not set");
+
+                if (emailFrom == null || emailFrom.Length == 0) throw new InvalidOperationException("EmailFrom not set");
+                if (emailTo == null || emailFrom.Length == 0) throw new InvalidOperationException("EmailTo not set");
 
                 using (LogContext.PushProperty("RequestID", Guid.NewGuid()))
                 {
@@ -79,11 +85,11 @@ namespace DocFunctions.Functions
                 message = new Mail
                 {
                     Subject = "Test email",
-                    From = new Email("markbyantaylor@yahoo.co.uk")
+                    From = new Email(emailFrom)
                 };
 
                 var personalization = new Personalization();
-                personalization.AddTo(new Email("markbyantaylor@yahoo.co.uk"));
+                personalization.AddTo(new Email(emailTo));
 
                 Content content = new Content
                 {
