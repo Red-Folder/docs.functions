@@ -1,0 +1,19 @@
+﻿{
+  "disabled": false,
+  "bindings": [
+    {
+      "type": "queueTrigger",
+      "direction": "in",
+      "queueName": "toProcess",
+      "connection": "BlobStorage",
+      "name": "request"
+    },
+    {
+      "name": "message",
+      "type": "sendGrid",
+      "direction": "out"
+    }
+  ],
+  "scriptFile": "..\\bin\\DocFunctions.dll",
+  "entryPoint": "DocFunctions.Functions.Loader.Run"
+}
