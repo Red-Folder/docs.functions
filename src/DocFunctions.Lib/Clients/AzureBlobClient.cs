@@ -47,11 +47,23 @@ namespace DocFunctions.Lib.Clients
 
         public void ClearAll()
         {
-            var blobs = _container.ListBlobs();
+            ClearDirectory(_container.ListBlobs());
+        }
 
-            foreach(var blob in blobs)
+        public void ClearDirectory(IEnumerable<IListBlobItem> items)
+        {
+            foreach (var item in items)
             {
-                ((CloudBlockBlob)blob).DeleteIfExists();
+                if (item is CloudBlockBlob)
+                {
+                    ((CloudBlockBlob)item).DeleteIfExists();
+                }
+
+                if (item is CloudBlobDirectory)
+                {
+                    ClearDirectory(((CloudBlobDirectory)item).ListBlobs());
+                }
+
             }
         }
     }
