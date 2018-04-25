@@ -47,7 +47,7 @@ namespace DocFunctions.Lib.Clients
 
         public void ClearAll()
         {
-            ClearDirectory(_container.ListBlobs());
+            ClearDirectory(_container.ListBlobs(null, true));
         }
 
         public void ClearDirectory(IEnumerable<IListBlobItem> items)
@@ -59,10 +59,11 @@ namespace DocFunctions.Lib.Clients
                     ((CloudBlockBlob)item).DeleteIfExists();
                 }
 
-                if (item is CloudBlobDirectory)
-                {
-                    ClearDirectory(((CloudBlobDirectory)item).ListBlobs());
-                }
+                //if (item is CloudBlobDirectory)
+                //{
+                //    ClearDirectory(((CloudBlobDirectory)item).ListBlobs());
+                    
+                //}
 
             }
         }
