@@ -58,5 +58,34 @@ namespace DocFunctions.Lib.Clients
 
             return contents.First();
         }
+
+        public async Task<Models.Github.Commit> BuildCommitForFullRepoSync()
+        {
+            var commit = new Models.Github.Commit();
+            commit.Message = "Full repo sync";
+
+            var client = GetClient();
+
+            var folders = await client.Repository.Content.GetAllContents("red-folder", "red-folder.docs.staging");
+
+            var shalist = new List<string>();
+
+            foreach (var folder in folders.Where(x => x.Type == ContentType.Dir))
+            {
+                var files = await client.Repository.Content.GetAllContents("red-folder", "red-folder.docs.staging", folder.Path);
+                
+                foreach (var file in files.Where(x => x.Type == ContentType.File))
+                {
+                    commit.Added.Add(new Models.Github.Added
+                    {
+                        FullFilename = file.Path,
+                        CommitSha = file.Sha,
+                        CommitShaForRead = file.Sha
+                    });
+                }
+            }
+
+            return commit;
+        }
     }
 }

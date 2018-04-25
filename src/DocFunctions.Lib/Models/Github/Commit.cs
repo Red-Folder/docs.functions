@@ -12,10 +12,10 @@ namespace DocFunctions.Lib.Models.Github
         public string Sha;
         public string Message;
 
-        public List<Added> Added;
+        public List<Added> Added = new List<Added>();
 
-        public List<Removed> Removed;
+        public List<Removed> Removed = new List<Removed>();
 
-        public List<Modified> Modified;
+        public List<Modified> Modified = new List<Modified>();
     }
 }

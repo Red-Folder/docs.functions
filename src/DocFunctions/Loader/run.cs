@@ -102,7 +102,7 @@ namespace DocFunctions.Functions
                 Content content = new Content
                 {
                     Type = "text/html",
-                    Value = $"<html><body><h1>{requestId}</h1>{messageText}</body></html>"
+                    Value = $"<html><body>{messageText}</body></html>"
                 };
                 message.AddContent(content);
                 message.AddPersonalization(personalization);

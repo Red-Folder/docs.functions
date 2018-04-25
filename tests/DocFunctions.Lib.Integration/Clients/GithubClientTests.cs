@@ -35,5 +35,22 @@ namespace DocFunctions.Lib.Integration.Clients
 
             Assert.NotNull(result);
         }
+
+        [Fact]
+        [Trait("Category", "Integration")]
+        public async void GetRepoTree()
+        {
+            var username = ConfigurationManager.AppSettings["github-username"];
+            var key = ConfigurationManager.AppSettings["github-key"];
+            var repo = ConfigurationManager.AppSettings["github-repo"];
+
+            var sut = new GithubClient(username, key, repo);
+
+            var result = await sut.BuildCommitForFullRepoSync();
+
+            Assert.NotEmpty(result.Added);
+            Assert.Empty(result.Modified);
+            Assert.Empty(result.Removed);
+        }
     }
 }
