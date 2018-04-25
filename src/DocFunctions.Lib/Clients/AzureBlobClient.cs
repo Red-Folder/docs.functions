@@ -58,13 +58,6 @@ namespace DocFunctions.Lib.Clients
                 {
                     ((CloudBlockBlob)item).DeleteIfExists();
                 }
-
-                //if (item is CloudBlobDirectory)
-                //{
-                //    ClearDirectory(((CloudBlobDirectory)item).ListBlobs());
-                    
-                //}
-
             }
         }
     }

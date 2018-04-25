@@ -58,28 +58,31 @@ namespace DocFunctions.Functions
                     Log.Information("Clearing the blob storage");
                     blobClient.ClearAll();
 
-                    //// Parse the connection string and return a reference to the storage account.
-                    //Log.Information("Login to the storage account");
-                    //CloudStorageAccount storageAccount = CloudStorageAccount.Parse(connectionString);
+                    Log.Information("Create the resync commit");
+                    var data = githubReader.BuildCommitForFullRepoSync();
 
-                    //// Create the queue client.
-                    //Log.Information("Create the queueClient");
-                    //CloudQueueClient queueClient = storageAccount.CreateCloudQueueClient();
+                    // Parse the connection string and return a reference to the storage account.
+                    Log.Information("Login to the storage account");
+                    CloudStorageAccount storageAccount = CloudStorageAccount.Parse(connectionString);
 
-                    //// Retrieve a reference to a container.
-                    //Log.Information($"Create reference to the ${queueName} queue");
-                    //CloudQueue queue = queueClient.GetQueueReference(queueName);
+                    // Create the queue client.
+                    Log.Information("Create the queueClient");
+                    CloudQueueClient queueClient = storageAccount.CreateCloudQueueClient();
 
-                    //// Create the queue if it doesn't already exist
-                    //Log.Information("Create the queue if needed");
-                    //queue.CreateIfNotExists();
+                    // Retrieve a reference to a container.
+                    Log.Information($"Create reference to the ${queueName} queue");
+                    CloudQueue queue = queueClient.GetQueueReference(queueName);
 
-                    //// Create a message and add it to the queue.
-                    //Log.Information("Create the message");
-                    //CloudQueueMessage message = new CloudQueueMessage(JsonConvert.SerializeObject(data));
+                    // Create the queue if it doesn't already exist
+                    Log.Information("Create the queue if needed");
+                    queue.CreateIfNotExists();
 
-                    //Log.Information("Add the message");
-                    //queue.AddMessage(message);
+                    // Create a message and add it to the queue.
+                    Log.Information("Create the message");
+                    CloudQueueMessage message = new CloudQueueMessage(JsonConvert.SerializeObject(data));
+
+                    Log.Information("Add the message");
+                    queue.AddMessage(message);
 
                     Log.Information("Done");
                 }
