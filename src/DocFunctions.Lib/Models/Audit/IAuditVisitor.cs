@@ -8,7 +8,7 @@ namespace DocFunctions.Lib.Models.Audit
 {
     public interface IAuditVisitor
     {
-        void Append(string message);
+        void Append(DateTime created, string message);
         void Increment();
         void Decrement();
     }

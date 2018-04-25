@@ -28,13 +28,13 @@ namespace DocFunctions.Lib.Models.Audit
             _incrementLevel--;
         }
 
-        public void Append(string message)
+        public void Append(DateTime created, string message)
         {
             if (_incrementLevel > 0)
             {
                 _text.Append(new String('\t', _incrementLevel));
             }
-            _text.AppendLine(message);
+            _text.AppendLine($"[{created.ToString("dd/MM/yyyy HH:mm:ss")}]: {message}");
         }
 
         public override string ToString()

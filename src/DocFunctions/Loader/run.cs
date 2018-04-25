@@ -18,6 +18,7 @@ using DocFunctions.Lib.Wappers;
 using SendGrid.Helpers.Mail;
 using DocFunctions.Lib.Models.Audit;
 using System.Linq;
+using System.Diagnostics;
 
 namespace DocFunctions.Functions
 {
@@ -66,6 +67,8 @@ namespace DocFunctions.Functions
 
                 var messageText = "";
                 var requestId = Guid.NewGuid();
+                var stopWatch = new Stopwatch();
+                stopWatch.Start();
 
                 using (LogContext.PushProperty("RequestID", requestId))
                 {
@@ -89,6 +92,8 @@ namespace DocFunctions.Functions
                     messageText = new AuditAsHtml(audit).ToString();
                 }
 
+                stopWatch.Stop();
+
                 // Send email
                 message = new Mail
                 {
@@ -102,7 +107,7 @@ namespace DocFunctions.Functions
                 Content content = new Content
                 {
                     Type = "text/html",
-                    Value = $"<html><body>{messageText}</body></html>"
+                    Value = $"<html><body>{messageText}<p>Took {stopWatch.ElapsedMilliseconds} milliseconds</p></body></html>"
                 };
                 message.AddContent(content);
                 message.AddPersonalization(personalization);

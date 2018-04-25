@@ -16,10 +16,10 @@ namespace DocFunctions.Lib.Models.Audit
             _target = target;
         }
 
-        public void Append(string message)
+        public void Append(DateTime created, string message)
         {
             _htmlBuilder.AppendLine("<li>");
-            _htmlBuilder.AppendLine(message);
+            _htmlBuilder.AppendLine($"[{created.ToString("dd/MM/yyyy HH:mm:ss")}]: {message}");
             _htmlBuilder.AppendLine("</li>");
         }
 
