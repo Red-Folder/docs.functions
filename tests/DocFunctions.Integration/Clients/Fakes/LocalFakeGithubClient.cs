@@ -1,4 +1,6 @@
-﻿using DocFunctions.Lib.Wappers;
+﻿using System.Threading.Tasks;
+using DocFunctions.Lib.Models.Github;
+using DocFunctions.Lib.Wappers;
 
 namespace DocFunctions.Integration.Clients.Fakes
 {
@@ -9,6 +11,11 @@ namespace DocFunctions.Integration.Clients.Fakes
         public LocalFakeGithubClient(LocalFakeDataManager dataManager)
         {
             _dataManager = dataManager;
+        }
+
+        public Task<Commit> BuildCommitForFullRepoSync()
+        {
+            throw new System.NotImplementedException();
         }
 
         public string GetRawFile(string path, string commitSha)

@@ -44,5 +44,15 @@ namespace DocFunctions.Lib.Clients
             CloudBlockBlob cloudBlockBlob = _container.GetBlockBlobReference(filename);
             cloudBlockBlob.DeleteIfExists();
         }
+
+        public void ClearAll()
+        {
+            var blobs = _container.ListBlobs();
+
+            foreach(var blob in blobs)
+            {
+                ((CloudBlockBlob)blob).DeleteIfExists();
+            }
+        }
     }
 }

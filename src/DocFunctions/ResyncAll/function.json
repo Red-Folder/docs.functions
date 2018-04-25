@@ -1,0 +1,18 @@
+﻿{
+  "disabled": false,
+  "bindings": [
+    {
+      "type": "httpTrigger",
+      "direction": "in",
+      "webHookType": "github",
+      "name": "req"
+    },
+    {
+      "type": "http",
+      "direction": "out",
+      "name": "res"
+    }
+  ],
+  "scriptFile": "..\\bin\\DocFunctions.dll",
+  "entryPoint": "DocFunctions.Functions.ResyncAll.Run"
+}

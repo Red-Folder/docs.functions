@@ -11,6 +11,11 @@ namespace DocFunctions.Integration.Clients.Fakes
             _dataManager = dataManager;
         }
 
+        public void ClearAll()
+        {
+            throw new System.NotImplementedException();
+        }
+
         public void Delete(string filename)
         {
             _dataManager.DeleteFromWebsite(filename);

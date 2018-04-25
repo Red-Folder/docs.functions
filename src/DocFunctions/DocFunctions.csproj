@@ -218,6 +218,7 @@
     <Content Include="Blog\function.json" />
     <Content Include="GithubWebhook\function.json" />
     <Content Include="Loader\function.json" />
+    <Content Include="ResyncAll\function.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -233,6 +234,7 @@
     <Compile Include="GithubWebhook\run.cs" />
     <Compile Include="Loader\run.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResyncAll\run.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DocFunctions.Lib\DocFunctions.Lib.csproj">
