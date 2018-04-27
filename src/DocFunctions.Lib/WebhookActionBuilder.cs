@@ -15,7 +15,6 @@ namespace DocFunctions.Lib
     public class WebhookActionBuilder
     {
         private IActionBuilder _actionBuilder;
-        private IEmailClient _emailClient;
         private AuditTree _audit;
 
         public WebhookActionBuilder(IActionBuilder actionBuilder, AuditTree audit)
