@@ -6,7 +6,7 @@ namespace DocFunctions.Lib.Models.Audit
     public class AuditNode
     {
         private string _message;
-        private DateTime _created;
+        private DateTime _created = DateTime.Now;
         private List<AuditNode> _childMessages = null;
 
         //private WeakReference _temporaryParentReference;
@@ -15,7 +15,6 @@ namespace DocFunctions.Lib.Models.Audit
         public AuditNode(string message = null)
         {
             _message = message;
-            _created = DateTime.Now;
         }
 
         private AuditNode(string message, AuditNode parent)
