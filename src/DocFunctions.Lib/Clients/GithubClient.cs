@@ -54,7 +54,7 @@ namespace DocFunctions.Lib.Clients
 
         private RepositoryContent GetContents(Octokit.GitHubClient client, string path, string commitSha)
         {
-            var contents = client.Repository.Content.GetAllContentsByRef("red-folder", "red-folder.docs.staging", path, commitSha).Result;
+            var contents = client.Repository.Content.GetAllContentsByRef(_username, _repo, path, commitSha).Result;
 
             return contents.First();
         }
@@ -66,13 +66,13 @@ namespace DocFunctions.Lib.Clients
 
             var client = GetClient();
 
-            var folders = await client.Repository.Content.GetAllContents("red-folder", "red-folder.docs.staging");
+            var folders = await client.Repository.Content.GetAllContents(_username, _repo);
 
             var shalist = new List<string>();
 
             foreach (var folder in folders.Where(x => x.Type == ContentType.Dir))
             {
-                var files = await client.Repository.Content.GetAllContents("red-folder", "red-folder.docs.staging", folder.Path);
+                var files = await client.Repository.Content.GetAllContents(_username, _repo, folder.Path);
                 
                 foreach (var file in files.Where(x => x.Type == ContentType.File))
                 {
