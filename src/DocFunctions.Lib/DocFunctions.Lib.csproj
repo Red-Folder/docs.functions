@@ -126,14 +126,6 @@
     <Compile Include="Models\Github\Removed.cs" />
     <Compile Include="Models\Github\WebhookData.cs" />
     <Compile Include="Processors\BlogMetaProcessor.cs" />
-    <Compile Include="Processors\MarkdownProcessor.cs" />
-    <Compile Include="Processors\MarkdownTransforms\AcclaimTransformer.cs" />
-    <Compile Include="Processors\MarkdownTransforms\BaseTransformer.cs" />
-    <Compile Include="Processors\MarkdownTransforms\CodeTransformer.cs" />
-    <Compile Include="Processors\MarkdownTransforms\CoreTransformer.cs" />
-    <Compile Include="Processors\MarkdownTransforms\GistTransformer.cs" />
-    <Compile Include="Processors\MarkdownTransforms\ImageTransformer.cs" />
-    <Compile Include="Processors\MarkdownTransforms\ITransformer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\ApplicationInsightsLogger.cs" />
     <Compile Include="Utils\ILogger.cs" />
@@ -143,11 +135,14 @@
     <Compile Include="Wappers\IEmailClient.cs" />
     <Compile Include="Wappers\IBlobClient.cs" />
     <Compile Include="Wappers\IGithubReader.cs" />
-    <Compile Include="Wappers\IMarkdownProcessor.cs" />
     <Compile Include="Wappers\IWebCache.cs" />
     <Compile Include="WebhookActionBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DocFunctions.Markdown\DocFunctions.Markdown.csproj">
+      <Project>{13ba8fe0-a921-41e8-8739-b1ab8ef5c78a}</Project>
+      <Name>DocFunctions.Markdown</Name>
+    </ProjectReference>
     <ProjectReference Include="..\docsFunctions.Shared\docsFunctions.Shared.csproj">
       <Project>{ef200f01-2a4f-45f0-8ae2-4c3c9835bbf4}</Project>
       <Name>docsFunctions.Shared</Name>

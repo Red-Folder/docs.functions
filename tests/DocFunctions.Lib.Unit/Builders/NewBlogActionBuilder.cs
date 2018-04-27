@@ -2,6 +2,7 @@
 using DocFunctions.Lib.Models.Audit;
 using DocFunctions.Lib.Models.Github;
 using DocFunctions.Lib.Wappers;
+using DocFunctions.Markdown;
 using docsFunctions.Shared.Models;
 using Moq;
 using System;
@@ -17,7 +18,7 @@ namespace DocFunctions.Lib.Unit.Builders
         private Added _added;
 
         private Mock<IGithubReader> _mockGithubReader;
-        private Mock<IMarkdownProcessor> _mockMarkdownProcessor;
+        private Mock<IMarkdownTransformer> _mockMarkdownTransformer;
         private Mock<IBlobClient> _mockBlobClient;
         private Mock<IBlogMetaProcessor> _mockBlogMetaReader;
         private Mock<IBlogMetaRepository> _mockBlogMetaRepository;
@@ -26,7 +27,7 @@ namespace DocFunctions.Lib.Unit.Builders
         private bool _githubReaderSet = false;
         private IGithubReader _githubReader;
         private bool _markdownProcessorSet = false;
-        private IMarkdownProcessor _markdownProcessor;
+        private IMarkdownTransformer _markdownTransformer;
         private bool _blobClientSet = false;
         private IBlobClient _blobClient;
         private bool _blogMetaReaderSet = false;
@@ -42,8 +43,8 @@ namespace DocFunctions.Lib.Unit.Builders
             _mockGithubReader.Setup(m => m.GetRawFile(It.Is<string>(x => x == "/test folder/blog.json"), It.Is<string>(x => x == "commit-sha-xxxx"))).Returns("{}");
             _mockGithubReader.Setup(m => m.GetRawFile(It.Is<string>(x => x == "/test folder/blog.md"), It.Is<string>(x => x == "commit-sha-xxxx"))).Returns("## Hello World");
 
-            _mockMarkdownProcessor = new Mock<IMarkdownProcessor>();
-            _mockMarkdownProcessor.Setup(m => m.Process(It.IsAny<string>())).Returns("<h2>Hello World</h2>");
+            _mockMarkdownTransformer = new Mock<IMarkdownTransformer>();
+            _mockMarkdownTransformer.Setup(m => m.Transform(It.IsAny<Blog>(), It.IsAny<string>())).Returns("<h2>Hello World</h2>");
 
             _mockBlobClient = new Mock<IBlobClient>();
 
@@ -63,11 +64,11 @@ namespace DocFunctions.Lib.Unit.Builders
             }
         }
 
-        public Mock<IMarkdownProcessor> MockMarkdownProcessor
+        public Mock<IMarkdownTransformer> MockMarkdownTransformer
         {
             get
             {
-                return _mockMarkdownProcessor;
+                return _mockMarkdownTransformer;
             }
         }
 
@@ -102,10 +103,10 @@ namespace DocFunctions.Lib.Unit.Builders
             return this;
         }
 
-        public NewBlogActionBuilder SetMarkdownProcessor(IMarkdownProcessor markdownProcessor)
+        public NewBlogActionBuilder SetMarkdownTransformer(IMarkdownTransformer markdownTransformer)
         {
             _markdownProcessorSet = true;
-            _markdownProcessor = markdownProcessor;
+            _markdownTransformer = markdownTransformer;
             return this;
         }
 
@@ -134,7 +135,7 @@ namespace DocFunctions.Lib.Unit.Builders
         {
             return new NewBlogAction(_added,
                                         _githubReaderSet ? _githubReader : _mockGithubReader.Object,
-                                        _markdownProcessorSet ? _markdownProcessor : _mockMarkdownProcessor.Object,
+                                        _markdownProcessorSet ? _markdownTransformer : _mockMarkdownTransformer.Object,
                                         _blobClientSet ? _blobClient : _mockBlobClient.Object,
                                         _blogMetaReaderSet ? _blogMetaReader : _mockBlogMetaReader.Object,
                                         _blogMetaRepositorySet ? _blogMetaRepository : _mockBlogMetaRepository.Object,

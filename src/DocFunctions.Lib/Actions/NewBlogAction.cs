@@ -1,6 +1,7 @@
 ﻿using DocFunctions.Lib.Models.Audit;
 using DocFunctions.Lib.Models.Github;
 using DocFunctions.Lib.Wappers;
+using DocFunctions.Markdown;
 using docsFunctions.Shared.Models;
 using Serilog;
 using System;
@@ -15,7 +16,7 @@ namespace DocFunctions.Lib.Actions
     {
         private Added _data;
         private IGithubReader _githubReader;
-        private IMarkdownProcessor _markdownProcessor;
+        private IMarkdownTransformer _markdownTransformer;
         private IBlobClient _blobClient;
         private IBlogMetaProcessor _blogMetaReader;
         private IBlogMetaRepository _blogMetaRepository;
@@ -24,7 +25,7 @@ namespace DocFunctions.Lib.Actions
 
         public NewBlogAction(Added data,
                                 IGithubReader githubReader,
-                                IMarkdownProcessor markdownProcessor,
+                                IMarkdownTransformer markdownTransformer,
                                 IBlobClient blobClient,
                                 IBlogMetaProcessor blogMetaReader,
                                 IBlogMetaRepository blogMetaRepository,
@@ -33,7 +34,7 @@ namespace DocFunctions.Lib.Actions
         {
             if (data == null) throw new ArgumentNullException("data");
             if (githubReader == null) throw new ArgumentNullException("githubReader");
-            if (markdownProcessor == null) throw new ArgumentNullException("markdownProcessor");
+            if (markdownTransformer == null) throw new ArgumentNullException("markdownTrasnformer");
             if (blobClient == null) throw new ArgumentNullException("blobClient");
             if (blogMetaReader == null) throw new ArgumentNullException("blogMetaReader");
             if (blogMetaRepository == null) throw new ArgumentNullException("blogMetaRepository");
@@ -42,7 +43,7 @@ namespace DocFunctions.Lib.Actions
 
             _data = data;
             _githubReader = githubReader;
-            _markdownProcessor = markdownProcessor;
+            _markdownTransformer = markdownTransformer;
             _blobClient = blobClient;
             _blogMetaReader = blogMetaReader;
             _blogMetaRepository = blogMetaRepository;
@@ -63,7 +64,7 @@ namespace DocFunctions.Lib.Actions
                 _audit.Add("Getting the Markdown from Github");
                 var blogMarkdown = GetMarkdownFromGithub();
                 _audit.Add("Converting the Markdown to HTML");
-                var blogMarkup = ConvertRawBlogToMarkup(blogMarkdown);
+                var blogMarkup = ConvertRawBlogToMarkup(blogMeta, blogMarkdown);
                 _audit.Add("Uploading the HTML to the server");
                 UploadBlogMarkup(blogMeta, blogMarkup);
 
@@ -101,9 +102,9 @@ namespace DocFunctions.Lib.Actions
             return _githubReader.GetRawFile(_data.Path + "/blog.md", _data.CommitShaForRead);
         }
 
-        private string ConvertRawBlogToMarkup(string blogMarkdown)
+        private string ConvertRawBlogToMarkup(Blog blogMeta, string blogMarkdown)
         {
-            return _markdownProcessor.Process(blogMarkdown);
+            return _markdownTransformer.Transform(blogMeta, blogMarkdown);
         }
 
         private void UploadBlogMarkup(Blog blogMeta, string markup)

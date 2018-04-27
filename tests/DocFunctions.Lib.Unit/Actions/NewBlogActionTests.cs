@@ -37,7 +37,7 @@ namespace DocFunctions.Lib.Unit.Actions
         {
             // Arrange
             var builder = new NewBlogActionBuilder(new Models.Github.Added { FullFilename = "/test folder/blog.md", CommitShaForRead = "commit-sha-xxxx" });
-            builder.SetMarkdownProcessor(null);
+            builder.SetMarkdownTransformer(null);
             Assert.Throws<ArgumentNullException>(() => builder.Build());
         }
 
@@ -93,7 +93,7 @@ namespace DocFunctions.Lib.Unit.Actions
             sut.Execute();
 
             // Assert
-            builder.MockMarkdownProcessor.Verify(m => m.Process(It.Is<string>(x => x == "## Hello World")));
+            builder.MockMarkdownTransformer.Verify(m => m.Transform(It.IsAny<Blog>(), It.Is<string>(x => x == "## Hello World")));
         }
 
         [Fact]

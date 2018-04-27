@@ -19,6 +19,7 @@ using SendGrid.Helpers.Mail;
 using DocFunctions.Lib.Models.Audit;
 using System.Linq;
 using System.Diagnostics;
+using DocFunctions.Markdown;
 
 namespace DocFunctions.Functions
 {
@@ -73,13 +74,13 @@ namespace DocFunctions.Functions
                 using (LogContext.PushProperty("RequestID", requestId))
                 {
                     var githubReader = new GithubClient(gitUsername, gitKey, gitRepo);
-                    var markdownProcessor = new MarkdownProcessor();
+                    var markdownTransformer = new MarkdownTransformer();
                     var blobClient = new AzureBlobClient(blobConnectionString, blobContainerName);
                     var blogMetaProcessor = new BlogMetaProcessor();
                     var blogMetaRepository = new BlogMetaRepository(blogMetaConnectionString, blogMetaContainerName);
                     var cache = new AllCachesClient(null);
                     var audit = new AuditTree();
-                    var actionBuilder = new ActionBuilder(githubReader, markdownProcessor, blobClient, blogMetaProcessor, blogMetaRepository, cache, audit);
+                    var actionBuilder = new ActionBuilder(githubReader, markdownTransformer, blobClient, blogMetaProcessor, blogMetaRepository, cache, audit);
 
                     var webhookAction = new WebhookActionBuilder(actionBuilder, audit);
 

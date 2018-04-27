@@ -8,6 +8,7 @@ using DocFunctions.Lib.Clients;
 using DocFunctions.Lib.Models.Audit;
 using DocFunctions.Lib.Processors;
 using DocFunctions.Lib.Wappers;
+using DocFunctions.Markdown;
 
 namespace DocFunctions.Integration.Clients
 {
@@ -67,14 +68,14 @@ namespace DocFunctions.Integration.Clients
         private void EmulateGithubWebhookFunction()
         {
             var fakeGithubReader = new LocalFakeGithubClient(_dataManager);
-            var markdownProcessor = new MarkdownProcessor();
+            var markdownTransformer = new MarkdownTransformer();
             var fakeBlobClient = new LocalFakeBlobClient(_dataManager);
             var blogMetaProcessor = new BlogMetaProcessor();
             var fakeBlogMetaRepository = new LocalFakeBlogMetaRepository(_dataManager);
             var cache = new AllCachesClient(null);
             var audit = new AuditTree();
             var actionBuilder = new ActionBuilder(fakeGithubReader, 
-                                                    markdownProcessor, 
+                                                    markdownTransformer, 
                                                     fakeBlobClient, 
                                                     blogMetaProcessor, 
                                                     fakeBlogMetaRepository,

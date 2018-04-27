@@ -2,6 +2,7 @@
 using DocFunctions.Lib.Models.Audit;
 using DocFunctions.Lib.Models.Github;
 using DocFunctions.Lib.Wappers;
+using DocFunctions.Markdown;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace DocFunctions.Lib.Builders
     public class ActionBuilder : IActionBuilder
     {
         private IGithubReader _githubReader;
-        private IMarkdownProcessor _markdownProcessor;
+        private IMarkdownTransformer _markdownTransformer;
         private IBlobClient _blobClient;
         private IBlogMetaProcessor _blogMetaReader;
         private IBlogMetaRepository _blogMetaRepository;
@@ -23,7 +24,7 @@ namespace DocFunctions.Lib.Builders
         private List<IAction> _actions = new List<IAction>();
 
         public ActionBuilder(IGithubReader githubReader,
-                             IMarkdownProcessor markdownProcessor,
+                             IMarkdownTransformer markdownTransformer,
                              IBlobClient blobClient,
                              IBlogMetaProcessor blogMetaReader,
                              IBlogMetaRepository blogMetaRepository,
@@ -31,7 +32,7 @@ namespace DocFunctions.Lib.Builders
                              AuditTree audit)
         {
             if (githubReader == null) throw new ArgumentNullException("githubReader");
-            if (markdownProcessor == null) throw new ArgumentNullException("markdownProcessor");
+            if (markdownTransformer == null) throw new ArgumentNullException("markdownTransformer");
             if (blobClient == null) throw new ArgumentNullException("blobClient");
             if (blogMetaReader == null) throw new ArgumentNullException("blogMetaReader");
             if (blogMetaRepository == null) throw new ArgumentNullException("blogMetaRepository");
@@ -39,7 +40,7 @@ namespace DocFunctions.Lib.Builders
             if (audit == null) throw new ArgumentNullException("audit");
 
             _githubReader = githubReader;
-            _markdownProcessor = markdownProcessor;
+            _markdownTransformer = markdownTransformer;
             _blobClient = blobClient;
             _blogMetaReader = blogMetaReader;
             _blogMetaRepository = blogMetaRepository;
@@ -56,7 +57,7 @@ namespace DocFunctions.Lib.Builders
         {
             _actions.Add(new NewBlogAction(added,
                                             _githubReader,
-                                            _markdownProcessor,
+                                            _markdownTransformer,
                                             _blobClient,
                                             _blogMetaReader,
                                             _blogMetaRepository,

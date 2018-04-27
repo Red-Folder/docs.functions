@@ -88,6 +88,10 @@
       <Project>{0a44e216-84ee-4e1b-8d7d-7a9118832b9c}</Project>
       <Name>DocFunctions.Lib</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\src\DocFunctions.Markdown\DocFunctions.Markdown.csproj">
+      <Project>{13ba8fe0-a921-41e8-8739-b1ab8ef5c78a}</Project>
+      <Name>DocFunctions.Markdown</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\docsFunctions.Shared\docsFunctions.Shared.csproj">
       <Project>{EF200F01-2A4F-45F0-8AE2-4C3C9835BBF4}</Project>
       <Name>docsFunctions.Shared</Name>

@@ -3,6 +3,7 @@ using DocFunctions.Lib.Clients;
 using DocFunctions.Lib.Models.Audit;
 using DocFunctions.Lib.Models.Github;
 using DocFunctions.Lib.Processors;
+using DocFunctions.Markdown;
 using System.Collections.Generic;
 using System.Configuration;
 
@@ -22,7 +23,7 @@ namespace DocFunctions.Lib.Integration
             var gitRepo = ConfigurationManager.AppSettings["github-repo"];
             var githubReader = new GithubClient(gitUsername, gitKey, gitRepo);
 
-            var markdownProcessor = new MarkdownProcessor();
+            var markdownTransformer = new MarkdownTransformer();
 
             var blobConnectionString = ConfigurationManager.ConnectionStrings["BlobStorage"].ConnectionString;
             var blobContainerName = ConfigurationManager.AppSettings["BlobStorageContainerName"];
@@ -38,7 +39,7 @@ namespace DocFunctions.Lib.Integration
 
             var audit = new AuditTree();
 
-            var actionBuilder = new ActionBuilder(githubReader, markdownProcessor, blobClient, blogMetaProcessor, blogMetaRepository, cache, audit);
+            var actionBuilder = new ActionBuilder(githubReader, markdownTransformer, blobClient, blogMetaProcessor, blogMetaRepository, cache, audit);
 
             var sut = new WebhookActionBuilder(actionBuilder, null);
             var webhookData = new WebhookData
