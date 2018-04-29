@@ -17,6 +17,7 @@ using Serilog.Sinks.AzureWebJobsTraceWriter;
 using DocFunctions.Lib.Wappers;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Queue;
+using System.Collections.Generic;
 
 namespace DocFunctions.Functions
 {
@@ -32,57 +33,23 @@ namespace DocFunctions.Functions
 
             try
             {
-                // Get all settings
-                var gitUsername = ConfigurationManager.AppSettings["github-username"];
-                var gitKey = ConfigurationManager.AppSettings["github-key"];
-                var gitRepo = ConfigurationManager.AppSettings["github-repo"];
+                var requestId = Guid.NewGuid();
 
-                var blobContainerName = ConfigurationManager.AppSettings["BlobStorageContainerName"];
-                var blobConnectionString = ConfigurationManager.ConnectionStrings["BlobStorage"].ConnectionString;
-
-                if (gitUsername == null || gitUsername.Length == 0) throw new InvalidOperationException("github-username not set");
-                if (gitKey == null || gitKey.Length == 0) throw new InvalidOperationException("github-key not set");
-                if (gitRepo == null || gitRepo.Length == 0) throw new InvalidOperationException("github-repo not set");
-
-                if (blobContainerName == null || blobContainerName.Length == 0) throw new InvalidOperationException("BlobStorageContainerName not set");
-                if (blobConnectionString == null || blobConnectionString.Length == 0) throw new InvalidOperationException("BlobStorage Connection String not set");
-
-                var queueName = "toprocess";
-                var connectionString = ConfigurationManager.ConnectionStrings["BlobStorage"].ConnectionString;
-
-                using (LogContext.PushProperty("RequestID", Guid.NewGuid()))
+                using (LogContext.PushProperty("RequestID", requestId))
                 {
-                    var githubReader = new GithubClient(gitUsername, gitKey, gitRepo);
-                    var blobClient = new AzureBlobClient(blobConnectionString, blobContainerName);
+                    Log.Information("Setting up clients");
+                    var githubReader = ClientFactory.GetGitHubClient();
+                    var blobClient = ClientFactory.GetBlobClient();
+                    var queue = ClientFactory.GetToBeProcessedClient();
 
                     Log.Information("Clearing the blob storage");
                     blobClient.ClearAll();
 
                     Log.Information("Create the resync commit");
-                    var data = githubReader.BuildCommitForFullRepoSync();
+                    var data = await githubReader.BuildCommitForFullRepoSync();
 
-                    // Parse the connection string and return a reference to the storage account.
-                    Log.Information("Login to the storage account");
-                    CloudStorageAccount storageAccount = CloudStorageAccount.Parse(connectionString);
-
-                    // Create the queue client.
-                    Log.Information("Create the queueClient");
-                    CloudQueueClient queueClient = storageAccount.CreateCloudQueueClient();
-
-                    // Retrieve a reference to a container.
-                    Log.Information($"Create reference to the ${queueName} queue");
-                    CloudQueue queue = queueClient.GetQueueReference(queueName);
-
-                    // Create the queue if it doesn't already exist
-                    Log.Information("Create the queue if needed");
-                    queue.CreateIfNotExists();
-
-                    // Create a message and add it to the queue.
-                    Log.Information("Create the message");
-                    CloudQueueMessage message = new CloudQueueMessage(JsonConvert.SerializeObject(data));
-
-                    Log.Information("Add the message");
-                    queue.AddMessage(message);
+                    Log.Information("Add resync commit to the queue");
+                    queue.Add(requestId.ToString(), new List<Commit> { data });
 
                     Log.Information("Done");
                 }

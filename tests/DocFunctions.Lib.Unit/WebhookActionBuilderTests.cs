@@ -23,7 +23,7 @@ namespace DocFunctions.Lib.Unit
             var webhookData = new WebhookDataBuilder().Build();
 
             // Act
-            sut.Process(webhookData);
+            sut.Process(webhookData.Commits);
 
             // Assert
             actionBuilder.Verify(m => m.NewBlog(It.IsAny<Added>()), Times.Once);
@@ -39,7 +39,7 @@ namespace DocFunctions.Lib.Unit
             var webhookData = new WebhookDataBuilder().Build();
 
             // Act
-            sut.Process(webhookData);
+            sut.Process(webhookData.Commits);
 
             // Assert
             actionBuilder.Verify(m => m.NewImage(It.IsAny<Added>()), Times.Once);
@@ -55,7 +55,7 @@ namespace DocFunctions.Lib.Unit
             var webhookData = new WebhookDataBuilder().Build();
 
             // Act
-            sut.Process(webhookData);
+            sut.Process(webhookData.Commits);
 
             // Assert
             actionBuilder.Verify(m => m.DeleteBlog(It.IsAny<Removed>()), Times.Once);
@@ -71,7 +71,7 @@ namespace DocFunctions.Lib.Unit
             var webhookData = new WebhookDataBuilder().Build();
 
             // Act
-            sut.Process(webhookData);
+            sut.Process(webhookData.Commits);
 
             // Assert
             actionBuilder.Verify(m => m.DeleteImage(It.IsAny<Removed>()), Times.Once);
@@ -87,7 +87,7 @@ namespace DocFunctions.Lib.Unit
             var webhookData = new WebhookDataBuilder().Build();
 
             // Act
-            sut.Process(webhookData);
+            sut.Process(webhookData.Commits);
 
             // Assert
             actionBuilder.Verify(m => m.ModifyBlog(It.IsAny<Modified>()), Times.Once);
@@ -103,7 +103,7 @@ namespace DocFunctions.Lib.Unit
             var webhookData = new WebhookDataBuilder().Build();
 
             // Act
-            sut.Process(webhookData);
+            sut.Process(webhookData.Commits);
 
             // Assert
             actionBuilder.Verify(m => m.ModifyImage(It.IsAny<Modified>()), Times.Once);

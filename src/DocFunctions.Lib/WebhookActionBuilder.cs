@@ -23,9 +23,9 @@ namespace DocFunctions.Lib
             _audit = audit;
         }
 
-        public void Process(WebhookData data)
+        public void Process(IList<Commit> commits)
         {
-            foreach (var commit in data.Commits)
+            foreach (var commit in commits)
             {
                 _audit.StartOperation($"Processing actions for: {commit.Message}");
                 _actionBuilder.Clear();

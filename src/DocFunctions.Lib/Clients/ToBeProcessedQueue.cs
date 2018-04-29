@@ -25,7 +25,7 @@ namespace DocFunctions.Lib.Clients
             _queueName = queueName;
         }
 
-        public void Add(string id, Commit commit)
+        public void Add(string id, IList<Commit> commit)
         {
             var contents = JsonConvert.SerializeObject(commit);
             CloudBlockBlob cloudBlockBlob = GetContainer().GetBlockBlobReference(id);
@@ -36,13 +36,13 @@ namespace DocFunctions.Lib.Clients
             queue.AddMessage(message);
         }
 
-        public Commit Get(string id)
+        public IList<Commit> Get(string id)
         {
             CloudBlockBlob cloudBlockBlob = GetContainer().GetBlockBlobReference(id);
             if (cloudBlockBlob.Exists())
             {
                 var contents = cloudBlockBlob.DownloadText();
-                return JsonConvert.DeserializeObject<Commit>(contents);
+                return JsonConvert.DeserializeObject<IList<Commit>>(contents);
             }
             else
             {

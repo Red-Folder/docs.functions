@@ -61,7 +61,7 @@ namespace DocFunctions.Lib.Integration
             };
 
             // Act
-            sut.Process(webhookData);
+            sut.Process(webhookData.Commits);
         }
     }
 }

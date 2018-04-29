@@ -43,12 +43,13 @@ namespace DocFunctions.Lib.Integration.Clients
             var sut = new ToBeProcessedQueue(_connectionString, _containerName, _queueName);
 
             // Add
-            sut.Add(id, commit);
+            sut.Add(id, new List<Commit> { commit });
 
             // Get
             var result = sut.Get(id);
             Assert.NotNull(result);
-            Assert.Equal(commit.Sha, result.Sha);
+            Assert.Single(result);
+            Assert.Equal(commit.Sha, result[0].Sha);
 
             // Delete
             sut.MarkCompleted(id);

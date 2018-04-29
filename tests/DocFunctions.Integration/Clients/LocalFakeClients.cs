@@ -86,7 +86,7 @@ namespace DocFunctions.Integration.Clients
 
             var githubWebhookData = _dataManager.GetGithubWebhookData(_toBeCommitted);
 
-            webhookAction.Process(githubWebhookData);
+            webhookAction.Process(githubWebhookData.Commits);
         }
     }
 }

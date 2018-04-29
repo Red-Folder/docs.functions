@@ -230,6 +230,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Blog\run.cs" />
+    <Compile Include="ClientFactory.cs" />
     <Compile Include="GithubWebhook\run.cs" />
     <Compile Include="Loader\run.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
