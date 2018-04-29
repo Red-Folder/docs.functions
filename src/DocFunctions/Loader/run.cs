@@ -51,6 +51,10 @@ namespace DocFunctions.Functions
                     {
                         Log.Information("Processing the data");
                         builder.Process(data);
+
+                        Log.Information("Marking the item as processed");
+                        queue.MarkCompleted(requestId);
+
                         Log.Information("Processing complete");
 
                         // Generate audit report
