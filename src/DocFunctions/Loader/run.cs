@@ -1,25 +1,12 @@
-﻿using System.Net;
-using System.Configuration;
-using Newtonsoft.Json;
-using DocFunctions.Lib;
-using DocFunctions.Lib.Utils;
-using DocFunctions.Lib.Models.Github;
-using DocFunctions.Lib.Builders;
-using DocFunctions.Lib.Clients;
-using DocFunctions.Lib.Processors;
+﻿using System.Configuration;
 using System;
-using System.Net.Http;
-using System.Threading.Tasks;
 using Microsoft.Azure.WebJobs.Host;
 using Serilog;
 using Serilog.Context;
 using Serilog.Sinks.AzureWebJobsTraceWriter;
-using DocFunctions.Lib.Wappers;
 using SendGrid.Helpers.Mail;
 using DocFunctions.Lib.Models.Audit;
-using System.Linq;
 using System.Diagnostics;
-using DocFunctions.Markdown;
 
 namespace DocFunctions.Functions
 {

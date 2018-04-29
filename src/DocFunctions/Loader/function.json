@@ -6,7 +6,7 @@
       "direction": "in",
       "queueName": "to-be-processed",
       "connection": "BlobStorage",
-      "name": "request"
+      "name": "requestId"
     },
     {
       "name": "message",
