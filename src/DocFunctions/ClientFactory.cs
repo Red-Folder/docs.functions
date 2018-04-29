@@ -44,8 +44,8 @@ namespace DocFunctions
         public static IToBeProcessed GetToBeProcessedClient()
         {
             var queueConnectionString = ConfigurationManager.ConnectionStrings["ToBeProcessedStorage"].ToString();
-            var queueContainerName = ConfigurationManager.AppSettings["ToBeProcessedContainerName"] + Guid.NewGuid().ToString().ToLower();
-            var queueQueueName = ConfigurationManager.AppSettings["ToBeProcessedQueueName"] + Guid.NewGuid().ToString().ToLower();
+            var queueContainerName = ConfigurationManager.AppSettings["ToBeProcessedContainerName"];
+            var queueQueueName = ConfigurationManager.AppSettings["ToBeProcessedQueueName"];
 
             if (queueConnectionString == null || queueConnectionString.Length == 0) throw new InvalidOperationException("ToBeProcessedStorage Connection String not set");
             if (queueContainerName == null || queueContainerName.Length == 0) throw new InvalidOperationException("ToBeProcessed Container Name not set");
