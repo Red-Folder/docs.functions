@@ -68,9 +68,8 @@
       <HintPath>..\..\packages\WindowsAzure.Storage.8.1.1\lib\net45\Microsoft.WindowsAzure.Storage.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Octokit, Version=0.29.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Octokit.0.29.0\lib\net45\Octokit.dll</HintPath>
@@ -110,6 +109,7 @@
     <Compile Include="Clients\BlogMetaRepository.cs" />
     <Compile Include="Clients\CloudFlareCache.cs" />
     <Compile Include="Clients\GithubClient.cs" />
+    <Compile Include="Clients\ToBeProcessedQueue.cs" />
     <Compile Include="Clients\WebsiteCacheClient.cs" />
     <Compile Include="Models\Audit\AuditAsHtml.cs" />
     <Compile Include="Models\Audit\AuditAsText.cs" />
@@ -133,6 +133,7 @@
     <Compile Include="Wappers\IBlogMetaRepository.cs" />
     <Compile Include="Wappers\IBlobClient.cs" />
     <Compile Include="Wappers\IGithubReader.cs" />
+    <Compile Include="Wappers\IToBeProcessed.cs" />
     <Compile Include="Wappers\IWebCache.cs" />
     <Compile Include="WebhookActionBuilder.cs" />
   </ItemGroup>
