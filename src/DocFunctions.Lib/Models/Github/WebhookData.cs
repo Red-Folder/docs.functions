@@ -20,7 +20,7 @@ namespace DocFunctions.Lib.Models.Github
 
             foreach(var rawCommit in raw.Commits)
             {
-                if (!rawCommit.Message.ToLower().Contains(IGNORE))
+                if (!(rawCommit.Message !=null && rawCommit.Message.ToLower().Contains(IGNORE)))
                 {
                     var commit = new Commit();
                     commit.Sha = rawCommit.Id;

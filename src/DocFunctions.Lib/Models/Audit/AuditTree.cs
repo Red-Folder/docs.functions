@@ -17,10 +17,18 @@ namespace DocFunctions.Lib.Models.Audit
 
         private IDisposable _context = null;
 
+        public AuditTree()
+        {
+            _baseNode = new AuditNode();
+            _currentNode = _baseNode;
+        }
+
+
         public AuditTree(ILogger log)
         {
             _baseNode = new AuditNode();
             _currentNode = _baseNode;
+            _log = log;
         }
 
         public void BeginContext(string requestId)
