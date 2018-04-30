@@ -46,7 +46,9 @@ namespace DocFunctions.Lib.Clients
 
         private RepositoryContent GetContents(Octokit.GitHubClient client, string path, string commitSha)
         {
-            var contents = client.Repository.Content.GetAllContentsByRef(_username, _repo, path, commitSha).Result;
+            var contents = string.IsNullOrEmpty(commitSha) ?
+                            client.Repository.Content.GetAllContents(_username, _repo, path).Result :
+                            client.Repository.Content.GetAllContentsByRef(_username, _repo, path, commitSha).Result;
 
             return contents.First();
         }
@@ -68,9 +70,7 @@ namespace DocFunctions.Lib.Clients
                 {
                     commit.Added.Add(new Models.Github.Added
                     {
-                        FullFilename = file.Path,
-                        CommitSha = file.Sha,
-                        CommitShaForRead = file.Sha
+                        FullFilename = file.Path
                     });
                 }
             }
