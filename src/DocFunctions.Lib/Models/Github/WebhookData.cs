@@ -10,6 +10,8 @@ namespace DocFunctions.Lib.Models.Github
 {
     public class WebhookData
     {
+        private static string IGNORE = "[ignore]";
+
         public static WebhookData Deserialize(string rawJson)
         {
             var raw = JsonConvert.DeserializeObject<Models.Github.Raw.WebhookData>(rawJson);
@@ -18,30 +20,33 @@ namespace DocFunctions.Lib.Models.Github
 
             foreach(var rawCommit in raw.Commits)
             {
-                var commit = new Commit();
-                commit.Sha = rawCommit.Id;
-                commit.Message = rawCommit.Message;
-
-                commit.Added = new List<Added>();
-                commit.Removed = new List<Removed>();
-                commit.Modified = new List<Modified>();
-
-                foreach (var rawAdded in rawCommit.Added)
+                if (!rawCommit.Message.ToLower().Contains(IGNORE))
                 {
-                    commit.Added.Add(new Added { FullFilename = rawAdded, CommitSha = rawCommit.Id, CommitShaForRead = rawCommit.Id });
-                }
+                    var commit = new Commit();
+                    commit.Sha = rawCommit.Id;
+                    commit.Message = rawCommit.Message;
 
-                foreach (var rawRemoved in rawCommit.Removed)
-                {
-                    commit.Removed.Add(new Removed { FullFilename = rawRemoved, CommitSha = rawCommit.Id , CommitShaForRead = GetPreviousCommitSha(raw, rawCommit.Id)});
-                }
+                    commit.Added = new List<Added>();
+                    commit.Removed = new List<Removed>();
+                    commit.Modified = new List<Modified>();
 
-                foreach (var rawModified in rawCommit.Modified)
-                {
-                    commit.Modified.Add(new Modified { FullFilename = rawModified, CommitSha = rawCommit.Id, CommitShaForRead = GetPreviousCommitSha(raw, rawCommit.Id) });
-                }
+                    foreach (var rawAdded in rawCommit.Added)
+                    {
+                        commit.Added.Add(new Added { FullFilename = rawAdded, CommitSha = rawCommit.Id, CommitShaForRead = rawCommit.Id });
+                    }
 
-                commits.Add(commit);
+                    foreach (var rawRemoved in rawCommit.Removed)
+                    {
+                        commit.Removed.Add(new Removed { FullFilename = rawRemoved, CommitSha = rawCommit.Id, CommitShaForRead = GetPreviousCommitSha(raw, rawCommit.Id) });
+                    }
+
+                    foreach (var rawModified in rawCommit.Modified)
+                    {
+                        commit.Modified.Add(new Modified { FullFilename = rawModified, CommitSha = rawCommit.Id, CommitShaForRead = GetPreviousCommitSha(raw, rawCommit.Id) });
+                    }
+
+                    commits.Add(commit);
+                }
             }
 
             return new WebhookData { Commits = commits };
