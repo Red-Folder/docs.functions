@@ -51,23 +51,23 @@ namespace DocFunctions.Lib.Actions
             _audit.StartOperation($"Executing Delete Blog Action for {_data.Filename}");
             try
             {
-                _audit.Add("Getting Json from Github");
+                _audit.Audit("Getting Json from Github");
                 var blogMetaJson = GetMetaJsonFromGithub();
-                _audit.Add("Converting the Json to Blog Meta data");
+                _audit.Audit("Converting the Json to Blog Meta data");
                 var blogMeta = GetMetaFromMetaJson(blogMetaJson);
 
-                _audit.Add("Deleting the HTML from the server");
+                _audit.Audit("Deleting the HTML from the server");
                 DeleteBlogMarkup(blogMeta);
 
-                _audit.Add("Deleting the Blog Meta from the respository");
+                _audit.Audit("Deleting the Blog Meta from the respository");
                 DeleteBlogMeta(blogMeta);
 
-                _audit.Add($"Removing cache for {blogMeta.Url}");
+                _audit.Audit($"Removing cache for {blogMeta.Url}");
                 _cache.RemoveCachedInstances(blogMeta.Url);
             }
             catch (Exception ex)
             {
-                _audit.AddFailure($"Failed due to exception: {ex.Message}");
+                _audit.Error($"Failed due to exception: {ex.Message}", ex);
             }
             _audit.EndOperation();
         }

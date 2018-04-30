@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Serilog;
+using Serilog.Context;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,21 +13,50 @@ namespace DocFunctions.Lib.Models.Audit
         private AuditNode _baseNode;
         private AuditNode _currentNode;
         private bool _hasFailed = false;
+        private ILogger _log = null;
 
-        public AuditTree()
+        private IDisposable _context = null;
+
+        public AuditTree(ILogger log)
         {
             _baseNode = new AuditNode();
             _currentNode = _baseNode;
         }
 
-        public void Add(string message)
+        public void BeginContext(string requestId)
         {
-            _currentNode.Add(message);
+            if (_context != null) throw new ApplicationException("Already within a context");
+
+            _context = LogContext.PushProperty("RequestID", requestId);
         }
 
-        public void AddFailure(string message)
+        public void EndContext()
         {
-            Add(message);
+            if (_context == null) throw new ApplicationException("Not within a context");
+
+            _context.Dispose();
+            _context = null;
+        }
+
+
+        public void Audit(string message)
+        {
+            _currentNode.Add(message);
+
+            Information(message);
+        }
+
+        public void Information(string message)
+        {
+            if (_log != null) _log.Information(message);
+        }
+
+        public void Error(string message, Exception ex)
+        {
+            if (_log != null) _log.Error(ex, message);
+
+            _currentNode.Add(message);
+
             _hasFailed = true;
         }
 

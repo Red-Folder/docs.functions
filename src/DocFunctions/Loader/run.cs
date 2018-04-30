@@ -1,9 +1,6 @@
 ﻿using System.Configuration;
 using System;
 using Microsoft.Azure.WebJobs.Host;
-using Serilog;
-using Serilog.Context;
-using Serilog.Sinks.AzureWebJobsTraceWriter;
 using SendGrid.Helpers.Mail;
 using DocFunctions.Lib.Models.Audit;
 using System.Diagnostics;
@@ -14,11 +11,10 @@ namespace DocFunctions.Functions
     {
         public static void Run(string requestId, TraceWriter log, out Mail message)
         {
-            Log.Logger = new LoggerConfiguration()
-                        .WriteTo.TraceWriter(log)
-                        .CreateLogger();
+            var audit = ClientFactory.GetAuditClient(log);
 
-            Log.Information("Process initiated");
+            audit.BeginContext(requestId);
+            audit.Information("Process initiated");
 
             try
             {
@@ -32,35 +28,32 @@ namespace DocFunctions.Functions
                 var stopWatch = new Stopwatch();
                 stopWatch.Start();
 
-                using (LogContext.PushProperty("RequestID", requestId))
-                {
-                    Log.Information("Setting up clients");
-                    var audit = ClientFactory.GetAuditClient();
+                    audit.Information("Setting up clients");
+                    
                     var builder = ClientFactory.GetActionBuild(audit);
                     var queue = ClientFactory.GetToBeProcessedClient();
 
-                    Log.Information($"Retrieving commit(s) based on request id: {requestId}");
+                    audit.Information($"Retrieving commit(s) based on request id: {requestId}");
                     var data = queue.Get(requestId);
 
                     if (data == null)
                     {
                         messageText = "No commit(s) found to process";
-                        Log.Information(messageText);
+                        audit.Information(messageText);
                     }
                     else
                     {
-                        Log.Information("Processing the data");
+                        audit.Information("Processing the data");
                         builder.Process(data);
 
-                        Log.Information("Marking the item as processed");
+                        audit.Information("Marking the item as processed");
                         queue.MarkCompleted(requestId);
 
-                        Log.Information("Processing complete");
+                        audit.Information("Processing complete");
 
                         // Generate audit report
                         messageText = new AuditAsHtml(audit).ToString();
                     }
-                }
 
                 stopWatch.Stop();
 
@@ -84,9 +77,11 @@ namespace DocFunctions.Functions
             }
             catch (Exception ex)
             {
-                log.Error("Function failed", ex);
+                audit.Error("Function failed", ex);
                 throw ex;
             }
+
+            audit.EndContext();
         }
     }
 }

@@ -47,22 +47,22 @@ namespace DocFunctions.Lib.Actions
             _audit.StartOperation($"Executing New Image Action for {_data.Filename}");
             try
             {
-                _audit.Add("Getting Json from Github");
+                _audit.Audit("Getting Json from Github");
                 var blogMetaJson = GetMetaJsonFromGithub();
-                _audit.Add("Converting the Json to Blog Meta data");
+                _audit.Audit("Converting the Json to Blog Meta data");
                 var blogMeta = GetMetaFromMetaJson(blogMetaJson);
 
-                _audit.Add("Getting Image from Github");
+                _audit.Audit("Getting Image from Github");
                 var blogImage = GetImageFromGithub();
-                _audit.Add("Uploading Image to the server");
+                _audit.Audit("Uploading Image to the server");
                 UploadImage(blogMeta, blogImage);
 
-                _audit.Add($"Removing cache for TODO - need image url");
+                _audit.Audit($"Removing cache for TODO - need image url");
                 _cache.RemoveCachedInstances("TODO - need image url");
             }
             catch (Exception ex)
             {
-                _audit.AddFailure($"Failed due to exception: {ex.Message}");
+                _audit.Error($"Failed due to exception: {ex.Message}", ex);
             }
             _audit.EndOperation();
         }

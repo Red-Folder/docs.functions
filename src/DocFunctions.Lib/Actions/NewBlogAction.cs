@@ -56,27 +56,27 @@ namespace DocFunctions.Lib.Actions
             _audit.StartOperation($"Executing New Blog Action for {_data.Filename}");
             try
             {
-                _audit.Add("Getting Json from Github");
+                _audit.Audit("Getting Json from Github");
                 var blogMetaJson = GetMetaJsonFromGithub();
-                _audit.Add("Converting the Json to Blog Meta data");
+                _audit.Audit("Converting the Json to Blog Meta data");
                 var blogMeta = GetMetaFromMetaJson(blogMetaJson);
 
-                _audit.Add("Getting the Markdown from Github");
+                _audit.Audit("Getting the Markdown from Github");
                 var blogMarkdown = GetMarkdownFromGithub();
-                _audit.Add("Converting the Markdown to HTML");
+                _audit.Audit("Converting the Markdown to HTML");
                 var blogMarkup = ConvertRawBlogToMarkup(blogMeta, blogMarkdown);
-                _audit.Add("Uploading the HTML to the server");
+                _audit.Audit("Uploading the HTML to the server");
                 UploadBlogMarkup(blogMeta, blogMarkup);
 
-                _audit.Add("Saving to the Blog Meta to the repository");
+                _audit.Audit("Saving to the Blog Meta to the repository");
                 SaveBlogMeta(blogMeta);
 
-                _audit.Add($"Removing cache for {blogMeta.Url}");
+                _audit.Audit($"Removing cache for {blogMeta.Url}");
                 _cache.RemoveCachedInstances(blogMeta.Url);
             }
             catch (Exception ex)
             {
-                _audit.AddFailure($"Failed due to exception: {ex.Message}");
+                _audit.Error($"Failed due to exception: {ex.Message}", ex);
             }
             _audit.EndOperation();
         }

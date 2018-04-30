@@ -5,6 +5,9 @@ using DocFunctions.Lib.Models.Audit;
 using DocFunctions.Lib.Processors;
 using DocFunctions.Lib.Wappers;
 using DocFunctions.Markdown;
+using Microsoft.Azure.WebJobs.Host;
+using Serilog;
+using Serilog.Sinks.AzureWebJobsTraceWriter;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -67,9 +70,16 @@ namespace DocFunctions
             return new WebhookActionBuilder(actionBuilder, audit);
         }
 
-        public static AuditTree GetAuditClient()
+        public static AuditTree GetAuditClient(TraceWriter log)
         {
-            return new AuditTree();
+            return new AuditTree(GetLogger(log));
+        }
+
+        private static ILogger GetLogger(TraceWriter log)
+        {
+            return new LoggerConfiguration()
+                .WriteTo.TraceWriter(log)
+                .CreateLogger();
         }
 
         private static BlogMetaRepository GetMetaClient()

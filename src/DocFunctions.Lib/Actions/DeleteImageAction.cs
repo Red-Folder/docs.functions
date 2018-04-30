@@ -40,15 +40,15 @@ namespace DocFunctions.Lib.Actions
             {
                 var filename = $"{_data.FullFilename}";
                 Log.Information("Deleting: {filename}", filename);
-                _audit.Add("Deleting Image from the server");
+                _audit.Audit("Deleting Image from the server");
                 _blobClient.Delete(filename);
 
-                _audit.Add($"Removing cache for TODO - need image url");
+                _audit.Audit($"Removing cache for TODO - need image url");
                 _cache.RemoveCachedInstances("TODO - need image url");
             }
             catch (Exception ex)
             {
-                _audit.AddFailure($"Failed due to exception: {ex.Message}");
+                _audit.Error($"Failed due to exception: {ex.Message}", ex);
             }
             _audit.EndOperation();
         }
