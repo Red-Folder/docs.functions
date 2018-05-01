@@ -68,10 +68,16 @@ namespace DocFunctions.Lib.Clients
                 
                 foreach (var file in files.Where(x => x.Type == ContentType.File))
                 {
-                    commit.Added.Add(new Models.Github.Added
+                    if (file.Name.ToLower().EndsWith(".json") ||
+                        file.Name.ToLower().EndsWith(".md") ||
+                        file.Name.ToLower().EndsWith(".png") ||
+                        file.Name.ToLower().EndsWith(".jpg"))
                     {
-                        FullFilename = file.Path
-                    });
+                        commit.Added.Add(new Models.Github.Added
+                        {
+                            FullFilename = file.Path
+                        });
+                    }
                 }
             }
 
