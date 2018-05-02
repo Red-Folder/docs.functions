@@ -35,7 +35,7 @@ namespace DocFunctions.Lib.Actions
 
         public void Execute()
         {
-            _audit.StartOperation($"Executing Delete Image Action for {_data.Filename}");
+            _audit.StartOperation($"Executing Delete Image Action for {_data.Path}: {_data.Filename}");
             try
             {
                 var filename = $"{_data.FullFilename}";

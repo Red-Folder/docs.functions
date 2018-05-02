@@ -53,7 +53,7 @@ namespace DocFunctions.Lib.Actions
 
         public void Execute()
         {
-            _audit.StartOperation($"Executing New Blog Action for {_data.Filename}");
+            _audit.StartOperation($"Executing New Blog Action for {_data.Path}");
             try
             {
                 _audit.Audit("Getting Json from Github");

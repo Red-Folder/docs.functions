@@ -44,7 +44,7 @@ namespace DocFunctions.Lib.Actions
 
         public void Execute()
         {
-            _audit.StartOperation($"Executing New Image Action for {_data.Filename}");
+            _audit.StartOperation($"Executing New Image Action for {_data.Path}: {_data.Filename}");
             try
             {
                 _audit.Audit("Getting Json from Github");
