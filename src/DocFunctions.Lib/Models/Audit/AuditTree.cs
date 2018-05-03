@@ -12,7 +12,6 @@ namespace DocFunctions.Lib.Models.Audit
     {
         private AuditNode _baseNode;
         private AuditNode _currentNode;
-        private bool _hasFailed = false;
         private ILogger _log = null;
 
         private IDisposable _context = null;
@@ -63,9 +62,7 @@ namespace DocFunctions.Lib.Models.Audit
         {
             if (_log != null) _log.Error(ex, message);
 
-            _currentNode.Add(message);
-
-            _hasFailed = true;
+            _currentNode.Add(ex);
         }
 
         public void StartOperation(string message)

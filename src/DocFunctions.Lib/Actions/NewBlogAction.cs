@@ -59,7 +59,7 @@ namespace DocFunctions.Lib.Actions
                 _audit.Audit("Getting Json from Github");
                 var blogMetaJson = GetMetaJsonFromGithub();
 
-                _audit.Information($"JSON = {blogMetaJson}");
+                _audit.Audit($"JSON = {blogMetaJson}");
 
                 _audit.Audit("Converting the Json to Blog Meta data");
                 var blogMeta = GetMetaFromMetaJson(blogMetaJson);
@@ -79,7 +79,7 @@ namespace DocFunctions.Lib.Actions
             }
             catch (Exception ex)
             {
-                _audit.Error($"Failed due to exception: {ex.Message}", ex);
+                _audit.Error(ex.Message, ex);
             }
             _audit.EndOperation();
         }

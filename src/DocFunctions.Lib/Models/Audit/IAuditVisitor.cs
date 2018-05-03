@@ -9,7 +9,8 @@ namespace DocFunctions.Lib.Models.Audit
     public interface IAuditVisitor
     {
         void Append(DateTime created, string message);
-        void Increment();
+        void Append(DateTime created, List<string> message);
+        void Increment(bool hasErrorred);
         void Decrement();
     }
 }

@@ -18,7 +18,7 @@ namespace DocFunctions.Lib.Models.Audit
             _target = auditTree;
         }
 
-        public void Increment()
+        public void Increment(bool hasErrorred)
         {
             _incrementLevel++;
         }
@@ -35,6 +35,11 @@ namespace DocFunctions.Lib.Models.Audit
                 _text.Append(new String('\t', _incrementLevel));
             }
             _text.AppendLine($"[{created.ToString("dd/MM/yyyy HH:mm:ss")}]: {message}");
+        }
+
+        public void Append(DateTime created, List<string> messages)
+        {
+            messages.ForEach(x => Append(created, x));
         }
 
         public override string ToString()

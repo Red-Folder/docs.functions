@@ -23,19 +23,38 @@ namespace DocFunctions.Lib.Models.Audit
             _htmlBuilder.AppendLine("</li>");
         }
 
+        public void Append(DateTime created, List<string> messages)
+        {
+            _htmlBuilder.AppendLine("<li>");
+            messages.ForEach(x =>
+            {
+                _htmlBuilder.AppendLine("<p>");
+                _htmlBuilder.AppendLine($"[{created.ToString("dd/MM/yyyy HH:mm:ss")}]: {x}");
+                _htmlBuilder.AppendLine("</p>");
+            });
+            _htmlBuilder.AppendLine("</li>");
+        }
+
         public void Decrement()
         {
             _htmlBuilder.AppendLine("</ul>");
         }
 
-        public void Increment()
+        public void Increment(bool hasErrorred)
         {
-            _htmlBuilder.AppendLine("<ul>");
+            if (hasErrorred)
+            {
+                _htmlBuilder.AppendLine("<ul style='color:red;'>");
+            }
+            else
+            {
+                _htmlBuilder.AppendLine("<ul>");
+            }
         }
 
         public override string ToString()
         {
-            Increment();
+            Increment(false);
             _target.Visit(this);
             Decrement();
             return _htmlBuilder.ToString();
