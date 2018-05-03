@@ -58,6 +58,9 @@ namespace DocFunctions.Lib.Actions
             {
                 _audit.Audit("Getting Json from Github");
                 var blogMetaJson = GetMetaJsonFromGithub();
+
+                _audit.Information($"JSON = {blogMetaJson}");
+
                 _audit.Audit("Converting the Json to Blog Meta data");
                 var blogMeta = GetMetaFromMetaJson(blogMetaJson);
 

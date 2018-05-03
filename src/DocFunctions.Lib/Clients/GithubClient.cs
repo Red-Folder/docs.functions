@@ -50,6 +50,11 @@ namespace DocFunctions.Lib.Clients
                             client.Repository.Content.GetAllContents(_username, _repo, path).Result :
                             client.Repository.Content.GetAllContentsByRef(_username, _repo, path, commitSha).Result;
 
+            if (contents.Count() == 0)
+            {
+                throw new Exception($"Unable to get contents for {path}, commit: {commitSha}");
+            }
+
             return contents.First();
         }
 
