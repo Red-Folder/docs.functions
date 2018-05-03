@@ -85,19 +85,22 @@ namespace DocFunctions.Lib.Models.Audit
 
             if (_childMessages != null && _childMessages.Count > 0)
             {
-                if (_message != null)
+                if (_hasErrorred || (_childMessages.Any(x => x._childMessages != null && x._childMessages.Count > 0)))
                 {
-                    visitor.Increment(_hasErrorred);
-                }
+                    if (_message != null)
+                    {
+                        visitor.Increment(_hasErrorred);
+                    }
 
-                foreach (var child in _childMessages)
-                {
-                    child.Visit(visitor);
-                }
+                    foreach (var child in _childMessages)
+                    {
+                        child.Visit(visitor);
+                    }
 
-                if (_message != null)
-                {
-                    visitor.Decrement();
+                    if (_message != null)
+                    {
+                        visitor.Decrement();
+                    }
                 }
             }
         }
