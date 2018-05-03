@@ -45,8 +45,7 @@ namespace DocFunctions.Lib.Models.Audit
         {
             Add(new AuditNode(ex));
 
-            // Set Parent to error
-            _temporaryParentReference._hasErrorred = true;
+            _hasErrorred = true;
         }
 
         public AuditNode StartOperation(string message, AuditNode parent)
