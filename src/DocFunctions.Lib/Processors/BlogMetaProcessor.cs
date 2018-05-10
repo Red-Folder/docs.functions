@@ -11,6 +11,14 @@ namespace DocFunctions.Lib.Processors
 {
     public class BlogMetaProcessor : IBlogMetaProcessor
     {
+
+        private string _contentBaseUrl = "";
+
+        public BlogMetaProcessor(string contentBaseUrl)
+        {
+            _contentBaseUrl = contentBaseUrl;
+        }
+
         public Blog Transform(string metaJson)
         {
             var meta = JObject.Parse(metaJson);
@@ -31,7 +39,9 @@ namespace DocFunctions.Lib.Processors
                 Redirects = GetRedirects(meta),
                 KeyWords = GetKeyWorks(meta),
 
-                Series = (string)meta["series"]
+                Series = (string)meta["series"],
+
+                ContentBaseUrl = _contentBaseUrl
             };
 
         }

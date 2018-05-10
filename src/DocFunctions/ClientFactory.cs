@@ -57,12 +57,18 @@ namespace DocFunctions
             return new ToBeProcessedQueue(queueConnectionString, queueContainerName, queueQueueName); 
         }
 
+        public static IBlogMetaProcessor GetBlogMetaProcessor()
+        {
+            var contentBaseUrl = ConfigurationManager.AppSettings["ContentBaseUrl"];
+            return new BlogMetaProcessor(contentBaseUrl);
+        }
+
         public static WebhookActionBuilder GetActionBuild(AuditTree audit)
         {
             var actionBuilder = new ActionBuilder(GetGitHubClient(),
                                      new MarkdownTransformer(),
                                      GetBlobClient(),
-                                     new BlogMetaProcessor(),
+                                     GetBlogMetaProcessor(),
                                      GetMetaClient(),
                                      new AllCachesClient(null),
                                      audit);

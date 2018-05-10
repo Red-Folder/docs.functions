@@ -70,7 +70,7 @@ namespace DocFunctions.Integration.Clients
             var fakeGithubReader = new LocalFakeGithubClient(_dataManager);
             var markdownTransformer = new MarkdownTransformer();
             var fakeBlobClient = new LocalFakeBlobClient(_dataManager);
-            var blogMetaProcessor = new BlogMetaProcessor();
+            var blogMetaProcessor = new BlogMetaProcessor("https://rfcdocs.blob.core.windows.net/blog");
             var fakeBlogMetaRepository = new LocalFakeBlogMetaRepository(_dataManager);
             var cache = new AllCachesClient(null);
             var audit = new AuditTree();

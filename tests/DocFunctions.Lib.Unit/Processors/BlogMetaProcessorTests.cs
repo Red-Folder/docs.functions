@@ -18,7 +18,7 @@ namespace DocFunctions.Lib.Unit.Processors
                             ""enabled"":  ""true""
                         }";
 
-            var sut = new BlogMetaProcessor();
+            var sut = new BlogMetaProcessor("http://baseurl");
 
             var result = sut.Transform(meta);
 

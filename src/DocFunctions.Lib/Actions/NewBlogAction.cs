@@ -112,7 +112,7 @@ namespace DocFunctions.Lib.Actions
 
         private void UploadBlogMarkup(Blog blogMeta, string markup)
         {
-            var filename = $"{blogMeta.Url}/{blogMeta.Url}.html";
+            var filename = blogMeta.ContentFile;
             Log.Information("Uploading: {filename}", filename);
             _blobClient.Upload(filename, markup);
         }
