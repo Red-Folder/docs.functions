@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static DocFunctions.Lib.Clients.GithubClient;
 
 namespace DocFunctions.Lib.Actions
 {
@@ -47,15 +48,24 @@ namespace DocFunctions.Lib.Actions
             _audit.StartOperation($"Executing New Image Action for {_data.Path}: {_data.Filename}");
             try
             {
-                _audit.Audit("Getting Json from Github");
-                var blogMetaJson = GetMetaJsonFromGithub();
-                _audit.Audit("Converting the Json to Blog Meta data");
-                var blogMeta = GetMetaFromMetaJson(blogMetaJson);
+                var destinationPath = "";
+                try
+                {
+                    _audit.Audit("Getting Json from Github");
+                    var blogMetaJson = GetMetaJsonFromGithub();
+                    _audit.Audit("Converting the Json to Blog Meta data");
+                    var blogMeta = GetMetaFromMetaJson(blogMetaJson);
 
+                    destinationPath = blogMeta.Url;
+                } catch (ContentNotFoundException ex)
+                {
+                    // If just an image folder rather than full blog, then just use the _data.path as the destination
+                    destinationPath = _data.Path;
+                }
                 _audit.Audit("Getting Image from Github");
                 var blogImage = GetImageFromGithub();
                 _audit.Audit("Uploading Image to the server");
-                UploadImage(blogMeta, blogImage);
+                UploadImage(destinationPath, blogImage);
 
                 _audit.Audit($"Removing cache for TODO - need image url");
                 _cache.RemoveCachedInstances("TODO - need image url");
@@ -82,9 +92,9 @@ namespace DocFunctions.Lib.Actions
             return _githubReader.GetRawImageFile($"{_data.FullFilename}", _data.CommitShaForRead);
         }
 
-        private void UploadImage(Blog blogMeta, byte[] image)
+        private void UploadImage(string destinationPath, byte[] image)
         {
-            var filename = $"{blogMeta.Url}/{_data.Filename}";
+            var filename = $"{destinationPath}/{_data.Filename}";
             Log.Information("Uploading: {filename}", filename);
             _blobClient.Upload(filename, image);
         }

@@ -52,7 +52,7 @@ namespace DocFunctions.Lib.Clients
 
             if (contents.Count() == 0)
             {
-                throw new Exception($"Unable to get contents for {path}, commit: {commitSha}");
+                throw new ContentNotFoundException($"Unable to get contents for {path}, commit: {commitSha}");
             }
 
             return contents.First();
@@ -87,6 +87,14 @@ namespace DocFunctions.Lib.Clients
             }
 
             return commit;
+        }
+
+        public class ContentNotFoundException : Exception
+        {
+            public ContentNotFoundException(string message): base(message)
+            {
+
+            }
         }
     }
 }
