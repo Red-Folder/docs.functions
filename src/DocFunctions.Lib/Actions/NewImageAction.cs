@@ -57,7 +57,7 @@ namespace DocFunctions.Lib.Actions
                     var blogMeta = GetMetaFromMetaJson(blogMetaJson);
 
                     destinationPath = blogMeta.Url;
-                } catch (ContentNotFoundException ex)
+                } catch (Exception ex)
                 {
                     // If just an image folder rather than full blog, then just use the _data.path as the destination
                     destinationPath = _data.Path;

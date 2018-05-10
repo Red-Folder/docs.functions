@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -31,6 +32,8 @@ namespace docsFunctions.Shared.Models
         }
 
         private string _contentBaseUrl;
+
+        [JsonIgnore]
         public string ContentBaseUrl
         {
             set
@@ -39,6 +42,7 @@ namespace docsFunctions.Shared.Models
             }
         }
 
+        [JsonIgnore]
         public string ContentFile
         {
             get
