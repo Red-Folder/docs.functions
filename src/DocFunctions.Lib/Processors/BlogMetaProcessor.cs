@@ -41,7 +41,7 @@ namespace DocFunctions.Lib.Processors
 
                 Series = (string)meta["series"],
 
-                ContentBaseUrl = _contentBaseUrl
+                ContentUrl = $"{_contentBaseUrl}/{(string)meta["url"]}/{(string)meta["url"]}.html"
             };
 
         }

@@ -90,7 +90,7 @@ namespace DocFunctions.Lib.Actions
 
         private void DeleteBlogMarkup(Blog blogMeta)
         {
-            var filename = blogMeta.ContentFile;
+            var filename = $"{blogMeta.Url}/{blogMeta.Url}.html";
             Log.Information("Deleting: {filename}", filename);
             _blobClient.Delete(filename);
         }

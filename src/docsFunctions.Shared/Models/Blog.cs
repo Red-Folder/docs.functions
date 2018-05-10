@@ -23,32 +23,6 @@ namespace docsFunctions.Shared.Models
 
         public string Series { get; set; }
 
-        public string ContentUrl
-        {
-            get
-            {
-                return $"{_contentBaseUrl}/{ContentFile}";
-            }
-        }
-
-        private string _contentBaseUrl;
-
-        [JsonIgnore]
-        public string ContentBaseUrl
-        {
-            set
-            {
-                _contentBaseUrl = value;
-            }
-        }
-
-        [JsonIgnore]
-        public string ContentFile
-        {
-            get
-            {
-                return $"{Url}/{Url}.html";
-            }
-        }
+        public string ContentUrl { get; set; }
     }
 }
