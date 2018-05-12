@@ -12,11 +12,13 @@ namespace DocFunctions.Lib.Processors
     public class BlogMetaProcessor : IBlogMetaProcessor
     {
 
+        private string _mediaBaseUrl = "";
         private string _contentBaseUrl = "";
 
-        public BlogMetaProcessor(string contentBaseUrl)
+        public BlogMetaProcessor(string contentBaseUrl, string mediaBaseUrl)
         {
             _contentBaseUrl = contentBaseUrl;
+            _mediaBaseUrl = mediaBaseUrl;
         }
 
         public Blog Transform(string metaJson)
@@ -34,7 +36,7 @@ namespace DocFunctions.Lib.Processors
                 Enabled = Boolean.Parse((string)meta["enabled"]),
 
                 Description = (string)meta["description"],
-                Image = (string)meta["image"],
+                Image = MediaUrlTransform((string)meta["image"]),
 
                 Redirects = GetRedirects(meta),
                 KeyWords = GetKeyWorks(meta),
@@ -76,6 +78,13 @@ namespace DocFunctions.Lib.Processors
                 }
             }
             return keyWords;
+        }
+
+        private string MediaUrlTransform(string originalUrl)
+        {
+            if (originalUrl == null) return null;
+
+            return originalUrl.Replace("/media", _mediaBaseUrl);
         }
     }
 }

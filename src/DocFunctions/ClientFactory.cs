@@ -60,7 +60,8 @@ namespace DocFunctions
         public static IBlogMetaProcessor GetBlogMetaProcessor()
         {
             var contentBaseUrl = ConfigurationManager.AppSettings["ContentBaseUrl"];
-            return new BlogMetaProcessor(contentBaseUrl);
+            var mediaBaseUrl = ConfigurationManager.AppSettings["MediaBaseUrl"];
+            return new BlogMetaProcessor(contentBaseUrl, mediaBaseUrl);
         }
 
         public static IMarkdownTransformer GetMarkdownTransformer()

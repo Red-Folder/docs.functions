@@ -18,7 +18,7 @@ namespace DocFunctions.Lib.Unit.Processors
                             ""enabled"":  ""true""
                         }";
 
-            var sut = new BlogMetaProcessor("http://baseurl");
+            var sut = new BlogMetaProcessor("http://baseurl", "http://baseurl");
 
             var result = sut.Transform(meta);
 
@@ -28,7 +28,7 @@ namespace DocFunctions.Lib.Unit.Processors
             Assert.Equal(new DateTime(2016, 10, 17), result.Published);
             Assert.Equal(new DateTime(2016, 10, 17), result.Modified);
             Assert.Equal("RFC Weekly - 17th October 2016", result.Title);
-            Assert.Equal(true, result.Enabled);
+            Assert.True(result.Enabled);
         }
 
     }

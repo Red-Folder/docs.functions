@@ -30,7 +30,8 @@ namespace DocFunctions.Lib.Integration
             var blobClient = new AzureBlobClient(blobConnectionString, blobContainerName);
 
             var contentBaseUrl = ConfigurationManager.AppSettings["ContentBaseUrl"];
-            var blogMetaProcessor = new BlogMetaProcessor(contentBaseUrl);
+            var mediaBaseUrl = ConfigurationManager.AppSettings["MediaBaseUrl"];
+            var blogMetaProcessor = new BlogMetaProcessor(contentBaseUrl, mediaBaseUrl);
 
             var blogMetaConnectionString = ConfigurationManager.ConnectionStrings["BlogMetaStorage"].ConnectionString;
             var blogMetaContainerName = ConfigurationManager.AppSettings["BlogMetaStorageContainerName"];
