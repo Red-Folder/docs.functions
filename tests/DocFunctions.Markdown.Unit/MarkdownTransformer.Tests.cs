@@ -25,7 +25,7 @@ namespace DocFunctions.Markdown.Unit
             var markdown = "Hello World\n-----------\nText\n";
 
             // Using default contructor will create inner - passing null in will ensure no inner
-            var uat = new MarkdownTransformer(null);
+            var uat = new MarkdownTransformer((ITransformer)null);
 
             var result = uat.Transform(meta, markdown);
 

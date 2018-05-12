@@ -10,14 +10,15 @@ namespace DocFunctions.Markdown
     {
         private ITransformer _innerTransformer;
 
-        public MarkdownTransformer()
+        public MarkdownTransformer(string mediaBaseUrl)
         {
             var core = new CoreTransformer();
             var code = new CodeTransformer(core);
             var acclaim = new AcclaimTransformer(code);
             var image = new ImageTransformer(acclaim);
             var gist = new GistTransformer(image);
-            var roiArticle = new ROIArticleTransformer(gist);
+            var media = new MediaUrlTransformer(mediaBaseUrl, gist);
+            var roiArticle = new ROIArticleTransformer(media);
             _innerTransformer = roiArticle;
         }
 

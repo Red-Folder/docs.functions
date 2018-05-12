@@ -63,10 +63,16 @@ namespace DocFunctions
             return new BlogMetaProcessor(contentBaseUrl);
         }
 
+        public static IMarkdownTransformer GetMarkdownTransformer()
+        {
+            var mediaBaseUrl = ConfigurationManager.AppSettings["MediaBaseUrl"];
+            return new MarkdownTransformer(mediaBaseUrl);
+        }
+
         public static WebhookActionBuilder GetActionBuild(AuditTree audit)
         {
             var actionBuilder = new ActionBuilder(GetGitHubClient(),
-                                     new MarkdownTransformer(),
+                                     GetMarkdownTransformer(),
                                      GetBlobClient(),
                                      GetBlogMetaProcessor(),
                                      GetMetaClient(),

@@ -23,7 +23,7 @@ namespace DocFunctions.Lib.Integration
             var gitRepo = ConfigurationManager.AppSettings["github-repo"];
             var githubReader = new GithubClient(gitUsername, gitKey, gitRepo);
 
-            var markdownTransformer = new MarkdownTransformer();
+            var markdownTransformer = new MarkdownTransformer("http://test.com");
 
             var blobConnectionString = ConfigurationManager.ConnectionStrings["BlobStorage"].ConnectionString;
             var blobContainerName = ConfigurationManager.AppSettings["BlobStorageContainerName"];

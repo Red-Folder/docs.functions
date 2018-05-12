@@ -73,6 +73,7 @@
     <Compile Include="Transformers\CoreTransformer.Tests.cs" />
     <Compile Include="Transformers\GistTransformer.Tests.cs" />
     <Compile Include="Transformers\ImageTransformer.Tests.cs" />
+    <Compile Include="Transformers\MediaUrlTransformer.Tests.cs" />
     <Compile Include="Transformers\ROIArticleTransformer.Tests.cs" />
   </ItemGroup>
   <ItemGroup>

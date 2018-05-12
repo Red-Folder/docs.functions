@@ -68,7 +68,7 @@ namespace DocFunctions.Integration.Clients
         private void EmulateGithubWebhookFunction()
         {
             var fakeGithubReader = new LocalFakeGithubClient(_dataManager);
-            var markdownTransformer = new MarkdownTransformer();
+            var markdownTransformer = new MarkdownTransformer("http://test.com");
             var fakeBlobClient = new LocalFakeBlobClient(_dataManager);
             var blogMetaProcessor = new BlogMetaProcessor("https://rfcdocs.blob.core.windows.net/blog");
             var fakeBlogMetaRepository = new LocalFakeBlogMetaRepository(_dataManager);

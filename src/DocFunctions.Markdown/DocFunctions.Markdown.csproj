@@ -56,6 +56,7 @@
     <Compile Include="Transformers\GistTransformer.cs" />
     <Compile Include="Transformers\ImageTransformer.cs" />
     <Compile Include="Transformers\ITransformer.cs" />
+    <Compile Include="Transformers\MediaUrlTransformer.cs" />
     <Compile Include="Transformers\ROIArticleTransformer.cs" />
   </ItemGroup>
   <ItemGroup>
