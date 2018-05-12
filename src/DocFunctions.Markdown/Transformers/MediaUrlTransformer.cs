@@ -23,7 +23,7 @@ namespace DocFunctions.Markdown.Transformers
 
         protected override string PostTransform(Blog meta, string markdown)
         {
-            return markdown.Replace("/media/", _baseUrl + "/");
+            return markdown.Replace("/media/blog/", _baseUrl + "/").ToLower();
         }
     }
 }

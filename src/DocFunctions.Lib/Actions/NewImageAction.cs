@@ -94,7 +94,7 @@ namespace DocFunctions.Lib.Actions
 
         private void UploadImage(string destinationPath, byte[] image)
         {
-            var filename = $"{destinationPath}/{_data.Filename}";
+            var filename = $"{destinationPath}/{_data.Filename}".ToLower();
             Log.Information("Uploading: {filename}", filename);
             _blobClient.Upload(filename, image);
         }

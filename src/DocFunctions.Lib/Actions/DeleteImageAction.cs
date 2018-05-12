@@ -38,7 +38,7 @@ namespace DocFunctions.Lib.Actions
             _audit.StartOperation($"Executing Delete Image Action for {_data.Path}: {_data.Filename}");
             try
             {
-                var filename = $"{_data.FullFilename}";
+                var filename = $"{_data.FullFilename}".ToLower();
                 Log.Information("Deleting: {filename}", filename);
                 _audit.Audit("Deleting Image from the server");
                 _blobClient.Delete(filename);

@@ -84,7 +84,7 @@ namespace DocFunctions.Lib.Processors
         {
             if (originalUrl == null) return null;
 
-            return originalUrl.Replace("/media", _mediaBaseUrl);
+            return originalUrl.Replace("/media/blog", _mediaBaseUrl).ToLower();
         }
     }
 }
