@@ -28,7 +28,7 @@ namespace DocFunctions.Lib.Processors
             return new Blog
             {
                 Id = (string)meta["id"],
-                Url = (string)meta["url"],
+                Url = ((string)meta["url"]).ToLower(),
                 Author = "Mark Taylor",
                 Published = meta["published"].Value<DateTime>(),
                 Modified = meta["modified"].Value<DateTime>(),
@@ -43,7 +43,7 @@ namespace DocFunctions.Lib.Processors
 
                 Series = (string)meta["series"],
 
-                ContentUrl = $"{_contentBaseUrl}/{(string)meta["url"]}/{(string)meta["url"]}.html"
+                ContentUrl = $"{_contentBaseUrl}/{(string)meta["url"]}/{(string)meta["url"]}.html".ToLower()
             };
 
         }

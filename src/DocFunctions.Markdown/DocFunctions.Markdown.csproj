@@ -60,13 +60,13 @@
     <Compile Include="Transformers\ROIArticleTransformer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\docsFunctions.Shared\docsFunctions.Shared.csproj">
       <Project>{ef200f01-2a4f-45f0-8ae2-4c3c9835bbf4}</Project>
       <Name>docsFunctions.Shared</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

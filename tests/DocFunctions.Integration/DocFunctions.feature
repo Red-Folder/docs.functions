@@ -9,7 +9,7 @@ Scenario: On new blog
 	When I start a new commit
 	And Add blog.md to the commit
 	And Add blog.json to the commit
-	And Add Image.png to the commit
+	And Add image.png to the commit
 	And Push the commit with message "On new blog scenario"
 	Then I allow 60 seconds
 	Then I would expect the blog to be available via the Blog API
@@ -20,7 +20,7 @@ Scenario: On deleting a blog
 	Given I start a new commit
 	And Add blog.md to the commit
 	And Add blog.json to the commit
-	And Add Image.png to the commit
+	And Add image.png to the commit
 	And Push the commit with message "On deleting a blog scenario - create the target blog"
 	Then I allow 60 seconds
 	Then I would expect the blog to be available via the Blog API
@@ -29,7 +29,7 @@ Scenario: On deleting a blog
 	When I start a new commit
 	And Delete blog.md from the commit
 	And Delete blog.json from the commit
-	And Delete Image.png from the commit
+	And Delete image.png from the commit
 	And Push the commit with message "On deleting a blog scenario - delete target blog"
 	Then I allow 60 seconds
 	Then I would expect the blog to not be available via the Blog API
@@ -40,12 +40,12 @@ Scenario: On amending an image on an existing blog
 	Given I start a new commit
 	And Add blog.md to the commit
 	And Add blog.json to the commit
-	And Add Image.png to the commit
+	And Add image.png to the commit
 	And Push the commit with message "On amending an image on an existing blog scenario - create the target blog"
 	Then I allow 60 seconds
 	Then I would expect the image to be available via the website
 	When I start a new commit
-	And Replace Image.png with Image2.png in the commit
+	And Replace image.png with image2.png in the commit
 	And Push the commit with message "On amending an image on an existing blog scenario - modified image in the target blog"
 	Then I allow 60 seconds
 	Then I would expect the new image to be available via the website
@@ -54,7 +54,7 @@ Scenario: On amending text on an existing blog
 	Given I start a new commit
 	And Add blog.md to the commit
 	And Add blog.json to the commit
-	And Add Image.png to the commit
+	And Add image.png to the commit
 	And Push the commit with message "On amending the text on an existing blog scenario - create the target blog"
 	Then I allow 60 seconds
 	Then I would expect the blog to be available via the Blog API

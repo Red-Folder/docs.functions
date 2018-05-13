@@ -24,7 +24,7 @@ namespace DocFunctions.Lib.Unit.Processors
 
             Assert.NotNull(result);
 
-            Assert.Equal(@"/rfc-weekly-17th-October-2016", result.Url);
+            Assert.Equal(@"/rfc-weekly-17th-october-2016", result.Url);
             Assert.Equal(new DateTime(2016, 10, 17), result.Published);
             Assert.Equal(new DateTime(2016, 10, 17), result.Modified);
             Assert.Equal("RFC Weekly - 17th October 2016", result.Title);
