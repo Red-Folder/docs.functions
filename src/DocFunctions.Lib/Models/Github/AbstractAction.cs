@@ -39,7 +39,7 @@ namespace DocFunctions.Lib.Models.Github
         {
             get
             {
-                return (Extension == ".md" || Extension == ".json");
+                return (Extension.ToLower() == ".md" || Extension.ToLower() == ".json");
             }
         }
 
@@ -47,7 +47,7 @@ namespace DocFunctions.Lib.Models.Github
         {
             get
             {
-                return (Extension == ".png" || Extension == ".jpg" || Extension == ".gif");
+                return (Extension.ToLower() == ".png" || Extension.ToLower() == ".jpg" || Extension.ToLower() == ".gif");
             }
         }
 
