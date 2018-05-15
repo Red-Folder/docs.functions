@@ -76,6 +76,7 @@ namespace DocFunctions.Lib.Clients
                     if (file.Name.ToLower().EndsWith(".json") ||
                         file.Name.ToLower().EndsWith(".md") ||
                         file.Name.ToLower().EndsWith(".png") ||
+                        file.Name.ToLower().EndsWith(".gif") ||
                         file.Name.ToLower().EndsWith(".jpg"))
                     {
                         commit.Added.Add(new Models.Github.Added
